@@ -5,6 +5,7 @@ function App() {
    
     return (
         <div className='App'>
+            <div className='bg-amber-500 w-50 h-50 text-amber-300'>App Is Working..</div>
 
             <Routing />
 

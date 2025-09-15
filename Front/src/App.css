@@ -1,0 +1,16 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+  min-height: 100svh;
+}
+
+.App > * {
+  padding-right: 16px;
+  padding-left: 16px;
+}
+
+.App > * > * {
+  margin: auto;
+  max-width: 1200px;
+}

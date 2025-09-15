@@ -3,7 +3,7 @@ import StatusCode from "../utils/status-code";
 
 
 export async function loginUser(req: Request, res: Response) {
-    res.status(StatusCode.Created);
+    res.status(StatusCode.OK);
     res.send("User Logged-in Successfully");
 }
 

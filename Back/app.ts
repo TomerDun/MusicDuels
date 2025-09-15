@@ -8,14 +8,14 @@ import path from 'path';
 import catchAll from "./middlewares/catch-all";
 import logger from "./middlewares/logger";
 import routeNotFound from './middlewares/routeNotFound';
-import appConfig from './appConfig';
+// import appConfig from './appConfig';
 import authRouter from './routes/authRouter';
 import usersRouter from './routes/usersRouter';
 
 // Load environment variables from .env file
 dotenv.config();
 
-const sequelize = appConfig.sequelize;
+// const sequelize = appConfig.sequelize;
 
 const app = express();
 
@@ -42,18 +42,18 @@ app.use(routeNotFound)
 app.use(catchAll);
 
 // Test database connection
-async function testConnection() {
-    try {
-        await sequelize.authenticate();
-        console.log('✅ Database connection established successfully.');
-    } catch (error) {
-        console.error('❌ Unable to connect to database:', error);
-    }
-}
+// async function testConnection() {
+//     try {
+//         await sequelize.authenticate();
+//         console.log('✅ Database connection established successfully.');
+//     } catch (error) {
+//         console.error('❌ Unable to connect to database:', error);
+//     }
+// }
 
-app.listen(appConfig.port, async () => {
-    console.log(`🚀 Server running on port ${appConfig.port}`);
-    await testConnection();
+app.listen(process.env.PORT, async () => {
+    console.log(`🚀 Server running on port ${process.env.PORT}`);
+    // await testConnection();
 });
 
 

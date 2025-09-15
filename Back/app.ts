@@ -13,6 +13,9 @@ import authRouter from './routes/authRouter';
 import usersRouter from './routes/usersRouter';
 import gamesRouter from './routes/gamesRouter';
 import leaderboardRouter from './routes/leaderboardRouter';
+import notificationsRouter from './routes/notificationsRouter';
+import './utils/types';
+
 
 // Load environment variables from .env file
 dotenv.config();
@@ -35,7 +38,8 @@ app.use(logger);
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
 app.use('/games/:gameType', gamesRouter);
-app.use('/leaderboard',leaderboardRouter)
+app.use('/leaderboard',leaderboardRouter);
+app.use('/notifications', notificationsRouter);
 
 // enable logs save
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })

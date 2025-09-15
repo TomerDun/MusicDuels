@@ -2,7 +2,13 @@
 declare global {
     namespace Express {
         interface Request {
-            user?: RequestUser
+            user?: TokenUser
         }
     }
+}
+
+export type TokenUser = {
+    id:string;
+    email:string;
+    username:string;
 }

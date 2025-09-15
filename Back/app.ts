@@ -12,6 +12,7 @@ import routeNotFound from './middlewares/routeNotFound';
 import authRouter from './routes/authRouter';
 import usersRouter from './routes/usersRouter';
 import gamesRouter from './routes/gamesRouter';
+import leaderboardRouter from './routes/leaderboardRouter';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -34,6 +35,7 @@ app.use(logger);
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
 app.use('/games/:gameType', gamesRouter);
+app.use('/leaderboard',leaderboardRouter)
 
 // enable logs save
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })

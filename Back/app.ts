@@ -9,6 +9,8 @@ import catchAll from "./middlewares/catch-all";
 import logger from "./middlewares/logger";
 import routeNotFound from './middlewares/routeNotFound';
 import appConfig from './appConfig';
+import authRouter from './routes/authRouter';
+import usersRouter from './routes/usersRouter';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -26,6 +28,10 @@ app.use(expressRateLimit({
 app.use(express.json());
 app.use(cors());
 app.use(logger);
+
+//Routes
+app.use('/auth', authRouter);
+app.use('/users', usersRouter);
 
 // enable logs save
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })

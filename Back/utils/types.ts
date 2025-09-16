@@ -12,3 +12,10 @@ export type TokenUser = {
     email:string;
     username:string;
 }
+
+export enum NotificationStatus {
+    PENDING = 'pending',
+    ACCEPTED = 'accepted',
+    DECLINED = 'declined',
+    COMPLETED = 'completed'
+}

@@ -2,7 +2,20 @@
 declare global {
     namespace Express {
         interface Request {
-            user?: RequestUser
+            user?: TokenUser
         }
     }
+}
+
+export type TokenUser = {
+    id:string;
+    email:string;
+    username:string;
+}
+
+export enum NotificationStatus {
+    PENDING = 'pending',
+    ACCEPTED = 'accepted',
+    DECLINED = 'declined',
+    COMPLETED = 'completed'
 }

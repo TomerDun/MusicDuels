@@ -11,3 +11,7 @@
 .interactive {
     @apply transition-all hover:scale-105
 }
+
+.inner-container {
+    @apply w-[90%] mx-auto
+}

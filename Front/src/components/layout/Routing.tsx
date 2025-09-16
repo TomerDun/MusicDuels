@@ -1,8 +1,10 @@
 import { Route, Routes } from "react-router";
+import DashboardPage from "../../pages/DashboardPage/DashboardPage";
 
 export function Routing() {
     return (
-            <Routes>                
-            </Routes>
+            <Routes> 
+                <Route path="/" element={<DashboardPage />}/>               
+            </Routes >
     );
 }

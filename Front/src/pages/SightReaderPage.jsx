@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { KeyboardShortcuts, Piano, MidiNumbers } from 'react-piano';
 import 'react-piano/dist/styles.css'
 import { Soundfont } from 'smplr';
+import SheetMusic from '../components/musicToolsArea/SheetMusic'
 
 export default function SightReaderPage() {
 
@@ -72,10 +73,9 @@ export default function SightReaderPage() {
         <div id="sight-reader">
             <h1>Sight Reader</h1>
 
-            <button className="bg-blue-500">MIDI</button>
-
-            <button onClick={() => marimba.start(60)}>Play</button>
-            <button onClick={() => marimba.start({ note: 60 })}>Play Note</button>
+            <div id="sheet">
+                <SheetMusic notes={['c4', 'd4', 'e4']}/>
+            </div>
 
             <div>
                 <Piano

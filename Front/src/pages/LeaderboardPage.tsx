@@ -1,5 +1,6 @@
 import Leaderboard from "../components/leaderboardArea/Leaderboard";
 import LeaderboardFilter from "../components/leaderboardArea/LeaderboardFilter";
+import TopPlayerList from "../components/leaderboardArea/TopPlayerList";
 
 export default function LeaderboardPage() {
     return (
@@ -10,6 +11,7 @@ export default function LeaderboardPage() {
                     <h2 className="text-gray-300">See how you stack up against the world's best music duelists</h2>
                 </div>
                 <LeaderboardFilter/>
+                <TopPlayerList/>
                 <Leaderboard />
             </div>
         </div>

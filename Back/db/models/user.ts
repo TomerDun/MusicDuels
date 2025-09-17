@@ -1,88 +1,107 @@
-// import { Model, DataTypes, Sequelize } from 'sequelize';
-// // import db from '.';
-// // const sequelize = db.sequelize;
+import {
+    Table,
+    Column,
+    Model,
+    DataType,
+    PrimaryKey,
+    Default,
+    Unique,
+    AllowNull,
+    Validate,
+    HasMany,
+    CreatedAt,
+    UpdatedAt
+} from 'sequelize-typescript';
+import { GameSession } from './gameSession';
+import { Notification } from './notification';
 
-// interface UserAttributes {
-//     id: string;
-//     userName: string;
-//     email: string;
-//     password: string;
-//     firstName: string;
-//     lastName: string;
-// }
+@Table({
+    tableName: 'users',
+    timestamps: true,
+})
+export class User extends Model {
+    @PrimaryKey
+    @Default(DataType.UUIDV4)
+    @Column(DataType.UUID)
+    id!: string;
 
-// export default (sequelize: Sequelize) => {
+    @Unique
+    @AllowNull(false)
+    @Validate({
+        isEmail: true,
+        notEmpty: true
+    })
+    @Column(DataType.STRING)
+    email!: string;
 
-//     class User extends Model<UserAttributes>
-//         implements UserAttributes {
-//         public id!: string;
-//         public userName!: string;
-//         public email!: string;
-//         public password!: string;
-//         public firstName!: string;
-//         public lastName!: string;
+    @AllowNull(false)
+    @Validate({
+        len: [4, 255]
+    })
+    @Column(DataType.STRING)
+    password!: string;
 
-//         static associate(models: any) {
-//             // User.hasMany(models.Recipe, { through:'dsdas' });
-//             User.hasMany(models.Recipe, { foreignKey: 'userId', as: 'recipes' });
-//         };
-//     }
+    @Unique
+    @AllowNull(false)
+    @Validate({
+        len: [3, 30]
+    })
+    @Column(DataType.STRING)
+    username!: string;
 
-//     User.init({
-//         id: {
-//             type: DataTypes.UUID,
-//             defaultValue: DataTypes.UUIDV4,
-//             primaryKey: true,
-//             allowNull: false,
-//             unique: true,
-//         },
-//         userName: {
-//             type: DataTypes.STRING(30),
-//             allowNull: false,
-//             unique: true,
-//             validate: {
-//                 notEmpty: true,
-//                 len: [3, 30]
-//             }
-//         },
-//         email: {
-//             type: DataTypes.STRING,
-//             allowNull: false,
-//             unique: true,
-//             validate: {
-//                 isEmail: true,
-//                 notEmpty: true
-//             }
-//         },
-//         password: {
-//             type: DataTypes.STRING,
-//             allowNull: false,
-//             validate: {
-//                 notEmpty: true
-//             }
-//         },
-//         firstName: {
-//             type: DataTypes.STRING,
-//             allowNull: false,
-//             validate: {
-//                 notEmpty: true
-//             }
-//         },
-//         lastName: {
-//             type: DataTypes.STRING,
-//             allowNull: false,
-//             validate: {
-//                 notEmpty: true
-//             }
-//         },
-//     }, {
-//         sequelize,
-//         modelName: 'User',
-//         tableName: 'users',
-//         timestamps: true,
-//     });
+    @AllowNull(false)
+    @Default(0)
+    @Validate({
+        min: 0
+    })
+    @Column(DataType.BIGINT)
+    totalScore!: number;
 
-//     return User;
-// }
+    @CreatedAt
+    createdAt!: Date;
 
-// // export default User;
+    @UpdatedAt
+    updatedAt!: Date;
+
+    // Associations
+    @HasMany(() => GameSession, {
+        foreignKey: 'player1Id',
+        as: 'gamesAsPlayer1'
+    })
+    gamesAsPlayer1!: GameSession[];
+
+    @HasMany(() => GameSession, {
+        foreignKey: 'player2Id',
+        as: 'gamesAsPlayer2'
+    })
+    gamesAsPlayer2!: GameSession[];
+
+    @HasMany(() => Notification, {
+        foreignKey: 'senderId',
+        as: 'sentNotifications'
+    })
+    sentNotifications!: Notification[];
+
+    @HasMany(() => Notification, {
+        foreignKey: 'receiverId',
+        as: 'receivedNotifications'
+    })
+    receivedNotifications!: Notification[];
+
+    // Instance methods
+    public async getAllGames(): Promise<GameSession[]> {
+        const gamesAsP1 = await GameSession.findAll({
+            where: { player1Id: this.id }
+        });
+        const gamesAsP2 = await GameSession.findAll({
+            where: { player2Id: this.id }
+        });
+
+        return [...gamesAsP1, ...gamesAsP2];
+    }
+
+    public async getWinCount(): Promise<number> {
+        const allGames = await this.getAllGames();
+        return allGames.filter(game => game.winnerId === this.id).length;
+    }
+}

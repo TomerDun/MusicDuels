@@ -94,8 +94,8 @@ export default function SightReaderPage({ instructions, answerNotes, duration }:
     });
 
     return (
-        <div id="sight-reader" className='h-full bg-gradient-to-r from-emerald-500 to-emerald-600'>
-            <div className="page-content-container pt-12">
+        <div id="sight-reader" className='h-full bg-gradient-to-r from-emerald-500 to-emerald-600 pt-24'>
+            <div className="page-content-container">
 
                 <div id="header-area" className='flex justify-center'>
                     <div className="p-4 border-2 w-[40%] text-center font-bold text-indigo-600 border-white/70 rounded-md bg-white/50 ">

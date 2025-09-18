@@ -1,6 +1,6 @@
 import { Burger, Container, Group, Image, Menu } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconCoins, IconHome, IconLogin2, IconLogout2, IconUser } from '@tabler/icons-react';
+import { IconCoins, IconHome, IconLogin2, IconLogout2, IconUser,IconPiano } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { NavLink, useNavigate } from 'react-router';
 import finTalkLogo from '../../../assets/fin-talk-logo.png';
@@ -16,9 +16,11 @@ export type Item = {
     icon: any
 }
 
+
 const links: Item[] = [
     { link: '/leaderboard', label: 'Leader Board', icon: <IconUser size={20} /> },
     { link: '/', label: 'Dashboard', icon: <IconHome size={20} /> },
+    { link: '/games/sight-reader', label: 'Sight Read', icon: <IconPiano size={20} /> },
 ];
 
 const loginItem = { link: '/login', label: 'Login', icon: <IconLogin2 size={20} /> }

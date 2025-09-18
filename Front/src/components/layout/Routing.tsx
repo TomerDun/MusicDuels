@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router";
 import DashboardPage from "../../pages/DashboardPage/DashboardPage";
-import SightReaderPage from '../../pages/SightReaderPage.js'
+import SightReaderPage from "../../pages/SightReaderPage";
 
 
 export function Routing() {

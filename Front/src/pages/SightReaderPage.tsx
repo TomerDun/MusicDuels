@@ -12,6 +12,9 @@ type props = {
     duration?: number
 }
 
+// TODO: Make piano dimensions ratio more responsive
+//TODO: Make sheet music width fill the outside container
+
 export default function SightReaderPage({ instructions, answerNotes, duration }: props) {
 
 

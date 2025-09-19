@@ -6,6 +6,8 @@ export type Player = {
 
 export type PlayerStats = {
     leaderboardPosition?: number,
+    score?: number,
     winRate?: number,
-    duels?: number    
+    duels?: number,   
+    streak?: number 
 }

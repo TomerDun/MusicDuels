@@ -43,7 +43,7 @@ function TopPlayerCard({placement}:TopPlayerCardProps){
 
     const crown = () => {
         if(placement === 1){
-            return <IconCrown fill="yellow" color="yellow" className="absolute -top-4 left-1/2 transform -translate-x-1/2"/>
+            return <IconCrown fill="yellow" color="yellow" size={35} className="absolute -top-4 left-1/2 transform -translate-x-1/2"/>
         }
         return null
     }

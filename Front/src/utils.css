@@ -15,3 +15,7 @@
 .inner-container {
     @apply w-[90%] mx-auto
 }
+
+.background-gradient {
+    @apply bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900
+}

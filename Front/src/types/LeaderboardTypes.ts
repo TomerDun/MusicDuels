@@ -1,4 +1,4 @@
-import type { Player, PlayerStats } from "../../types/playerTypes"
+import type { Player, PlayerStats } from "./playerTypes"
 
 export type LeaderboardItemType = {
     player: Player,

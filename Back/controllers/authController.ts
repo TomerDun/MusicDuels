@@ -25,6 +25,7 @@ export async function loginUser(req: Request, res: Response) {
     const tokenPayload = { id: user.id, username: user.username, email: user.email }
     const token = authUtils.generateToken(tokenPayload);
 
+    user.password = undefined; // remove password from the response output
     res.status(StatusCode.OK).json({ user, token });
 }
 
@@ -41,8 +42,10 @@ export async function registerUser(req: Request, res: Response) {
         })
 
         const tokenPayload = { id: newUser.id, username: newUser.username, email: newUser.email }
-        const token = authUtils.generateToken(tokenPayload);;
+        const token = authUtils.generateToken(tokenPayload);
 
+    
+        newUser.password = undefined // remove password from the output
         res.status(201).json({user: newUser, token});
     } catch (err) {
         console.log('Error creating new user: ', err);

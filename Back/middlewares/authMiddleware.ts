@@ -1,0 +1,33 @@
+import jwt from 'jsonwebtoken'
+import { UnauthorizedError } from "../utils/client-errors";
+import { NextFunction, Request, Response } from 'express';
+import { TokenUser } from '../utils/types';
+
+export function protectedRoute(req:Request, res:Response, next:NextFunction) {
+
+    if (!req.header('Authorization')) {
+        throw new UnauthorizedError("You're not authorized!");
+    }
+
+    const token = req.header('Authorization').replace('Bearer ', '');
+
+    if (!token) {                
+        throw new UnauthorizedError("You're not authorized!");
+    }
+
+    try {
+        const payload = jwt.verify(token, process.env.JWT_SECRET) as TokenUser;
+        req.user = payload;
+        console.log(`👤 Token validated (${payload.username})`);
+        
+        next();
+    } catch (error) {
+        console.error('JWT Error: ', error);
+        
+        if (error.name === "TokenExpiredError") {
+            throw new UnauthorizedError("Token Expired");
+        }
+        throw new UnauthorizedError("Invalid or missing Token");
+    }
+};
+

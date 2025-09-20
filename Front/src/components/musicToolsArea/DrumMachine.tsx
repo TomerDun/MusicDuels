@@ -4,36 +4,36 @@ import { DrumMachine as Drums } from "smplr";
 
 const SOUNDS = [
     'kick',
-    'snare'
+    'snare',
+    'hihat-close'
 ]
+
+const INIT_ROWS = [
+    [false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false],
+]
+
 console.log('...one time loading...');
 
-const soundPlayer = new Drums(new AudioContext(), { instrument: 'TR-808' })    
+const soundPlayer = new Drums(new AudioContext(), { instrument: 'TR-808' })
 
 export default function DrumMachine() {
-    const [drumRows, setDrumRows] = useState<boolean[][]>([[false,false,false,false,false,false,false,false], [false,false,false,false,false,false,false,false]]);
+    const [drumRows, setDrumRows] = useState<boolean[][]>(INIT_ROWS);
     const [currBeat, setCurrBeat] = useState(0);
-    const [bpm, setBpm] = useState(60);
-    
+    const [bpm, setBpm] = useState(100);
+
 
 
     useEffect(() => {
         console.log('Starting interval...');
 
-        let drumInterval:number;
+        let drumInterval: number;
         soundPlayer.load.then(() => {
             console.log('🥁 Sound player ready...');
-
-            // Build the sequencer rows
-            const newRows = [
-                [true, false, true, false], //kick
-                [false, true, false, true], //snare
-            ]
-            setDrumRows(newRows);
-
             drumInterval = setInterval(() => setCurrBeat(prev => prev >= 7 ? 0 : prev + 1), BpmToMs(bpm) / 2);
 
-            console.log(soundPlayer.getSampleNames());
+            console.log(soundPlayer.getGroupNames());
         })
 
         return () => {
@@ -58,7 +58,18 @@ export default function DrumMachine() {
         })
 
         console.log(`Beat ${currBeat}: `, output);
+    }
 
+    function updateSequence(row: number, tile: number) {
+        const newRows = drumRows.map((drumRow, rowIndex) => {
+            const newRow = [...drumRow];
+            if (rowIndex === row) {
+                newRow[tile] = !newRow[tile];
+            }
+            return newRow;
+        })
+
+        setDrumRows(newRows);
     }
 
 
@@ -66,19 +77,15 @@ export default function DrumMachine() {
 
     return (
         <div id="drum-machine" className="bg-green-400 h-full pt-[100px] pl-[70px]">
-            <div className="flex gap-4 mb-7">
-                <div onClick={() => soundPlayer.start({note: 'kick/bd0050'})} className="drum-tile active">K</div>
-                <div className="drum-tile">K</div>
-                <div className="drum-tile">K</div>
-                <div className="drum-tile">K</div>
-            </div>
-
-            <div className="flex gap-4">
-                <div className="drum-tile">S</div>
-                <div className="drum-tile">S</div>
-                <div className="drum-tile">S</div>
-                <div className="drum-tile">S</div>
-            </div>
+            {drumRows.map((row, rowIndex) => {
+                return (
+                    <div key={rowIndex} className="flex gap-4 mb-7">
+                        {row.map((tileValue, tileIndex) => <div key={tileIndex} onClick={() => updateSequence(rowIndex, tileIndex)} className={`drum-tile interactive ${drumRows[rowIndex][tileIndex] ? 'active' : ''}`}>{SOUNDS[rowIndex][0]}</div>)}
+                    </div>
+                )
+            })}
+            
+            <div className="drum-tile">{currBeat+1}</div>
         </div>
     )
 }

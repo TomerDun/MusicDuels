@@ -12,7 +12,8 @@ export function protectedRoute(req:Request, res:Response, next:NextFunction) {
     const token = req.header('Authorization').replace('Bearer ', '');
 
     if (!token) {                
-        throw new UnauthorizedError("You're not authorized!");
+        console.log('⛔ Invliad Token (missing)')
+        throw new UnauthorizedError("Invalid or missing Token");
     }
 
     try {
@@ -25,8 +26,10 @@ export function protectedRoute(req:Request, res:Response, next:NextFunction) {
         console.error('JWT Error: ', error);
         
         if (error.name === "TokenExpiredError") {
+            console.log('⛔ Invliad Token (expired)')
             throw new UnauthorizedError("Token Expired");
         }
+        console.log('⛔ Invliad Token (invalid)')
         throw new UnauthorizedError("Invalid or missing Token");
     }
 };

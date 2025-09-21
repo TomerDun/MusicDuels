@@ -13,7 +13,7 @@ export function useRegisterForm() {
             instruments: '',
             skillLevel: '' as SkillLevel,
             //TODO: file validation
-            profileImageFile: undefined as File | undefined
+            profileImageFile: null as null|File
         },
 
         validate: {

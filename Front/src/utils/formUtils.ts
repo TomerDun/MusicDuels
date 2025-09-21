@@ -9,10 +9,12 @@ export function validateRegisterFormByStep(form: RegisterFormType, step: number)
             const usernameValid = form.validateField('username');
             return emailValid.hasError || pwdValid.hasError || usernameValid.hasError
         case 3:
-            const profileImageFileValid = form.validateField('profileImageFile');
             const instrumentsValid = form.validateField('instruments');
             const skillLevelValid = form.validateField('skillLevel');
-            return profileImageFileValid || instrumentsValid.hasError || skillLevelValid.hasError;
+            return instrumentsValid.hasError || skillLevelValid.hasError;
+        case 4:
+            const profileImageFileValid = form.validateField('profileImageFile');
+            return profileImageFileValid.hasError;
         default:
             return false;
     }
@@ -26,9 +28,9 @@ export type RegisterFormType = UseFormReturnType<{
     email: string;
     password: string;
     username: string;
-    profileImageFile?: File;
+    profileImageFile: File | null;
     skillLevel: SkillLevel;
-    instruments?: string;
+    instruments: string;
 }>;
 
 export enum SkillLevel {

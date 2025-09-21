@@ -1,9 +1,9 @@
-import { FileInput, Select, Text, TextInput } from "@mantine/core";
+import { Select, Text, TextInput } from "@mantine/core";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import Stepper, { Step } from '../../components/authArea/Stepper';
 import classes from "./Register.module.css";
- import { Dropzone } from '@mantine/dropzone';
+import { Dropzone } from '@mantine/dropzone';
 // import { createUser } from "../../../utils/apiUtils/authApiUtils";
 // import { insertProfile, type ProfileToDB } from "../../../utils/apiUtils/profileApiUtils";
 import { SkillLevel, validateRegisterFormByStep } from "../../utils/formUtils";
@@ -13,9 +13,10 @@ import { useRegisterForm } from "../../utils/hooks/useRegisterForm";
 export function Register() {
 
     const [currentStep, setCurrentStep] = useState(1); // control displayed step
+    const [image, setImage] = useState<File | null>(null); // control displayed step
     const form = useRegisterForm();
     const navigate = useNavigate();
-    
+
     function handleStepChange(step: number) {
         setCurrentStep(step); // Keep state in sync
         return validateRegisterFormByStep(form, step);
@@ -55,9 +56,7 @@ export function Register() {
                 form.setErrors({
                     email: 'This email is already registered. Please use a different email.'
                 });
-            } else {
-                form.setErrors({ user: error.message });
-            }
+            } else form.setErrors({ user: error.message });
         }
     }
 
@@ -132,17 +131,40 @@ export function Register() {
                         key={form.key('instruments')}
                         {...form.getInputProps('instruments')}
                     />
-                    <FileInput
-                        mt="md"
-                        placeholder="Select File"
-                        label="Profile image"
-                        classNames={classes}
-                        key={form.key('profileImageFile')}
-                        {...form.getInputProps('profileImageFile')}
-                    />
-                    <Dropzone onDrop={(files) => form.setFieldValue('myFile', files[0])}>
-                        {/* ... Dropzone content ... */}
+                </Step>
+                <Step>
+                    <h2>Upload Profile Image</h2>
+                    <Dropzone
+                        className={classes.dropzone}
+                        onDrop={(file) => {
+                            setImage(file[0]);
+                            form.setFieldValue('profileImageFile', file[0]);
+                        }}
+                        onReject={(files) => console.log('rejected files', files)}
+                        maxSize={5 * 1024 ** 2} // 5MB
+                        accept={['image/*']}
+                    >
+                        {image ?
+                            <div className={classes.droppedImageContainer}>
+                                <img
+                                    src={URL.createObjectURL(image)}
+                                    className={classes.profileImage}
+                                />
+                                <Text size="sm" c="dimmed" mt="xs">{image.name}</Text>
+                            </div>
+                            :
+                            <div>
+                                <Text size="xl" inline>
+                                    Drag images here or click to select files
+                                </Text>
+                                <Text size="sm" c="dimmed" inline mt={7}>
+                                    Upload your profile image (max 5MB)
+                                </Text>
+                            </div>
+                        }
                     </Dropzone>
+
+
                 </Step>
                 <Step>
                     <h2>Final Step</h2>

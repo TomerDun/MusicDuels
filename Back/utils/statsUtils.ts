@@ -27,3 +27,26 @@ export async function getUserRank(userId){
     });
     return higherScoreCount + 1;
 }
+
+export async function getUserWinStreak(userId) {
+    // Get all completed duels for user, most recent first
+    const duels = await GameSession.findAll({
+        where: {
+            [Op.or]: [
+                { player1Id: userId },
+                { player2Id: userId }
+            ],
+            finishedAt: { [Op.not]: null }
+        },
+        order: [['finishedAt', 'DESC']]
+    });
+    let streak = 0;
+    for (const duel of duels) {
+        if (duel.winnerId === userId) {
+            streak++;
+        } else {
+            break;
+        }
+    }
+    return streak;
+}

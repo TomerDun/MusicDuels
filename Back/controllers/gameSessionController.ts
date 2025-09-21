@@ -75,11 +75,18 @@ export async function finishGameSession(req:Request, res:Response) {
 
         // Remove old notification and create a new one
         await Notification.destroy({where: {gameSessionId: gameSession.id}});
-        const newNotification = Notification.create({
-            senderId: gameSession.player2Id,
-            recieverId: gameSession.player1Id,
-            status: NotificationStatus.COMPLETED
-        })
+        try {
+            const newNotification = Notification.create({
+                senderId: gameSession.player2Id,
+                recieverId: gameSession.player1Id,
+                gameSessionId: gameSession.id,
+                status: NotificationStatus.COMPLETED,
+                finishedAt: Date.now()
+            })
+        }
+        catch (err) {
+            throw err;
+        }
 
         console.log('🔔 Replaced notification');
         res.status(StatusCode.Created).send('Updated game session to finished')    

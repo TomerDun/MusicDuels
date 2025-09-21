@@ -1,39 +1,52 @@
 import LeaderboardItem from "./LeaderboardItem"
 import type { LeaderboardItemType } from "../../types/LeaderboardTypes"
 import AnimatedList from "../MiscArea/AnimatedList"
+import { useEffect, useState } from "react";
+import { getGlobalLeaderboard } from "../../services/leaderboardService";
 
 const leads: LeaderboardItemType[] = [
     {
         player: {username: 'tomer', score: 500, imgUrl: 'https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50='},
-        stats: {duels: 50, leaderboardPosition: 1, winRate: 100, score:1670, streak:15}
+        stats: {duels: 50, leaderboardPosition: 1, winRate: 100, streak:15}
     },
     {
         player: {username: 'yoniMusic', score: 450, imgUrl: 'https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50='},
-        stats: {duels: 20, leaderboardPosition: 3, winRate: 50, score:1200, streak:5}
+        stats: {duels: 20, leaderboardPosition: 3, winRate: 50, streak:5}
     },
     {
         player: {username: 'itaitheKing', score: 20, imgUrl: 'https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50='},
-        stats: {duels: 70, leaderboardPosition: 2, winRate: 0, score:300, streak:0}
+        stats: {duels: 70, leaderboardPosition: 2, winRate: 0, streak:0}
     },
     {
         player: {username: 'musicLover', score: 300, imgUrl: 'https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50='},
-        stats: {duels: 40, leaderboardPosition: 4, winRate: 75, score:900, streak:10}
+        stats: {duels: 40, leaderboardPosition: 4, winRate: 75, streak:10}
     },
     {
         player: {username: 'beatMaster', score: 150, imgUrl: 'https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50='},
-        stats: {duels: 30, leaderboardPosition: 5, winRate: 60, score:600, streak:7}
+        stats: {duels: 30, leaderboardPosition: 5, winRate: 60, streak:7}
     },
     {
         player: {username: 'rhythmQueen', score: 400, imgUrl: 'https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50='},
-        stats: {duels: 60, leaderboardPosition: 7, winRate: 80, score:1500, streak:12}
+        stats: {duels: 60, leaderboardPosition: 7, winRate: 80, streak:12}
     },
     {
         player: {username: 'melodyMaker', score: 250, imgUrl: 'https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50='},
-        stats: {duels: 35, leaderboardPosition: 6, winRate: 70, score:750, streak:8}
+        stats: {duels: 35, leaderboardPosition: 6, winRate: 70, streak:8}
     }
 ]
 
 export default function Leaderboard() {
+    const [items,setItems] = useState([]);
+
+    async function updateLeaderboard(){
+        const res = await getGlobalLeaderboard();
+        setItems(res);
+    }
+
+    useEffect(() => {
+        updateLeaderboard();
+    },[])
+
     return (
         <section id="full-leaderboard" className="glass-container !p-0 overflow-hidden box-border ">
         <div className="p-6 border-b border-white/10">
@@ -53,7 +66,7 @@ export default function Leaderboard() {
 
         </div>
         <div className="overflow-x-auto">
-            <AnimatedList displayScrollbar={true} showGradients={false} items={leads.map((item, i) => <LeaderboardItem item={item} key={i}/>)} />
+            <AnimatedList displayScrollbar={true} showGradients={false} items={items.map((item, i) => <LeaderboardItem item={item} key={i}/>)} />
         </div>
         {/* <div className="p-6 border-t border-white/10 flex items-center justify-between">
             <p className="text-white/60">Showing 1-50 of 10,247 players</p>

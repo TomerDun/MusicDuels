@@ -1,3 +1,4 @@
+import { getGlobalLeaderboard } from "../services/leaderboardService";
 import { onLogin, onRegister } from "../utils/authUtils";
 
 export default function DashboardPage({ }) {

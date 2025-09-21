@@ -1,8 +1,22 @@
+import { useEffect, useState } from "react";
 import Leaderboard from "../components/leaderboardArea/Leaderboard";
 import LeaderboardFilter from "../components/leaderboardArea/LeaderboardFilter";
 import TopPlayerList from "../components/leaderboardArea/TopPlayerList";
+import { getGlobalLeaderboard } from "../services/leaderboardService";
+import type { LeaderboardItemType } from "../types/LeaderboardTypes";
 
 export default function LeaderboardPage() {
+        const [items,setItems] = useState<LeaderboardItemType[]>([]);
+
+    async function updateLeaderboard(){
+        const res = await getGlobalLeaderboard();
+        setItems(res);
+    }
+
+    useEffect(() => {
+        updateLeaderboard();
+    },[])
+
     return (
         <div className="background-gradient h-full" id="leaderboard-page">
             <div className="inner-container pb-10">
@@ -12,7 +26,7 @@ export default function LeaderboardPage() {
                 </div>
                 <LeaderboardFilter/>
                 <TopPlayerList/>
-                <Leaderboard />
+                <Leaderboard items={items} />
             </div>
         </div>
     )

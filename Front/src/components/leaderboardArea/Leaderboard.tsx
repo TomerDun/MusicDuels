@@ -1,51 +1,8 @@
 import LeaderboardItem from "./LeaderboardItem"
 import type { LeaderboardItemType } from "../../types/LeaderboardTypes"
 import AnimatedList from "../MiscArea/AnimatedList"
-import { useEffect, useState } from "react";
-import { getGlobalLeaderboard } from "../../services/leaderboardService";
 
-const leads: LeaderboardItemType[] = [
-    {
-        player: {username: 'tomer', score: 500, imgUrl: 'https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50='},
-        stats: {duels: 50, leaderboardPosition: 1, winRate: 100, streak:15}
-    },
-    {
-        player: {username: 'yoniMusic', score: 450, imgUrl: 'https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50='},
-        stats: {duels: 20, leaderboardPosition: 3, winRate: 50, streak:5}
-    },
-    {
-        player: {username: 'itaitheKing', score: 20, imgUrl: 'https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50='},
-        stats: {duels: 70, leaderboardPosition: 2, winRate: 0, streak:0}
-    },
-    {
-        player: {username: 'musicLover', score: 300, imgUrl: 'https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50='},
-        stats: {duels: 40, leaderboardPosition: 4, winRate: 75, streak:10}
-    },
-    {
-        player: {username: 'beatMaster', score: 150, imgUrl: 'https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50='},
-        stats: {duels: 30, leaderboardPosition: 5, winRate: 60, streak:7}
-    },
-    {
-        player: {username: 'rhythmQueen', score: 400, imgUrl: 'https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50='},
-        stats: {duels: 60, leaderboardPosition: 7, winRate: 80, streak:12}
-    },
-    {
-        player: {username: 'melodyMaker', score: 250, imgUrl: 'https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50='},
-        stats: {duels: 35, leaderboardPosition: 6, winRate: 70, streak:8}
-    }
-]
-
-export default function Leaderboard() {
-    const [items,setItems] = useState([]);
-
-    async function updateLeaderboard(){
-        const res = await getGlobalLeaderboard();
-        setItems(res);
-    }
-
-    useEffect(() => {
-        updateLeaderboard();
-    },[])
+export default function Leaderboard({items}:{items:LeaderboardItemType[]}) {
 
     return (
         <section id="full-leaderboard" className="glass-container !p-0 overflow-hidden box-border ">

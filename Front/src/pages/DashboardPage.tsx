@@ -51,11 +51,6 @@ export default function DashboardPage({ }) {
                             </div>
                         </div>
                     </div>
-
-                    <div className="glass-container">
-                        <button onClick={() => onLogin('tomer@email.com', '1234')} className="bg-red-500">LOGIN</button>
-                        <button onClick={() => onRegister({email: 'react@gmail.com', password: '1234', 'username': 'react-newuser'})} className="bg-green-500">REGISTER</button>
-                    </div>
                 </div>
             </div>
         </div>

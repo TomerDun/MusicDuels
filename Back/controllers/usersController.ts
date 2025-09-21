@@ -2,8 +2,7 @@ import { Request, Response } from "express";
 import StatusCode from "../utils/status-code";
 import { User } from "../db/models/user";
 import { ResourceNotFoundError } from "../utils/client-errors";
-import { GameSession } from "../db/models";
-import { Op } from "sequelize";
+import { getUserDuels, getUserRank } from "../utils/statsUtils";
 
 export async function getUser(req:Request, res:Response){
     const userId = req.params.id;
@@ -14,32 +13,6 @@ export async function getUser(req:Request, res:Response){
     }
     
     res.status(StatusCode.OK).json(user);
-}
-
-async function getUserDuels(userId){
-    const duels = await GameSession.findAll({
-        where:{
-            [Op.or]:[
-                {player1Id:userId},
-                {player2Id:userId}
-            ]
-        }
-    })
-    return duels
-}
-
-async function getUserRank(userId){
-    // Efficient leaderboard position calculation
-    const user = await User.findByPk(userId);
-    if (!user) {
-        throw new ResourceNotFoundError(`User with id: ${userId} not found`);
-    }
-    const higherScoreCount = await User.count({
-        where: {
-            totalScore: { [Op.gt]: user.totalScore }
-        }
-    });
-    return higherScoreCount + 1;
 }
 
 export async function updateUser(req:Request, res:Response){

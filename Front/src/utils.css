@@ -17,7 +17,7 @@
 }
 
 .inner-container {
-    @apply w-[90%] mx-auto
+    @apply w-[90%] mx-auto pt-24
 }
 
 .background-gradient {

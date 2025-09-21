@@ -4,7 +4,7 @@ import type { LeaderboardItemType } from "../../types/LeaderboardTypes";
 
 export default function LeaderboardItem({item}: {item: LeaderboardItemType}) {
     return (
-        <div className="flex items-center justify-between gap-5 flex-1 outline-1 p-2 px-6 outline-indigo-500" id="leaderboard-item">
+        <div className="flex items-center justify-between gap-5 flex-1 outline-1 p-2 px-6 outline-indigo-500 hover:bg-white/10" id="leaderboard-item">
             <div id="player-info" className="flex items-center gap-14 w-[50%]">
                 <div className="rounded-md p-4 w-3 h-3 bg-amber-600 text-white flex justify-center items-center" id="rankCube">{item.stats.leaderboardPosition}</div>
                 <div id="player-details" className="flex items-center gap-4">

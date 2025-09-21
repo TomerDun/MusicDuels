@@ -1,6 +1,7 @@
+import { API_URL } from "../utils/serverUtils";
 
 export async function fetchUser(userId:string){
-    const response = await fetch(`/users/profiles/${userId}`);
+    const response = await fetch(`${API_URL}/users/profiles/${userId}`);
     if(!response.ok){
         throw new Error('error fetching user');
     }
@@ -9,7 +10,7 @@ export async function fetchUser(userId:string){
 }
 
 export async function updateUser(userId: string, userData: any) {
-    const response = await fetch(`/users/profiles/${userId}`, {
+    const response = await fetch(`${API_URL}/users/profiles/${userId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

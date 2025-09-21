@@ -1,3 +1,5 @@
+import { onLogin, onRegister } from "../utils/authUtils";
+
 export default function DashboardPage({ }) {
     return (
         <div className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 h-full text-white pt-24" id="dashboard-page">
@@ -48,6 +50,11 @@ export default function DashboardPage({ }) {
                                 <h3 className="text-3xl font-bold text-accent" contentEditable="false">12</h3>
                             </div>
                         </div>
+                    </div>
+
+                    <div className="glass-container">
+                        <button onClick={() => onLogin('tomer@email.com', '1234')} className="bg-red-500">LOGIN</button>
+                        <button onClick={() => onRegister({email: 'react@gmail.com', password: '1234', 'username': 'react-newuser'})} className="bg-green-500">REGISTER</button>
                     </div>
                 </div>
             </div>

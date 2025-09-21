@@ -18,7 +18,7 @@ export type Item = {
 
 
 const links: Item[] = [
-    { link: '/leaderboard', label: 'Leader Board', icon: <IconUsers size={20} /> },
+    { link: '/leaderboard', label: 'Leaderboard', icon: <IconUsers size={20} /> },
     { link: '/', label: 'Dashboard', icon: <IconHome size={20} /> },
     { link: '/games/sight-reader', label: 'Sight Read', icon: <IconPiano size={20} /> },
 ];
@@ -61,12 +61,13 @@ function Navbar() {
                             item={link}
                             opened={opened} toggle={toggle} />
                     ))}
-                    {/* {profileStore.activeProfile
-                            ? <div onClick={async () => await handleLogout()}>
-                                <CustomNavLink item={logoutItem} opened={opened} toggle={toggle} />
-                            </div>
-                            : <CustomNavLink item={loginItem} opened={opened} toggle={toggle} />
-                    } */}
+                    {/* {profileStore.activeProfile */}
+                            {/* ? <div onClick={async () => await handleLogout()}> */}
+                                {/* <CustomNavLink item={logoutItem} opened={opened} toggle={toggle} /> */}
+                            {/* </div> */}
+                            {/* :  */}
+                            <CustomNavLink item={loginItem} opened={opened} toggle={toggle} />
+                    {/* } */}
                 </Group>
 
                 <Group gap={15} >

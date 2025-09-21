@@ -1,0 +1,48 @@
+.header {
+  position: absolute;
+  width: 100%;
+  padding: 0;
+  height: 70px;
+  color: white;
+}
+
+.inner {
+  height: 100%;
+  padding: 0 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.link {
+  display: block;
+  line-height: 1;
+  padding: 8px 12px;
+  border-radius: var(--mantine-radius-sm);
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.8);
+  transition: color 150ms ease-in-out;
+  font-size: var(--mantine-font-size-sm);
+  font-weight: 500;
+}
+
+.link:hover {
+  cursor: pointer;
+ color: white;
+  transition: color 150ms ease-in-out;
+}
+
+.itemContext {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.linkActive {
+  color: white;
+}
+
+.image {
+  height: 50px;
+  border-radius: 50%;
+}

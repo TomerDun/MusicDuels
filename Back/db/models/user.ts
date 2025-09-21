@@ -87,21 +87,4 @@ export class User extends Model {
         as: 'receivedNotifications'
     })
     receivedNotifications!: Notification[];
-
-    // Instance methods
-    public async getAllGames(): Promise<GameSession[]> {
-        const gamesAsP1 = await GameSession.findAll({
-            where: { player1Id: this.id }
-        });
-        const gamesAsP2 = await GameSession.findAll({
-            where: { player2Id: this.id }
-        });
-
-        return [...gamesAsP1, ...gamesAsP2];
-    }
-
-    public async getWinCount(): Promise<number> {
-        const allGames = await this.getAllGames();
-        return allGames.filter(game => game.winnerId === this.id).length;
-    }
 }

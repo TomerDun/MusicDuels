@@ -8,6 +8,7 @@ import { Dropzone } from '@mantine/dropzone';
 // import { insertProfile, type ProfileToDB } from "../../../utils/apiUtils/profileApiUtils";
 import { SkillLevel, validateRegisterFormByStep } from "../../utils/formUtils";
 import { useRegisterForm } from "../../utils/hooks/useRegisterForm";
+import { onRegister } from "../../utils/authUtils";
 // import { profileStore } from "../../../stores/ProfileStore";
 
 export function Register() {
@@ -24,20 +25,20 @@ export function Register() {
 
     async function handleComplete() {
         try {
-            console.log("handle complete register");
             const { email, password, username, profileImageFile, instruments, skillLevel } = form.getValues();
-
-            // // create new user in DB
-            // const newUser = await createUser(email, password);
+            
+            // create new user in DB
+            const newUser = await onRegister({ username, email, password });
+            console.log("handle complete register new user", newUser);
             // const newProfileData: ProfileToDB = {
-            const newProfileData = {
-                // userId: newUser?.id as string,
-                username,
-                email,
-                profileImageFile,
-                instruments,
-                skillLevel
-            }
+            // const newProfileData = {
+            //     // userId: newUser?.id as string,
+            //     username,
+            //     email,
+            //     profileImageFile,
+            //     instruments,
+            //     skillLevel
+            // }
 
             // // create profile in DB and update activeProfile in store
             // await insertProfile(newProfileData);     

@@ -6,14 +6,22 @@ export function useRegisterForm() {
     const form = useForm({
         mode: 'uncontrolled',
         initialValues: {
-            email: '',
-            password: '',
-            username: '',
+            email: 'itai@gmail.com',
+            password: '1234',
+            username: 'itai',
             //TODO: check accepts arrays
-            instruments: '',
-            skillLevel: '' as SkillLevel,
+            instruments: 'aaaa',
+            skillLevel: 'pro' as SkillLevel,
             //TODO: file validation
             profileImageFile: null as null|File
+            // email: '',
+            // password: '',
+            // username: '',
+            // //TODO: check accepts arrays
+            // instruments: '',
+            // skillLevel: '' as SkillLevel,
+            // //TODO: file validation
+            // profileImageFile: null as null|File
         },
 
         validate: {
@@ -23,12 +31,12 @@ export function useRegisterForm() {
             },
             password: (value) => {
                 if (!value) return 'Password is required';
-                if (value.length < 6) return 'Password must be at least 6 characters long';
+                if (value.length < 4) return 'Password must be at least 4 characters long';
                 return null;
             },
             username: (value) => {
                 if (!value) return 'Username is required';
-                if (2 < value.length || value.length < 20) return 'Username must be between 2 to 20 characters long';
+                if (2 > value.length || value.length > 20) return 'Username must be between 2 to 20 characters long';
                 if (!/^[a-zA-Z0-9_]+$/.test(value)) return 'Username can only contain letters, numbers, and underscores';
                 return null;
             },

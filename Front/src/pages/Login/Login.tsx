@@ -7,6 +7,7 @@ import classes from './Login.module.css';
 import { observer } from 'mobx-react-lite';
 // import { loginUser } from '../../../utils/apiUtils/authApiUtils';
 import { validateEmail, validatePassword } from '../../utils/formUtils';
+import { onLogin } from '../../utils/authUtils';
 
 function Login() {
     const [isLoading, setIsLoading] = useState(false);
@@ -15,7 +16,6 @@ function Login() {
     const form = useForm({
         mode: 'uncontrolled',
         initialValues: { email: '', password: '' },
-        // initialValues: { email: '', password: '' },
         validate: {
             email: (value) => validateEmail(value),
             password: (value) => validatePassword(value)
@@ -24,23 +24,24 @@ function Login() {
 
     async function handleSubmit(values: { email: string; password: string }) {
         console.log('handle submit');
-        // try {
-        //     form.clearErrors();
-        //     if (form.validate().hasErrors) return;
+        try {
+            form.clearErrors();
+            if (form.validate().hasErrors) return;
 
         //     setIsLoading(true);
 
-        //     // Auth logic
-        //     const data = await loginUser(values.email, values.password);
-        //     await profileStore.getActiveProfile(data.user.id)
-        //     navigate('/');
+            // Auth logic
+            const data = await onLogin(values.email, values.password);
+            console.log('handleSubmit data',data);
+            // await profileStore.getActiveProfile(data.user.id)
+            navigate('/');
 
-        // } catch (error: any) {
-        //     form.setErrors({ form: error.message });
-        //     console.error('Error logging in: ', error);
-        // } finally {
-        //     setIsLoading(false);
-        // }
+        } catch (error: any) {
+            form.setErrors({ form: error.message });
+            console.error('Error logging in: ', error);
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (

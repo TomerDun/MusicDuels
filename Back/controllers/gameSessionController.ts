@@ -70,18 +70,18 @@ export async function finishGameSession(req:Request, res:Response) {
         gameSession.player2Score = req.body.score;
         const winnerIsPlayer1 = gameSession.player1Score > gameSession.player2Score;
         gameSession.winnerId = winnerIsPlayer1 ? gameSession.player1Id : gameSession.player2Id;
+        gameSession.finishedAt = new Date();
         // TODO: Decide what to do if there is a draw
         await gameSession.save();
 
         // Remove old notification and create a new one
         await Notification.destroy({where: {gameSessionId: gameSession.id}});
         try {
-            const newNotification = Notification.create({
+            const newNotification = await Notification.create({
                 senderId: gameSession.player2Id,
-                recieverId: gameSession.player1Id,
+                receiverId: gameSession.player1Id,
                 gameSessionId: gameSession.id,
-                status: NotificationStatus.COMPLETED,
-                finishedAt: Date.now()
+                status: NotificationStatus.COMPLETED                
             })
         }
         catch (err) {

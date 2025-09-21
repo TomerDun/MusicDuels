@@ -1,6 +1,6 @@
-import type { Player, PlayerStats } from "./playerTypes"
+import type { User, UserStats } from "./UserTypes"
 
 export type LeaderboardItemType = {
-    player: Player,
-    stats: PlayerStats
+    player: User,
+    stats: UserStats
 }

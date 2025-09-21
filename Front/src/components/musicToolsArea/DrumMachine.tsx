@@ -5,10 +5,12 @@ import { DrumMachine as Drums } from "smplr";
 const SOUNDS = [
     'kick',
     'snare',
-    'hihat-close'
+    'hihat-close',
+    'hihat-open'
 ]
 
 const INIT_ROWS = [
+    [false, false, false, false, false, false, false, false],
     [false, false, false, false, false, false, false, false],
     [false, false, false, false, false, false, false, false],
     [false, false, false, false, false, false, false, false],

@@ -1,3 +1,5 @@
+import { onLogin, onRegister } from "../utils/authUtils";
+
 export default function DashboardPage({ }) {
     return (
         <div className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 h-full text-white pt-24" id="dashboard-page">

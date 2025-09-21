@@ -1,12 +1,11 @@
-export type Player = {
+export type User = {
     username: string,
-    imgUrl: string,
+    imgUrl?: string,
     score: number
 }
 
-export type PlayerStats = {
+export type UserStats = {
     leaderboardPosition?: number,
-    score?: number,
     winRate?: number,
     duels?: number,   
     streak?: number 

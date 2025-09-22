@@ -6,18 +6,30 @@ import { getGlobalLeaderboard } from "../services/leaderboardService";
 import type { LeaderboardItemType } from "../types/LeaderboardTypes";
 
 export default function LeaderboardPage() {
+    const [allItems, setAllItems] = useState<LeaderboardItemType[]>([]);
     const [items, setItems] = useState<LeaderboardItemType[]>([]);
+    const [topThree, setTopThree] = useState<LeaderboardItemType[]>([]);
+    const [searchInput, setSearchInput] = useState("");
 
     async function updateLeaderboard() {
         const res = await getGlobalLeaderboard();
+        setAllItems(res);
         setItems(res);
+        setTopThree(res.slice(0, 3));
     }
 
     useEffect(() => {
         updateLeaderboard();
     }, []);
 
-    const topThree = items.slice(0, 3);
+    useEffect(() => {
+        const filtered = allItems.filter((item) => item.username.toLowerCase().includes(searchInput.toLowerCase()));
+        setItems(filtered);
+    }, [searchInput, allItems]);
+
+    function handleSearchInput(text: string) {
+        setSearchInput(text);
+    }
 
     return (
         <div className="background-gradient h-full" id="leaderboard-page">
@@ -27,7 +39,7 @@ export default function LeaderboardPage() {
                     <h2 className="text-gray-300">See how you stack up against the world's best music duelists</h2>
                 </div>
                 <TopPlayerList items={topThree} />
-                <LeaderboardFilter />
+                <LeaderboardFilter text={searchInput} handleChange={handleSearchInput} />
                 <Leaderboard items={items} />
             </div>
         </div>

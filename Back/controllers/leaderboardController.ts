@@ -8,7 +8,7 @@ export async function getGlobalLeaderboard(req:Request, res:Response){
 
     // Import User model and getUserDuels util
     const { User } = require('../db/models/user');
-    const { getUserDuels } = require('../utils/statsUtils');
+    const { getUserDuels, getUserWinStreak } = require('../utils/statsUtils');
 
     // Get paginated users by totalScore
     const users = await User.findAll({
@@ -23,13 +23,15 @@ export async function getGlobalLeaderboard(req:Request, res:Response){
         const completedDuels = duels.filter((d: any) => d.finishedAt).length;
         const winCount = duels.filter((d: any) => d.winnerId === user.id).length;
         const winRate = completedDuels > 0 ? Math.round((winCount / completedDuels) * 100) : 0;
+        const streak = await getUserWinStreak(user.id);
         return {
             rank: offset + i + 1,
             id: user.id,
             username: user.username,
             totalScore: user.totalScore,
             completedDuels,
-            winRate
+            winRate,
+            streak
         };
     }));
 

@@ -26,8 +26,8 @@ export default function LeaderboardPage() {
                     <h1 className="font-bold text-white text-4xl">Global Leaderboard</h1>
                     <h2 className="text-gray-300">See how you stack up against the world's best music duelists</h2>
                 </div>
-                <LeaderboardFilter />
                 <TopPlayerList items={topThree} />
+                <LeaderboardFilter />
                 <Leaderboard items={items} />
             </div>
         </div>

@@ -32,7 +32,7 @@ export default function LeaderboardPage() {
     }
 
     return (
-        <div className="background-gradient h-full" id="leaderboard-page">
+        <div className="background-gradient min-h-screen" id="leaderboard-page">
             <div className="inner-container pb-10">
                 <div id="header-container" className="flex flex-col items-center w-full p-5">
                     <h1 className="font-bold text-white text-4xl">Global Leaderboard</h1>

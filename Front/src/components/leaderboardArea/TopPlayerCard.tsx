@@ -1,7 +1,10 @@
 import { IconCrown, IconTrophyFilled } from "@tabler/icons-react";
 
+
+import type { LeaderboardItemType } from "../../types/LeaderboardTypes";
+
 interface TopPlayerCardProps {
-    placement:number;
+    player: LeaderboardItemType;
 }
 
 const cardStyles: Record<number, string> = {
@@ -39,28 +42,28 @@ const iconColors: Record<number, string> = {
     3: "orange"
 }
 
-function TopPlayerCard({placement}:TopPlayerCardProps){
+function TopPlayerCard({player}:TopPlayerCardProps){
 
     const crown = () => {
-        if(placement === 1){
+        if(player.rank === 1){
             return <IconCrown fill="yellow" color="yellow" size={35} className="absolute -top-4 left-1/2 transform -translate-x-1/2"/>
         }
         return null
     }
 
     return (
-        <div className={cardStyles[placement]}>
+        <div className={cardStyles[player.rank]}>
             {crown()}
-            <div id="placement-circle" className={`${circleStyles[placement]} rounded-full flex items-center justify-center text-black font-bold text-2xl mx-auto mb-4`}>
-                {placement}
+            <div id="rank-circle" className={`${circleStyles[player.rank]} rounded-full flex items-center justify-center text-black font-bold text-2xl mx-auto mb-4`}>
+                {player.rank}
             </div>
-            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-8.jpg" className={`w-16 h-16 rounded-full mx-auto mb-3 border-4 ${borderColors[placement]}`}/>
-            <h3 className="text-white font-bold text-lg">RhythmKing</h3>
-            <p className={`${subTextColors[placement]} text-sm mb-2`}>Level 45</p>
-            <p className={`${textColors[placement]} font-bold text-xl`}>14,890 pts</p>
+            <img src={player.imgUrl || "https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-8.jpg"} className={`w-16 h-16 rounded-full mx-auto mb-3 border-4 ${borderColors[player.rank]}`}/>
+            <h3 className="text-white font-bold text-lg">{player.username}</h3>
+            <p className={`${textColors[player.rank]} font-bold text-xl`}>{player.totalScore} pts</p>
+            <p className={`${subTextColors[player.rank]} text-sm mb-2`}>Streak {player.streak}</p>
             <div className="flex items-center justify-center space-x-2 mt-2">
-                <IconTrophyFilled color={iconColors[placement]}/>
-                <span className={`${subTextColors[placement]} text-sm`}>95% win rate</span>
+                <IconTrophyFilled color={iconColors[player.rank]}/>
+                <span className={`${subTextColors[player.rank]} text-sm`}>{player.winRate}% Win rate</span>
             </div>
         </div>
     )

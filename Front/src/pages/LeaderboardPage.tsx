@@ -6,16 +6,18 @@ import { getGlobalLeaderboard } from "../services/leaderboardService";
 import type { LeaderboardItemType } from "../types/LeaderboardTypes";
 
 export default function LeaderboardPage() {
-        const [items,setItems] = useState<LeaderboardItemType[]>([]);
+    const [items, setItems] = useState<LeaderboardItemType[]>([]);
 
-    async function updateLeaderboard(){
+    async function updateLeaderboard() {
         const res = await getGlobalLeaderboard();
         setItems(res);
     }
 
     useEffect(() => {
         updateLeaderboard();
-    },[])
+    }, []);
+
+    const topThree = items.slice(0, 3);
 
     return (
         <div className="background-gradient h-full" id="leaderboard-page">
@@ -24,10 +26,10 @@ export default function LeaderboardPage() {
                     <h1 className="font-bold text-white text-4xl">Global Leaderboard</h1>
                     <h2 className="text-gray-300">See how you stack up against the world's best music duelists</h2>
                 </div>
-                <LeaderboardFilter/>
-                <TopPlayerList/>
+                <LeaderboardFilter />
+                <TopPlayerList items={topThree} />
                 <Leaderboard items={items} />
             </div>
         </div>
-    )
+    );
 }

@@ -10,8 +10,9 @@ export default function LeaderboardItem({item}: {item: LeaderboardItemType}) {
                 <div className="rounded-md p-4 w-3 h-3 bg-amber-600 text-white flex justify-center items-center" id="rankCube">{item.rank}</div>
                 <div id="player-details" className="flex items-center gap-4">
                     <div id="img-container" className="w-12 h-12 rounded-full shadow-md">
-                        <img src={item.profileImageUrl ? item.profileImageUrl : 'https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50='}
-                         alt="Player Avatar" className="w-full rounded-full" />
+                        <img 
+                            src={item.profileImageUrl ? item.profileImageUrl : 'https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50='}
+                            alt="Player Avatar" className="h-full w-full object-contain rounded-full"/>
                     </div>
 
                     <div id="name-container" className="text-white pt-1 pl-1">

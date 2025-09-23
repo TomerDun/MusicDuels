@@ -40,7 +40,7 @@ function Login() {
     }
 
     return (
-        <div className="Login pt-24">
+        <div className="Login background-gradient min-h-screen pt-24 text-white">
             <Container size={420} my={40}>
                 <Title ta="center" className={classes.title}>
                     Welcome back!
@@ -49,7 +49,7 @@ function Login() {
                     Do not have an account yet? <Link to={'/register'}>Create account</Link>
                 </Text>
                 <form onSubmit={form.onSubmit(handleSubmit)}>
-                    <Paper withBorder shadow="sm" p={22} mt={30} radius="md">
+                    <Paper className='glass-container' withBorder shadow="sm" p={22} mt={30} radius="md" >
                         <TextInput
                             label="Email"
                             type='email'
@@ -82,17 +82,16 @@ function Login() {
                             fullWidth
                             mt="xl"
                             radius="md"
-                            className={classes.loginButton}
+                            className={`${classes.loginButton} interactive`}
                             onClick={() => form.clearErrors()}
                         >
-                            Log in
+                            Log In
                         </Button>
                     </Paper>
                 </form>
             </Container>
-        </div>
+        </div >
     );
 }
 
-// export default Login
 export default observer(Login)

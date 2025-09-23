@@ -1,4 +1,4 @@
-import { Select, Text, TextInput } from "@mantine/core";
+import { Loader, Select, Text, TextInput } from "@mantine/core";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import Stepper, { Step } from '../../components/authArea/Stepper';
@@ -12,6 +12,7 @@ export function Register() {
 
     const [currentStep, setCurrentStep] = useState(1); // control displayed step
     const [image, setImage] = useState<File | null>(null); // control displayed step
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const form = useRegisterForm();
     const navigate = useNavigate();
 
@@ -22,6 +23,7 @@ export function Register() {
 
     async function handleComplete() {
         try {
+            setIsLoading(true);
             const { email, password, username, profileImageFile } = form.getValues();
             // const { email, password, username, profileImageFile, instruments, skillLevel } = form.getValues();
 
@@ -34,11 +36,13 @@ export function Register() {
             console.error(error);
             setCurrentStep(2); // reject back to step 2 on error
             form.setErrors({ user: error.message });
+        } finally {
+            setIsLoading(false);
         }
     }
 
     return (
-        <div className="Register pt-24">
+        <div className="Register background-gradient min-h-screen pt-24">
             <Stepper
                 currentStep={currentStep} // controlled step
                 onStepChange={(step) => setCurrentStep(step)}
@@ -52,7 +56,7 @@ export function Register() {
                     }
                 }}
             >
-                <Step>
+                <Step >
                     <h2>Welcome to Music Duels!</h2>
                     <p>Let's get it started!</p>
                 </Step>
@@ -140,12 +144,14 @@ export function Register() {
                             </div>
                         }
                     </Dropzone>
-
-
                 </Step>
                 <Step>
-                    <h2>Final Step</h2>
-                    <p>Now the show begins!!!</p>
+                    {isLoading
+                        ? <div className="flex justify-center items-center">
+                            <Loader color="indigo" size="xl" type="dots" />
+                        </div>
+                        : <h2>Now the show begins!!!</h2>
+                    }
                 </Step>
             </Stepper>
         </div>

@@ -10,10 +10,14 @@
   margin-top: 5px;
 }
 
-.loginButton {
-  /* background-color: var(--color-positive-chart); */
+.subtitle > a {
+  color: white;
 }
 
-.loginButton:hover {
-  /* background-color: var(--text-positive); */
+.subtitle > a:hover {
+  text-decoration: underline;
+}
+
+.loginButton {
+  background: linear-gradient(to right, #6366f1, #4f46e5);
 }

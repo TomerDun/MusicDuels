@@ -1,0 +1,25 @@
+@import 'tailwindcss';
+
+.action-button {
+    @apply p-2 bg-amber-500 bg-linear-to-r rounded-lg px-5 text-white font-bold shadow-sm cursor-pointer hover:shadow-md
+}
+
+.glass-container {
+    @apply bg-black/20 backdrop-blur-lg rounded-2xl px-6 py-4 border border-white/10 flex-1
+}
+
+.interactive {
+    @apply transition-all hover:scale-105
+}
+
+.page-content-container {
+    @apply w-[90%] mx-auto
+}
+
+.inner-container {
+    @apply w-[90%] mx-auto pt-24
+}
+
+.background-gradient {
+    @apply bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900
+}

@@ -9,7 +9,7 @@ const API_URLS = {
     'production': 'https://musicduels.onrender.com'
 }
 
-export const API_URL = 'https://localhost:8080';
+export const API_URL = 'http://localhost:8080';
 
 
 export function authHeaders() {

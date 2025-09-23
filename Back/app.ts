@@ -1,6 +1,6 @@
 import cors from "cors";
 import dotenv from 'dotenv';
-import express from "express";
+import express, { Request, Response } from "express";
 import expressRateLimit from "express-rate-limit";
 import fs from 'fs';
 import morgan from 'morgan';
@@ -45,6 +45,11 @@ app.use('/notifications', notificationsRouter);
 // enable logs save
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
 app.use(morgan('combined', { stream: accessLogStream }));
+
+
+app.get('/', (req:Request, res:Response) => {
+    res.status(200).send('API Server is live!')
+})
 
 app.use(routeNotFound)
 

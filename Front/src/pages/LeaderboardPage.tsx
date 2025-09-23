@@ -5,7 +5,7 @@ import TopPlayerList from "../components/leaderboardArea/TopPlayerList";
 import { getGlobalLeaderboard } from "../services/leaderboardService";
 import type { LeaderboardItemType } from "../types/LeaderboardTypes";
 import { Loader } from "@mantine/core";
-import { div } from "motion/react-client";
+
 
 export default function LeaderboardPage() {
   const [allItems, setAllItems] = useState<LeaderboardItemType[]>([]);
@@ -13,6 +13,7 @@ export default function LeaderboardPage() {
   const [topThree, setTopThree] = useState<LeaderboardItemType[]>([]);
   const [searchInput, setSearchInput] = useState("");
   const [loading, setLoading] = useState(false);
+
 
   async function updateLeaderboard() {
     setLoading(true);

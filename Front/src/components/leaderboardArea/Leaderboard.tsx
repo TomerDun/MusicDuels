@@ -1,8 +1,21 @@
 import LeaderboardItem from "./LeaderboardItem"
 import type { LeaderboardItemType } from "../../types/LeaderboardTypes"
 import AnimatedList from "../MiscArea/AnimatedList"
+import { observer } from "mobx-react-lite"
+import { userStore } from "../../stores/UserStore"
 
-export default function Leaderboard({items}:{items:LeaderboardItemType[]}) {
+function Leaderboard({items}:{items:LeaderboardItemType[]}) {
+    const activeUser = userStore?.activeUser;
+    const activeUserStats = userStore?.activeUserStats;
+    const activeItem = {
+        username:activeUser?.username,
+        profileImageUrl:activeUser?.profileImageUrl,
+        totalScore: activeUser?.totalScore,
+        streak: activeUserStats?.streak,
+        completedDuels: activeUserStats?.duels,
+        winRate: activeUserStats?.winRate,
+        rank: activeUserStats?.leaderboardPosition
+    } as LeaderboardItemType
 
     return (
         <section id="full-leaderboard" className="glass-container !p-0 overflow-hidden box-border ">
@@ -25,6 +38,7 @@ export default function Leaderboard({items}:{items:LeaderboardItemType[]}) {
         <div className="overflow-x-auto">
             <AnimatedList displayScrollbar={true} showGradients={false} items={items.map((item, i) => <LeaderboardItem item={item} key={i}/>)} />
         </div>
+        {activeUser && <LeaderboardItem item={activeItem}/>}
         {/* <div className="p-6 border-t border-white/10 flex items-center justify-between">
             <p className="text-white/60">Showing 1-50 of 10,247 players</p>
             <div className="flex items-center space-x-2">
@@ -40,3 +54,5 @@ export default function Leaderboard({items}:{items:LeaderboardItemType[]}) {
     </section>
     )
 }
+
+export default observer(Leaderboard);

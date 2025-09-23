@@ -1,4 +1,4 @@
-import type { User, UserStats } from "./UserTypes"
+// import type { User, UserStats } from "./UserTypes"
 
 export type LeaderboardItemType = {
     username:string,

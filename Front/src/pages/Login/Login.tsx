@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import classes from './Login.module.css';
 // import { profileStore } from '../../../stores/ProfileStore';
-import { observer } from 'mobx-react-lite';
+// import { observer } from 'mobx-react-lite';
 // import { loginUser } from '../../../utils/apiUtils/authApiUtils';
 import { validateEmail, validatePassword } from '../../utils/formUtils';
 import { onLogin } from '../../utils/authUtils';

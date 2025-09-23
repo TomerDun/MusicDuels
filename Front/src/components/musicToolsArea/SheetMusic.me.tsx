@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import {Factory as FactoryType} from 'vexflow/core';
+// @ts-ignore
 import { Factory } from 'vexflow';
 
 

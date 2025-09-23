@@ -1,7 +1,7 @@
 import { Burger, Container, Group, Image, Menu } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconCoins, IconHome, IconLogin2, IconLogout2, IconUser,IconPiano, IconUsers } from '@tabler/icons-react';
-import { observer } from 'mobx-react-lite';
+import { IconCoins, IconHome, IconLogin2, IconPiano, IconUsers } from '@tabler/icons-react';
+// import { observer } from 'mobx-react-lite';
 import { NavLink, useNavigate } from 'react-router';
 import finTalkLogo from '../../../assets/fin-talk-logo.png';
 import avatar from '../../../assets/avatar.png';
@@ -24,7 +24,7 @@ const links: Item[] = [
 ];
 
 const loginItem = { link: '/login', label: 'Login', icon: <IconLogin2 size={20} /> }
-const logoutItem = { link: '/login', label: 'Logout', icon: <IconLogout2 size={20} /> }
+// const logoutItem = { link: '/login', label: 'Logout', icon: <IconLogout2 size={20} /> }
 
 function Navbar() {
 
@@ -62,16 +62,16 @@ function Navbar() {
                             opened={opened} toggle={toggle} />
                     ))}
                     {/* {profileStore.activeProfile */}
-                            {/* ? <div onClick={async () => await handleLogout()}> */}
-                                {/* <CustomNavLink item={logoutItem} opened={opened} toggle={toggle} /> */}
-                            {/* </div> */}
-                            {/* :  */}
-                            <CustomNavLink item={loginItem} opened={opened} toggle={toggle} />
+                    {/* ? <div onClick={async () => await handleLogout()}> */}
+                    {/* <CustomNavLink item={logoutItem} opened={opened} toggle={toggle} /> */}
+                    {/* </div> */}
+                    {/* :  */}
+                    <CustomNavLink item={loginItem} opened={opened} toggle={toggle} />
                     {/* } */}
                 </Group>
 
                 <Group gap={15} >
-                {/* <Group className={classes.itemContext} gap={10} > */}
+                    {/* <Group className={classes.itemContext} gap={10} > */}
                     <Group gap={5}>2,450 <IconCoins /></Group>
                     <NavLink to={'/profile'} title='profile'>
                         <Image

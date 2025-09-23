@@ -24,7 +24,8 @@ export function Register() {
 
     async function handleComplete() {
         try {
-            const { email, password, username, profileImageFile, instruments, skillLevel } = form.getValues();
+            // const { email, password, username, profileImageFile, instruments, skillLevel } = form.getValues(); //REMOVED TO TS errors
+            const { email, password, username, profileImageFile } = form.getValues();
             
             // create new user in DB
             const newUser = await onRegister({ username, email, password, profileImageFile });

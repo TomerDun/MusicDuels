@@ -52,7 +52,7 @@ const AnimatedList: React.FC<AnimatedListProps> = ({
     onItemSelect,
     showGradients = true,
     enableArrowNavigation = true,
-    className = "",
+    // className = "",
     itemClassName = "",
     displayScrollbar = true,
     initialSelectedIndex = -1,

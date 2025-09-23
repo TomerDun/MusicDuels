@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Factory as FactoryType, VoiceMode } from "vexflow/core";
+// @ts-ignore
 import VexFlow from "vexflow";
 // @ts-ignore
 import {Factory, Voice}  from 'vexflow';

@@ -2,24 +2,25 @@ import { useState, useEffect, useRef } from 'react';
 // @ts-ignore
 import { KeyboardShortcuts, Piano, MidiNumbers } from 'react-piano';
 import 'react-piano/dist/styles.css'
-import { Soundfont, SplendidGrandPiano } from 'smplr';
+import { Soundfont } from 'smplr';
 import SheetMusic from '../components/musicToolsArea/SheetMusic'
-import { useMIDI, type NoteEvent } from '../utils/midiUtils'
+// import { useMIDI, type NoteEvent } from '../utils/midiUtils'
 
 type props = {
     instructions: string,
     answerNotes: string[],
-    duration?: number
+    // duration?: number
 }
 
 // TODO: Make piano dimensions ratio more responsive
 //TODO: Make sheet music width fill the outside container
 
-export default function SightReaderPage({ instructions, answerNotes, duration }: props) {
+// export default function SightReaderPage({ instructions, answerNotes, duration }: props) { // REMOVED duration and instructions for TS build
+export default function SightReaderPage({ answerNotes }: props) {
 
 
     // --MOCK--
-    instructions = 'Play the notes on the screen fool'
+    // instructions = 'Play the notes on the screen fool' // REMOVED FOR TS build
     answerNotes = ['C4', 'E4', 'D4', 'F4', 'E4', 'G4', 'F4', 'A4', 'C5'];
 
     const [playedNotes, setPlayedNotes] = useState<string[]>([]);
@@ -52,6 +53,7 @@ export default function SightReaderPage({ instructions, answerNotes, duration }:
     }
 
     function onPianoRelease(note: any) {
+        console.log('stopping note ', note);
         // soundPlayer.stop(note);
     }
 

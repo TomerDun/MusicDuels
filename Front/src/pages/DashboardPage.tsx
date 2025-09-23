@@ -27,8 +27,8 @@ export default function DashboardPage({ }) {
                     <div className="glass-container">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-white/60 text-sm" contentEditable="false">Streak</p>
-                                <h3 className="text-3xl font-bold text-accent" contentEditable="false">12</h3>
+                                <p className="text-white/60 text-sm">Streak</p>
+                                <h3 className="text-3xl font-bold text-accent">12</h3>
                             </div>
                         </div>
                     </div>
@@ -36,8 +36,8 @@ export default function DashboardPage({ }) {
                     <div className="glass-container">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-white/60 text-sm" contentEditable="false">Streak</p>
-                                <h3 className="text-3xl font-bold text-accent" contentEditable="false">12</h3>
+                                <p className="text-white/60 text-sm">Streak</p>
+                                <h3 className="text-3xl font-bold text-accent">12</h3>
                             </div>
                         </div>
                     </div>
@@ -45,8 +45,8 @@ export default function DashboardPage({ }) {
                     <div className="glass-container">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-white/60 text-sm" contentEditable="false">Streak</p>
-                                <h3 className="text-3xl font-bold text-accent" contentEditable="false">12</h3>
+                                <p className="text-white/60 text-sm" >Streak</p>
+                                <h3 className="text-3xl font-bold text-accent" >12</h3>
                             </div>
                         </div>
                     </div>
@@ -54,8 +54,8 @@ export default function DashboardPage({ }) {
                     <div className="glass-container">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-white/60 text-sm" contentEditable="false">Streak</p>
-                                <h3 className="text-3xl font-bold text-accent" contentEditable="false">12</h3>
+                                <p className="text-white/60 text-sm">Streak</p>
+                                <h3 className="text-3xl font-bold text-accent">12</h3>
                             </div>
                         </div>
                     </div>

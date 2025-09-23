@@ -1,8 +1,3 @@
-import dotenv from 'dotenv';
-
-
-dotenv.config();
-
 // Utils related to backend server connection
 
 // TODO: Move BRANCH to .env file
@@ -13,6 +8,8 @@ const API_URLS = {
     'development': 'http://localhost:8080',
     'production': 'https://musicduels.onrender.com'
 }
+
+export const API_URL = 'https://localhost:8080';
 
 
 export function authHeaders() {

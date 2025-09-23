@@ -2,15 +2,21 @@ import { makeAutoObservable, runInAction } from "mobx";
 import type { User, UserStats } from "../types/UserTypes";
 import { fetchUser, fetchUserStats } from "../services/userService";
 
-class UserStore{
-    activeUser:User | null | undefined
-    activeUserStats:UserStats | null | undefined
+class UserStore {
+    // undefined: not loaded yet | null: user is not logged in | Profile: user is logged in
+    activeUser: User | null | undefined = undefined
+    activeUserStats: UserStats | null | undefined
 
     constructor() {
         makeAutoObservable(this)
     }
 
-    async getActiveUser(){
+    setActiveUser(user: User) {
+        this.activeUser = user;
+        console.log('setActiveUser activeUser', this.activeUser);
+    }
+
+    async getActiveUser() {
         const userId = localStorage.getItem('userId') as string;
         const user = await fetchUser(userId)
 
@@ -19,13 +25,17 @@ class UserStore{
         })
     }
 
-    async getActiveUserStats(){
+    async getActiveUserStats() {
         const userId = localStorage.getItem('userId') as string;
         const userStats = await fetchUserStats(userId);
 
         runInAction(() => {
             this.activeUserStats = userStats;
         })
+    }
+
+    logoutUser() {
+        this.activeUser = null;
     }
 
 }

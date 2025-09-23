@@ -4,18 +4,23 @@ import LeaderboardFilter from "../components/leaderboardArea/LeaderboardFilter";
 import TopPlayerList from "../components/leaderboardArea/TopPlayerList";
 import { getGlobalLeaderboard } from "../services/leaderboardService";
 import type { LeaderboardItemType } from "../types/LeaderboardTypes";
+import { Loader } from '@mantine/core';
+import { div } from "motion/react-client";
 
 export default function LeaderboardPage() {
     const [allItems, setAllItems] = useState<LeaderboardItemType[]>([]);
     const [items, setItems] = useState<LeaderboardItemType[]>([]);
     const [topThree, setTopThree] = useState<LeaderboardItemType[]>([]);
     const [searchInput, setSearchInput] = useState("");
+    const [loading, setLoading] = useState(false);
 
     async function updateLeaderboard() {
+        setLoading(true);
         const res = await getGlobalLeaderboard();
         setAllItems(res);
         setItems(res);
         setTopThree(res.slice(0, 3));
+        setLoading(false);
     }
 
     useEffect(() => {
@@ -38,10 +43,18 @@ export default function LeaderboardPage() {
                     <h1 className="font-bold text-white text-4xl">Global Leaderboard</h1>
                     <h2 className="text-gray-300">See how you stack up against the world's best music duelists</h2>
                 </div>
-                <TopPlayerList items={topThree} />
-                <LeaderboardFilter text={searchInput} handleChange={handleSearchInput} />
-                <Leaderboard items={items} />
+                {loading ? 
+                (<div id="loader-container" className="flex justify-center items-center w-full h-[500px]">
+                    <Loader color="indigo" size="xl" type="dots" />
+                </div>) :
+                (
+                    <>
+                    <TopPlayerList items={topThree} />
+                    <LeaderboardFilter text={searchInput} handleChange={handleSearchInput} />
+                    <Leaderboard items={items} />
+                    </>
+                )}
             </div>
-        </div>
+        </div> 
     );
 }

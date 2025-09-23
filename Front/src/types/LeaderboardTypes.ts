@@ -7,6 +7,6 @@ export type LeaderboardItemType = {
     completedDuels:number,
     rank:number,
     winRate:number,
-    imgUrl:string,
+    profileImageUrl:string,
     streak:number
 }

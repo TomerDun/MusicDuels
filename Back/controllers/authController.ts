@@ -3,7 +3,7 @@ import StatusCode from "../utils/status-code";
 import { User } from "../db/models";
 import { UnauthorizedError, ValidationError } from "../utils/client-errors";
 import authUtils from "../utils/authUtils";
-
+import { cloudinary } from "../utils/cloudinaryConfig";
 
 export async function loginUser(req: Request, res: Response) {
     const user = await User.findOne({
@@ -29,27 +29,30 @@ export async function loginUser(req: Request, res: Response) {
     res.status(StatusCode.OK).json({ user, token });
 }
 
-
 export async function registerUser(req: Request, res: Response) {
     const hashedPass = authUtils.hashPassword(req.body.password);
 
     try {
+        const file = req.file;
+        const profileImageUrl = file
+            ? (await cloudinary.uploader.upload(file.path)).url
+            : null;
         const newUser = await User.create({
             username: req.body.username,
             email: req.body.email,
             password: hashedPass,
-
+            profileImageUrl
         })
 
         const tokenPayload = { id: newUser.id, username: newUser.username, email: newUser.email }
         const token = authUtils.generateToken(tokenPayload);
 
-    
+
         newUser.password = undefined // remove password from the output
-        res.status(201).json({user: newUser, token});
+        res.status(201).json({ user: newUser, token });
     } catch (err) {
         console.log('Error creating new user: ', err);
         throw new ValidationError(err);
-        
+
     }
 }

@@ -1,12 +1,13 @@
 export type User = {
+    id:string,
     username: string,
-    imgUrl?: string,
-    score: number
+    profileImageUrl?: string,
+    totalScore: number
 }
 
 export type UserStats = {
     leaderboardPosition?: number,
     winRate?: number,
-    duels?: number,   
-    streak?: number 
+    duels?: number,
+    streak?: number
 }

@@ -57,7 +57,7 @@ function TopPlayerCard({player}:TopPlayerCardProps){
             <div id="rank-circle" className={`${circleStyles[player.rank]} rounded-full flex items-center justify-center text-black font-bold text-2xl mx-auto mb-4`}>
                 {player.rank}
             </div>
-            <img src={player.imgUrl || "https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-8.jpg"} className={`w-16 h-16 rounded-full mx-auto mb-3 border-4 ${borderColors[player.rank]}`}/>
+            <img src={player.profileImageUrl || "https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50="} className={`w-16 h-16 rounded-full mx-auto mb-3 border-4 ${borderColors[player.rank]}`}/>
             <h3 className="text-white font-bold text-lg">{player.username}</h3>
             <p className={`${textColors[player.rank]} font-bold text-xl`}>{player.totalScore} pts</p>
             <p className={`${subTextColors[player.rank]} text-sm mb-2`}>Streak {player.streak}</p>

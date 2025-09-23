@@ -7,14 +7,16 @@ type props = {
 }
 
 export default function LeaderboardItem({item, onClick}: props) {
+    console.log("image: ",item.profileImageUrl)
     return (
         <div onClick={() => onClick(item.id)} className="flex items-center justify-between gap-5 flex-1 outline-1 p-2 px-6 outline-indigo-500 hover:bg-white/10" id="leaderboard-item">
             <div id="player-info" className="flex items-center gap-14 w-[50%]">
                 <div className="rounded-md p-4 w-3 h-3 bg-amber-600 text-white flex justify-center items-center" id="rankCube">{item.rank}</div>
                 <div id="player-details" className="flex items-center gap-4">
                     <div id="img-container" className="w-12 h-12 rounded-full shadow-md">
-                        <img src={'https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50='}
-                         alt="Player Avatar" className="w-full rounded-full" />
+                        <img 
+                            src={item.profileImageUrl ? item.profileImageUrl : 'https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50='}
+                            alt="Player Avatar" className="h-full w-full object-contain rounded-full"/>
                     </div>
 
                     <div id="name-container" className="text-white pt-1 pl-1">

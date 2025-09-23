@@ -9,6 +9,7 @@ export async function fetchUser(userId:string){
     return user;
 }
 
+// TODO: change to patch totalScore
 export async function updateUser(userId: string, userData: any) {
     const response = await fetch(`${API_URL}/users/profiles/${userId}`, {
         method: 'PUT',

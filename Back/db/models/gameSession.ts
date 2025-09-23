@@ -2,15 +2,7 @@ import { Table, Column, Model, DataType, PrimaryKey, Default, AllowNull, Validat
 import { User } from './user';
 import { Notification } from './notification';
 import { ValidationError } from '../../utils/client-errors';
-
-export enum GameType {
-    SIGHT_READ = 'sightRead',
-    // NOTE_READING = 'note_reading',
-    // RHYTHM = 'rhythm',
-    // THEORY = 'theory',
-    // EAR_TRAINING = 'ear_training',
-    // CHORD_PROGRESSION = 'chord_progression'
-}
+import { GameTypes } from '../../types/gameContentTypes';
 
 @Table({
     tableName: 'game_sessions',
@@ -62,10 +54,10 @@ export class GameSession extends Model {
 
     @AllowNull(false)
     @Validate({
-        isIn: [Object.values(GameType)]
+        isIn: [Object.values(GameTypes)]
     })
-    @Column(DataType.ENUM(...Object.values(GameType)))
-    gameType!: GameType;
+    @Column(DataType.ENUM(...Object.values(GameTypes)))
+    gameType!: GameTypes;
 
     @AllowNull(true)
     @Column(DataType.UUID)

@@ -25,5 +25,9 @@
 }
 
 .game-select-button {
-    @apply rounded-md border
+    @apply rounded-md border bg-gradient-to-br flex items-center flex-col gap-7 p-6 cursor-pointer
+}
+
+.icon-box {
+    @apply text-white flex items-center justify-center w-16 h-16 rounded-sm
 }

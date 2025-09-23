@@ -40,7 +40,7 @@ export default function LeaderboardPage() {
                 </div>
                 <TopPlayerList items={topThree} />
                 <LeaderboardFilter text={searchInput} handleChange={handleSearchInput} />
-                <Leaderboard items={items} />
+                <Leaderboard onClickItem={() => console.log('Clicked Player Item')} items={items} />
             </div>
         </div>
     );

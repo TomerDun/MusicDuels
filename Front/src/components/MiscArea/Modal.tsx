@@ -21,7 +21,7 @@ export default function Modal({ isOpen, setIsOpen, blur = true, children }: prop
 
     return (
         <div id="modal-container" className={`bg-gray-400/20 fixed inset-0 flex items-center justify-center z-20 ${blur && 'backdrop-blur-sm'}`} onClick={handlecontainerClick}>
-            <div id="modal-content" className="w-full" onClick={e => e.stopPropagation()}>
+            <div id="modal-content" className="" onClick={e => e.stopPropagation()}>
                 {children}
             </div>
         </div>

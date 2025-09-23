@@ -1,15 +1,32 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Modal from "../components/MiscArea/Modal";
 import GameSelector from "../components/GamesArea/GameSelector";
+import Leaderboard from "../components/leaderboardArea/Leaderboard";
+import type { LeaderboardItemType } from "../types/LeaderboardTypes";
+import { getGlobalLeaderboard } from "../services/leaderboardService";
 
 export default function DashboardPage({ }) {
 
     const [modalOpen, setModalOpen] = useState(false);
+    const [challengeGame, setChallengeGame] = useState<null | string>(null) // which game type the player has chosen as a challenge
+    const [challengePlayer, setChallengePlayer] = useState<null | string>(null) // playerId of the opponent
+    const [leaderboardItems, setLeaderboardItems] = useState<LeaderboardItemType[]>([]);
+
+    async function updateLeaderboard() {
+        const res = await getGlobalLeaderboard();
+        setLeaderboardItems(res);                
+    }    
+
+    useEffect(() => {
+        updateLeaderboard();
+    }, [])
 
     return (
         <div className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 h-full text-white pt-24" id="dashboard-page">
             <Modal isOpen={modalOpen} setIsOpen={setModalOpen}>
-                <GameSelector />
+                {challengeGame ? <Leaderboard onClickItem={setChallengePlayer} items={leaderboardItems}/> :
+                    <GameSelector onPickGame={setChallengeGame} />
+                }
             </Modal>
             <div className="w-[90%] m-auto" id="inner-container">
                 <div className="flex flex-col items-center" id="header-area">

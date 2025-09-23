@@ -1,9 +1,16 @@
-import { getGlobalLeaderboard } from "../services/leaderboardService";
-import { onLogin, onRegister } from "../utils/authUtils";
+import { useState } from "react"
+import Modal from "../components/MiscArea/Modal";
+import GameSelector from "../components/GamesArea/GameSelector";
 
 export default function DashboardPage({ }) {
+
+    const [modalOpen, setModalOpen] = useState(false);
+
     return (
         <div className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 h-full text-white pt-24" id="dashboard-page">
+            <Modal isOpen={modalOpen} setIsOpen={setModalOpen}>
+                <GameSelector />
+            </Modal>
             <div className="w-[90%] m-auto" id="inner-container">
                 <div className="flex flex-col items-center" id="header-area">
                     <h1 className="text-3xl font-bold">Welcome Back, Nadav</h1>
@@ -11,7 +18,7 @@ export default function DashboardPage({ }) {
                 </div>
                 <div id="play-buttons-container" className="flex justify-center gap-4 mt-6">
                     <button className="action-button interactive from-amber-500 to-amber-600">Practice</button>
-                    <button className="action-button interactive from-indigo-500 to-indigo-600">Challenge Player</button>
+                    <button className="action-button interactive from-indigo-500 to-indigo-600" onClick={() => setModalOpen(true)}>Challenge Player</button>
                 </div>
 
 

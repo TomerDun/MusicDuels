@@ -12,5 +12,5 @@ export type RegisterRequest = {
     username: string,
     email: string,
     password: string,
-    profilcePic?: string,
+    profileImageFile: File | null,
 }

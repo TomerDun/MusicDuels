@@ -4,7 +4,6 @@ import { useNavigate } from "react-router";
 import Stepper, { Step } from '../../components/authArea/Stepper';
 import classes from "./Register.module.css";
 import { Dropzone } from '@mantine/dropzone';
-// import { createUser } from "../../../utils/apiUtils/authApiUtils";
 // import { insertProfile, type ProfileToDB } from "../../../utils/apiUtils/profileApiUtils";
 import { SkillLevel, validateRegisterFormByStep } from "../../utils/formUtils";
 import { useRegisterForm } from "../../utils/hooks/useRegisterForm";
@@ -28,7 +27,7 @@ export function Register() {
             const { email, password, username, profileImageFile, instruments, skillLevel } = form.getValues();
             
             // create new user in DB
-            const newUser = await onRegister({ username, email, password });
+            const newUser = await onRegister({ username, email, password, profileImageFile });
             console.log("handle complete register new user", newUser);
             // const newProfileData: ProfileToDB = {
             // const newProfileData = {

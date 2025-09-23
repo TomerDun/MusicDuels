@@ -1,17 +1,4 @@
-import {
-    Table,
-    Column,
-    Model,
-    DataType,
-    PrimaryKey,
-    Default,
-    Unique,
-    AllowNull,
-    Validate,
-    HasMany,
-    CreatedAt,
-    UpdatedAt
-} from 'sequelize-typescript';
+import { Table, Column, Model, DataType, PrimaryKey, Default, Unique, AllowNull, Validate, HasMany, CreatedAt, UpdatedAt } from 'sequelize-typescript';
 import { GameSession } from './gameSession';
 import { Notification } from './notification';
 
@@ -48,6 +35,10 @@ export class User extends Model {
     })
     @Column(DataType.STRING)
     username!: string;
+
+    @AllowNull(true)
+    @Column(DataType.STRING)
+    profileImageUrl?: string;
 
     @AllowNull(false)
     @Default(0)

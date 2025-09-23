@@ -8,6 +8,6 @@ export type User = {
 export type UserStats = {
     leaderboardPosition?: number,
     winRate?: number,
-    duels?: number,   
-    streak?: number 
+    duels?: number,
+    streak?: number
 }

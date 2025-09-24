@@ -18,9 +18,9 @@ function Leaderboard({ items, onClickItem }: props) {
         profileImageUrl: activeUser?.profileImageUrl,
         totalScore: activeUser?.totalScore,
         streak: activeUserStats?.streak,
-        completedDuels: activeUserStats?.duels,
+        completedDuels: activeUserStats?.completedDuels,
         winRate: activeUserStats?.winRate,
-        rank: activeUserStats?.leaderboardPosition
+        rank: activeUserStats?.rank
     } as LeaderboardItemType
 
     console.log('active item: ',activeItem);

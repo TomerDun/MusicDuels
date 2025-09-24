@@ -41,7 +41,7 @@ export function generateNoteSeries(lowestNote: string, highestNote: string, leng
 }
 
 export function generateGameContent(gameType:GameTypes, options?:gameContentOptions) {
-    let content: string[][];
+    let content: string[][] = [];
     let rounds = GAME_ROUDNS;
     let notesPerRound = 8;
     let lowestNote = 'G3';

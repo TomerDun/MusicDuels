@@ -17,7 +17,7 @@ export default function SheetMusic({ notesArr, answersArr = null, showAnswers = 
 
   useEffect(() => {
     setup();
-  }, [notesArr]);
+  }, [notesArr]);  
 
   function setup() {
     if (containerRef.current) {
@@ -35,20 +35,19 @@ export default function SheetMusic({ notesArr, answersArr = null, showAnswers = 
       width: 700,
     });
 
-    // Create a voice with essentially unlimited duration
+    
     let notes = '';
     if (notesArr.length) {
       notes = notesArr.map(note => note + '/q').join(',')
     }
 
-    if (notes.length === 0) {
-      // For empty measure, create a stave with just the clef and minimal width
+    if (notes.length === 0) {      
       system.addStave({
         voices: [],
       })
         .addClef('treble');
 
-      // Adjust the system width to show just the clef
+      
       // system.setWidth(100);
     } else {
       const voice = score.voice(score.notes(notes), {
@@ -62,6 +61,8 @@ export default function SheetMusic({ notesArr, answersArr = null, showAnswers = 
       // Show correct or incorrect notes
 
       if (showAnswers && answersArr && answersArr.length === notesArr.length) {
+      // if (answersArr && showAnswers) {        
+        
         voice.getTickables().forEach((note, index) => {
           if (notesArr[index] === answersArr[index]) {            
             note.setStyle({ fillStyle: 'green', strokeStyle: 'green' });

@@ -38,7 +38,7 @@ app.use(logger);
 //Routes
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
-app.use('/games/', gamesRouter);
+app.use('/games', gamesRouter);
 app.use('/leaderboard',leaderboardRouter);
 app.use('/notifications', notificationsRouter);
 

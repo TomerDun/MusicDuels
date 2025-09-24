@@ -17,7 +17,7 @@ export default function GameSessionPage() {
 
 
     async function loadGameSession() {
-        const gameSessionRes = await callApi('/games/' + urlParams.gameSessionId);
+        const gameSessionRes = await callApi('/games/session/' + urlParams.gameSessionId);
         setGameSession(gameSessionRes);
     }
 

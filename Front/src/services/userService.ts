@@ -1,12 +1,12 @@
-import { API_URL } from "../utils/serverUtils";
+import { API_URL, callApi } from "../utils/serverUtils";
 
 export async function fetchUser(userId:string){
-    const response = await fetch(`${API_URL}/users/profiles/${userId}`);
-    if(!response.ok){
-        throw new Error('error fetching user');
+    try {
+        return await callApi(`/users/profiles/${userId}`);        
     }
-    const user = await response.json()
-    return user;
+    catch (err) {
+        console.log(err)        
+    }        
 }
 
 // TODO: change to patch totalScore

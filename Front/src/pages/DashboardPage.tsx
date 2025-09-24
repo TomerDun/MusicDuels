@@ -9,6 +9,10 @@ import { userStore } from "../stores/UserStore";
 import { callApi } from "../utils/serverUtils";
 import { useNavigate } from "react-router";
 import { Loader } from "@mantine/core";
+
+
+const NOTIFICATION = [{type: 'pending', message: 'I am pending...'}] // TODO: REMOVE MOCK DATA!
+
 function DashboardPage({ }) {
 
     const [modalOpen, setModalOpen] = useState(false);
@@ -117,6 +121,10 @@ function DashboardPage({ }) {
                                 <h3 className="text-3xl font-bold text-accent">12</h3>
                             </div>
                         </div>
+                    </div>
+
+                    <div className="glass-container" id="notifications-container">
+                        
                     </div>
                 </div>
             </div>

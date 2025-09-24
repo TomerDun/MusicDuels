@@ -8,5 +8,5 @@ export type LeaderboardItemType = {
     rank:number,
     winRate:number,
     profileImageUrl:string,
-    streak:number
+    streak:number    
 }

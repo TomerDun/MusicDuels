@@ -13,8 +13,8 @@ function Leaderboard({ items, onClickItem }: props) {
     const activeUser = userStore?.activeUser;
     const activeUserStats = userStore?.activeUserStats;
     const activeItem = {
-        username:activeUser?.username,
-        profileImageUrl:activeUser?.profileImageUrl,
+        username: activeUser?.username,
+        profileImageUrl: activeUser?.profileImageUrl,
         totalScore: activeUser?.totalScore,
         streak: activeUserStats?.streak,
         completedDuels: activeUserStats?.duels,
@@ -41,9 +41,9 @@ function Leaderboard({ items, onClickItem }: props) {
 
             </div>
             <div className="overflow-x-auto">
-                <AnimatedList displayScrollbar={true} showGradients={false} items={items.map((item, i) => <LeaderboardItem onClick={onClickItem} item={item} key={i} />)} />
+                <AnimatedList displayScrollbar={true} showGradients={false} items={items.map((item, i) => <LeaderboardItem disabled={((activeUser !== null && activeUser !== undefined) && (item.id === activeUser.id))} onClick={onClickItem} item={item} key={i} />)} />
             </div>
-        {activeUser && <LeaderboardItem onClick={() => {}} item={activeItem}/>}
+            {activeUser && <LeaderboardItem onClick={() => { }} item={activeItem} />}
             {/* <div className="p-6 border-t border-white/10 flex items-center justify-between">
             <p className="text-white/60">Showing 1-50 of 10,247 players</p>
             <div className="flex items-center space-x-2">

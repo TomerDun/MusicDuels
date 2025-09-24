@@ -8,7 +8,6 @@ type props = {
 }
 
 export default function LeaderboardItem({item, onClick, disabled=false}: props) {
-    console.log("image: ",item.profileImageUrl)
     return (
         <div onClick={() => disabled ? null : onClick(item.id)} className={`flex items-center justify-between gap-5 flex-1 outline-1 p-2 px-6 outline-indigo-500 hover:bg-white/10 ${disabled && '!bg-red-400/50 !cursor-auto'}`} id="leaderboard-item">
             <div id="player-info" className="flex items-center gap-14 w-[50%]">

@@ -13,6 +13,7 @@ function Leaderboard({ items, onClickItem }: props) {
     const activeUser = userStore?.activeUser;
     const activeUserStats = userStore?.activeUserStats;
     const activeItem = {
+        id:activeUser?.id,
         username: activeUser?.username,
         profileImageUrl: activeUser?.profileImageUrl,
         totalScore: activeUser?.totalScore,
@@ -21,6 +22,8 @@ function Leaderboard({ items, onClickItem }: props) {
         winRate: activeUserStats?.winRate,
         rank: activeUserStats?.leaderboardPosition
     } as LeaderboardItemType
+
+    console.log('active item: ',activeItem);
 
     return (
         <section id="full-leaderboard" className="glass-container !p-0 overflow-hidden box-border ">

@@ -3,10 +3,16 @@ import { useParams } from "react-router";
 import { callApi } from "../utils/serverUtils";
 import { Loader } from "@mantine/core";
 import SightReaderPage from "./SightReaderPage";
+import type { GameSessionType } from "../types/GameSessionTypes";
 
 export default function GameSessionPage() {
 
-    const [gameSession, setGameSession] = useState<any>(null);
+    const [gameSession, setGameSession] = useState<GameSessionType | null>(null);
+    const [currentRound, setCurrentRound] = useState<number>(0);
+    const [gameRounds, setGameRounds] = useState<number | null>(null);
+    const [paused, setPaused] = useState(true);
+    const [gameTimer, setGameTimer] = useState(0);
+    const [timerInterval, setTimerInverval] = useState(0);
 
     const urlParams = useParams();
 
@@ -16,10 +22,22 @@ export default function GameSessionPage() {
         loadGameSession();
     }, [])
 
+    // Start/ Stop Timer
+    useEffect(() => {        
+        if (paused === false) {
+            const intervalId = setInterval(() => setGameTimer(prev => prev + 1), 1000);
+            setTimerInverval(intervalId);
+        }
+        else {
+            clearInterval(timerInterval);
+        }
+    }, [paused])
+
 
     async function loadGameSession() {
-        const gameSessionRes = await callApi('/games/session/' + urlParams.gameSessionId);
+        const gameSessionRes: GameSessionType = await callApi('/games/session/' + urlParams.gameSessionId);
         setGameSession(gameSessionRes);
+        setGameRounds(gameSessionRes.content.length);
     }
 
     function renderGamePage() {

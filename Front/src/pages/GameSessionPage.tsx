@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { callApi } from "../utils/serverUtils";
 import { Loader } from "@mantine/core";
@@ -8,6 +8,10 @@ export default function GameSessionPage() {
     const [gameSession, setGameSession] = useState(null);
 
     const urlParams = useParams();
+
+    useEffect(() => {
+        loadGameSession();
+    }, [])
 
 
     async function loadGameSession() {

@@ -13,6 +13,9 @@ export default function GameSessionPage() {
     const [paused, setPaused] = useState(true);
     const [gameTimer, setGameTimer] = useState(0);
     const [timerInterval, setTimerInverval] = useState(0);
+    const [userInput, setUserInput] = useState<string[]>([]); // the user input FOR THE CURRENT ROUND
+    const [correctInputs, setCorrectInputs] = useState(0); // the amount of inputs from the user that are correct (updated after every round)
+    
 
     const urlParams = useParams();
 
@@ -43,7 +46,7 @@ export default function GameSessionPage() {
     function renderGamePage() {
         if (gameSession) {
             switch (gameSession.gameType) {
-                case 'sight-read': return <SightReaderPage answerNotes={gameSession.content[currentRound]} instructions="Play this note!"/>
+                case 'sight-read': return <SightReaderPage answerNotes={gameSession.content[currentRound]} gameTimer={gameTimer} setUserInput={setUserInput}/>
             }
         }
     }

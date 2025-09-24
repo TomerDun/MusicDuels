@@ -6,21 +6,17 @@ import { Soundfont, SplendidGrandPiano } from 'smplr';
 import SheetMusic from '../components/musicToolsArea/SheetMusic'
 import { useMIDI, type NoteEvent } from '../utils/midiUtils'
 
-type props = {
-    instructions: string,
+type props = {    
     answerNotes: string[],
-    duration?: number
+    gameTimer: number,
+    setUserInput: Function
 }
 
 // TODO: Make piano dimensions ratio more responsive
 //TODO: Make sheet music width fill the outside container
 
-export default function SightReaderPage({ instructions, answerNotes, duration }: props) {
-
-
-    // --MOCK--
-    instructions = 'Play the notes on the screen fool'
-    answerNotes = ['C4', 'E4', 'D4', 'F4', 'E4', 'G4', 'F4', 'A4', 'C5'];
+export default function SightReaderPage({ answerNotes, gameTimer, setUserInput }: props) {    
+    
 
     const [playedNotes, setPlayedNotes] = useState<string[]>([]);
     const pianoContainer = useRef<HTMLDivElement>(null);

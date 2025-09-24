@@ -16,6 +16,10 @@
     @apply w-[90%] mx-auto
 }
 
+.page-outside-container {
+    @apply min-h-svh pt-24 bg-gradient-to-br
+}
+
 .inner-container {
     @apply w-[90%] mx-auto pt-24
 }

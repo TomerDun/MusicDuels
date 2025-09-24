@@ -10,9 +10,6 @@ import { callApi } from "../utils/serverUtils";
 import { useNavigate } from "react-router";
 import { Loader } from "@mantine/core";
 
-
-const NOTIFICATIONS = [{type: 'pending', message: 'I am pending...'}] // TODO: REMOVE MOCK DATA!
-
 function DashboardPage({ }) {
 
     const [modalOpen, setModalOpen] = useState(false);
@@ -47,7 +44,7 @@ function DashboardPage({ }) {
             player1Score: 0 // TODO: Change this to null after changing the backend flow to allow null values for player1Score
         }
         const newGame = await callApi(`/games/${challengeGame}`, 'POST', body)
-        const newGAmeId = newGame.gameSession.id;
+        const newGAmeId = newGame.id;
         console.log(body);
         navigate(`/games/${newGAmeId}`);
     }

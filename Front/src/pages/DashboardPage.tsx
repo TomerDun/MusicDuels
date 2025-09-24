@@ -11,7 +11,7 @@ import { useNavigate } from "react-router";
 import { Loader } from "@mantine/core";
 
 
-const NOTIFICATION = [{type: 'pending', message: 'I am pending...'}] // TODO: REMOVE MOCK DATA!
+const NOTIFICATIONS = [{type: 'pending', message: 'I am pending...'}] // TODO: REMOVE MOCK DATA!
 
 function DashboardPage({ }) {
 
@@ -124,7 +124,9 @@ function DashboardPage({ }) {
                     </div>
 
                     <div className="glass-container" id="notifications-container">
-                        
+                        {
+
+                        }
                     </div>
                 </div>
             </div>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { callApi } from "../utils/serverUtils";
 import { Loader } from "@mantine/core";
+import SightReaderPage from "./SightReaderPage";
 
 export default function GameSessionPage() {
 
@@ -21,6 +22,12 @@ export default function GameSessionPage() {
         setGameSession(gameSessionRes);
     }
 
+    function renderGamePage() {
+        switch (gameSession.gameType) {
+            case 'sight-read': return <SightReaderPage answerNotes={['a','b','c']} instructions="Play this note!"/>
+        }
+    }
+
     if (gameSession === null) {
         return (
             <div className="page-outside-container from-blue-300 to-blue-400">
@@ -33,10 +40,6 @@ export default function GameSessionPage() {
     }
 
     return (
-        <div className="page-outside-container">
-            <div className="page-content-container">
-                {gameSession.id}
-            </div>
-        </div>
+        renderGamePage()
     )
 }

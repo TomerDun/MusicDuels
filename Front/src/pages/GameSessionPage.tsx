@@ -41,8 +41,10 @@ export default function GameSessionPage() {
     }
 
     function renderGamePage() {
-        switch (gameSession.gameType) {
-            case 'sight-read': return <SightReaderPage answerNotes={['a','b','c']} instructions="Play this note!"/>
+        if (gameSession) {
+            switch (gameSession.gameType) {
+                case 'sight-read': return <SightReaderPage answerNotes={gameSession.content[currentRound]} instructions="Play this note!"/>
+            }
         }
     }
 

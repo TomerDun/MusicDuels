@@ -49,7 +49,7 @@ function DashboardPage({ }) {
         const newGame = await callApi(`/games/${challengeGame}`, 'POST', body)
         const newGAmeId = newGame.gameSession.id;
         console.log(body);
-        navigate(`/games/${newGAmeId}}`);
+        navigate(`/games/${newGAmeId}`);
     }
 
     return (

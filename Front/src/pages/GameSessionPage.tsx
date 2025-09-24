@@ -5,11 +5,13 @@ import { Loader } from "@mantine/core";
 
 export default function GameSessionPage() {
 
-    const [gameSession, setGameSession] = useState(null);
+    const [gameSession, setGameSession] = useState<any>(null);
 
     const urlParams = useParams();
 
     useEffect(() => {
+        console.log(urlParams.gameSessionId);
+        
         loadGameSession();
     }, [])
 
@@ -31,7 +33,10 @@ export default function GameSessionPage() {
     }
 
     return (
-        <>
-        </>
+        <div className="page-outside-container">
+            <div className="page-content-container">
+                {gameSession.id}
+            </div>
+        </div>
     )
 }

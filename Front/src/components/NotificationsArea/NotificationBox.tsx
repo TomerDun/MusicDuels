@@ -17,21 +17,21 @@ function NotificationBox({notification,handleDismiss,handleShowResults,handleGam
     function notificationContent() {
         if(activeUserId === notification.senderId){
             switch(notification.status) {
-                case 'PENDING': {
+                case 'pending': {
                     return (
                         <div>
                             Waiting for {notification.recieverUsername} to respond.
                         </div>
                     )
                 }
-                case 'ACCEPTED': {
+                case 'accepted': {
                     return(
                         <div>
                             {notification.recieverUsername} has accepted the challenge!
                         </div>
                     )
                 }
-                case 'DECLINED': {
+                case 'declined': {
                     return(
                         <>
                             <div>
@@ -45,7 +45,7 @@ function NotificationBox({notification,handleDismiss,handleShowResults,handleGam
                         </>
                     )
                 }
-                case 'FINISHED': {
+                case 'finished': {
                     return(
                         <>
                             <div>
@@ -63,7 +63,7 @@ function NotificationBox({notification,handleDismiss,handleShowResults,handleGam
         }
         else{
             switch(notification.status){
-                case 'PENDING':
+                case 'pending':
                     return(
                         <>
                             <div>
@@ -79,13 +79,13 @@ function NotificationBox({notification,handleDismiss,handleShowResults,handleGam
                             </div>
                         </>
                     )
-                case 'ACCEPTED':
+                case 'accepted':
                     return(
                         <div>
                             Challange accepted!
                         </div>
                     )
-                case 'FINISHED':
+                case 'finished':
                     return(
                         <>
                             <div>
@@ -103,8 +103,8 @@ function NotificationBox({notification,handleDismiss,handleShowResults,handleGam
     }
 
     return (
-        <div className="glass-container">
-            <div id="top-section" className="glass-container">
+        <div className="glass-container border flex flex-col !flex-[45%] w-[50%]">
+            <div id="top-section" className="flex justify-between">
                 <div id="game-type-container">
                     {notification.gameType}
                 </div>

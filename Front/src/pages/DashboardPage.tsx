@@ -9,6 +9,9 @@ import { userStore } from "../stores/UserStore";
 import { callApi } from "../utils/serverUtils";
 import { useNavigate } from "react-router";
 import { Loader } from "@mantine/core";
+import type { Notification } from "../types/NotificationTypes";
+import { getActiveUserNotifications } from "../services/NotificationService";
+import NotificationBox from "../components/NotificationsArea/NotificationBox";
 
 function DashboardPage({ }) {
 
@@ -16,11 +19,13 @@ function DashboardPage({ }) {
     const [challengeGame, setChallengeGame] = useState<null | string>(null) // which game type the player has chosen as a challenge
     const [challengePlayer, setChallengePlayer] = useState<null | string>(null) // playerId of the opponent
     const [leaderboardItems, setLeaderboardItems] = useState<LeaderboardItemType[]>([]);
+    const [notifications, setNotifications] = useState<Notification[]>([]);
     const activeUser = userStore.activeUser;
     const navigate = useNavigate();
 
     useEffect(() => {
         updateLeaderboard();
+        updateNotifications();
     }, [])
 
     // After selecing an opponent, create a new game
@@ -37,6 +42,19 @@ function DashboardPage({ }) {
         const res = await getGlobalLeaderboard();
         setLeaderboardItems(res);
     }
+
+    async function updateNotifications() {
+        const res = await getActiveUserNotifications();
+        setNotifications(res);
+    }
+
+    function dismissNotification() {}
+
+    function acceptInvite() {}
+
+    function declineInvite() {}
+
+    function showResults() {}
 
     async function startGame() {
         const body = {
@@ -119,12 +137,16 @@ function DashboardPage({ }) {
                             </div>
                         </div>
                     </div>
-
-                    <div className="glass-container" id="notifications-container">
-                        {
-
-                        }
-                    </div>
+                </div>
+                <div className="glass-container flex flex-wrap gap-2" id="notifications-container">
+                    {
+                        notifications.map(n => <NotificationBox 
+                            notification={n} 
+                            handleDismiss={dismissNotification} 
+                            handleGameAccept={acceptInvite} 
+                            handleGameDecline={declineInvite} 
+                            handleShowResults={showResults}/>)
+                    }
                 </div>
             </div>
         </div>

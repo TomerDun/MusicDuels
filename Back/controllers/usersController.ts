@@ -15,6 +15,17 @@ export async function getUser(req:Request, res:Response){
     res.status(StatusCode.OK).json(user);
 }
 
+export async function getActiveUser(req:Request, res:Response){
+    const userId = req.user.id;
+    const user = await User.findByPk(userId);
+    
+    if (!user) {
+        throw new ResourceNotFoundError(`User with id: ${userId} not found`);
+    }
+    
+    res.status(StatusCode.OK).json(user);
+}
+
 export async function updateUser(req:Request, res:Response){
     const userId = req.params.id;
     res.status(StatusCode.OK);

@@ -6,6 +6,7 @@ import { TokenUser } from '../utils/types';
 export function protectedRoute(req:Request, res:Response, next:NextFunction) {
 
     if (!req.header('Authorization')) {
+        console.log('⛔ No auth headers')
         throw new UnauthorizedError("You're not authorized!");
     }
 

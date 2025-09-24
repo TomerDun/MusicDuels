@@ -4,6 +4,8 @@ import { GameSession, Notification, User } from "../db/models";
 import { CustomError, ResourceNotFoundError } from "../utils/client-errors";
 import { NotificationStatus } from "../db/models/notification";
 import { notificationValidationSchema } from "../utils/validationSchemas/notificationSchema";
+import { generateGameContent } from "../utils/gameContentGenerator";
+import { GameTypes } from "../types/gameContentTypes";
 
 export function startPractice(req: Request, res: Response) {
     const gameType = req.params.gameType;
@@ -11,17 +13,20 @@ export function startPractice(req: Request, res: Response) {
     res.send(`Practice started for ${gameType} game type`);
 }
 
-export async function createGameSession(req: Request, res: Response) {
+export async function startGameSession(req: Request, res: Response) {
+
     // Validate player2 exists in DB
     const player2 = await User.findByPk(req.body.player2Id);
     if (!player2) throw new CustomError(404, 'Player 2 not found with id ' + req.body.player2Id);
 
-    // Extract only the parts you want from the body to create the session
-    const { player2Id, player1Score } = req.body;
+    // Extract data from the request
+    const player2Id = req.body.player2Id;
     const gameType = req.params.gameType;
     const player1Id = req.user.id;
 
-    const newGameSesssion = await GameSession.create({ player1Id, player2Id, player1Score, gameType });
+    const content = generateGameContent(GameTypes.SIGHT_READ);
+
+    const newGameSesssion = await GameSession.create({ player1Id, player2Id, gameType, content });
 
 
     const newNotification = await Notification.create({
@@ -35,10 +40,10 @@ export async function createGameSession(req: Request, res: Response) {
 
     // TODO: Add game content injection
 
-    res.status(StatusCode.Created).json({ gameSession: newGameSesssion, notification: newNotification });
+    res.status(StatusCode.Created).json({ id: newGameSesssion.id });
 }
 
-export async function getSession(req: Request, res: Response) {
+export async function getGameSession(req: Request, res: Response) {
     const gameSession = await GameSession.findByPk(req.params.gameSessionId);
     if (!gameSession) throw new ResourceNotFoundError(req.params.id);
     res.status(StatusCode.OK).json(gameSession);

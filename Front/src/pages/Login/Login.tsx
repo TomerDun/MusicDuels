@@ -1,7 +1,7 @@
 import { Button, Container, Paper, PasswordInput, Text, TextInput, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { onLogin } from '../../utils/authUtils';
 import { validateEmail, validatePassword } from '../../utils/formUtils';
@@ -10,6 +10,10 @@ import classes from './Login.module.css';
 function Login() {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (localStorage.getItem('token')) navigate('/leaderboard');
+    }, [])
 
     const form = useForm({
         mode: 'uncontrolled',

@@ -23,7 +23,7 @@ const links: Item[] = [
 ];
 
 const loginItem = { link: '/login', label: 'Login', icon: <IconLogin2 size={20} /> }
-const logoutItem = { link: '/login', label: 'Logout', icon: <IconLogout2 size={20} /> }
+const logoutItem = { link: '/leaderboard', label: 'Logout', icon: <IconLogout2 size={20} /> }
 
 function Navbar() {
 

@@ -6,6 +6,11 @@ import { NotificationStatus } from "../db/models/notification";
 import { notificationValidationSchema } from "../utils/validationSchemas/notificationSchema";
 import { generateGameContent } from "../utils/gameContentGenerator";
 import { GameTypes } from "../types/gameContentTypes";
+import { updateUserTotalScore } from "../utils/UserUtils";
+
+// Const variables
+const WINNING_MODIFIER = 100;
+const LOSING_MODIFIER = 50;
 
 export function startPractice(req: Request, res: Response) {
     const gameType = req.params.gameType;
@@ -74,36 +79,50 @@ export async function finishGameSession(req: Request, res: Response) {
     if (gameSession.player1Id == req.user.id) { playerNumber = 1; }
     else if (gameSession.player2Id == req.user.id) { playerNumber = 2 };
 
-    // Verify
+    // Verify player is part of the session
     if (playerNumber === -1) throw new CustomError(400, 'player ID not found in the game session does not match the user ID');
 
     if (playerNumber === 1) {
-        gameSession.player1Score = req.body.score;
+        gameSession.player1Score = req.body.score;        
+        await gameSession.save();
+        console.log('--player1 finish game session--');
+        
+        res.status(StatusCode.OK).json({message: 'player 1 finished game'})
     }
+    else { // user is player 2
+        gameSession.player2Score = req.body.score;
+        // -- Finish the game--
+        if (gameSession.player1Score !== null && gameSession.player2Score !== null) {
+            // TODO: Add specific logic for a draw
+            let loserId = ''
+            let winnerId = ''
+            if (gameSession.player1Score > gameSession.player2Score) {
+                winnerId = gameSession.player1Id;
+                loserId = gameSession.player2Id;
+            }
+            else {
+                winnerId = gameSession.player2Id;
+                loserId = gameSession.player1Id;
+            }
 
-    // Update the score and winner
-    gameSession.player2Score = req.body.score;
-    const winnerIsPlayer1 = gameSession.player1Score > gameSession.player2Score;
-    gameSession.winnerId = winnerIsPlayer1 ? gameSession.player1Id : gameSession.player2Id;
-    gameSession.finishedAt = new Date();
-    // TODO: Decide what to do if there is a draw
-    await gameSession.save();
+            gameSession.winnerId = winnerId;
 
-    // Remove old notification and create a new one
-    await Notification.destroy({ where: { gameSessionId: gameSession.id } });
-    try {
-        const newNotification = await Notification.create({
-            senderId: gameSession.player2Id,
-            receiverId: gameSession.player1Id,
-            gameSessionId: gameSession.id,
-            status: NotificationStatus.COMPLETED
-        })
+            await updateUserTotalScore(winnerId, WINNING_MODIFIER);
+            await updateUserTotalScore(loserId, LOSING_MODIFIER);
+
+            await gameSession.save();
+            console.log('🎵 Finished game session ' + gameSession.id);
+            
+
+            // Update notification
+            await Notification.update({status: NotificationStatus.COMPLETED}, {where: {gameSessionId: gameSession.id}});
+            console.log('🔔 Updated notification');
+
+            res.status(StatusCode.OK).json({message: 'game finished'});                        
+        }        
+        else {
+            throw new CustomError(500, 'Player 2 finished but player 1 has no score...')
+        }
     }
-    catch (err) {
-        throw err;
-    }
-
-    console.log('🔔 Replaced notification');
-    res.status(StatusCode.Created).send('Updated game session to finished')
 }
 

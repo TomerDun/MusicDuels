@@ -69,7 +69,7 @@ export async function finishGameSession(req:Request, res:Response) {
 
     // Verify
     if (!gameSession) throw new ResourceNotFoundError(req.params.id);
-    if (gameSession.player2Id != req.user.id) throw new CustomError(400, 'player2 ID does not match the user ID')
+    if (gameSession.player2Id != req.user.id && gameSession.player1Id != req.user.id) throw new CustomError(400, 'player2 ID does not match the user ID')
 
         // Update the score and winner
         gameSession.player2Score = req.body.score;

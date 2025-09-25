@@ -86,7 +86,7 @@ export default function GameSessionPage() {
     
             console.log('GAME IS FINISHED!');
             calculateScore();
-            await callApi(`/games/${gameSession.id}/finish`, 'POST', {score: finalScore});
+            await callApi(`/games/session/${gameSession.id}/finish`, 'POST', {score: finalScore});
             
             setModalOpen(true);
         }
@@ -141,7 +141,7 @@ export default function GameSessionPage() {
     return (
         <>
             {renderGamePage()}
-            <Modal isOpen={modalOpen} setIsOpen={setModalOpen}>
+            <Modal isOpen={modalOpen} setIsOpen={() => ({})}>
                 <div id="game-finish-container" className="border-2 py-8 px-20 min-w-[25vw] max-w-[90vw] border-white/70 bg-black/70 text-white text-xl font-bold flex flex-col gap-2 items-center rounded-md">
 
                     <div id="header-area">

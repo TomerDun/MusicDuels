@@ -19,17 +19,23 @@ type props = {
 // TODO: Make piano dimensions ratio more responsive
 //TODO: Make sheet music width fill the outside container
 
-export default function SightReaderPage({ answerNotes, gameTimer, setUserInput, userInput, paused, setPaused, betweenRounds }: props) {
+const soundPlayer = new Soundfont(new AudioContext(), { instrument: 'marimba' })
 
+export default function SightReaderPage({ answerNotes, gameTimer, setUserInput, userInput, paused, setPaused, betweenRounds }: props) {    
+
+
+    const [soundPlayerLoaded, setSoundPlayerLoaded] = useState(false);
 
     // const [playedNotes, setPlayedNotes] = useState<string[]>([]);
     const pianoContainer = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        loadSoundPlayer()
         return () => {
             soundPlayer.disconnect();
         }
     }, [])
+
     function onPianoPlay(note: any) {
         const noteStr: string = MidiNumbers.getAttributes(note).note;
         console.log(`MIDI: ${note}, Note: ${noteStr}`);
@@ -41,10 +47,17 @@ export default function SightReaderPage({ answerNotes, gameTimer, setUserInput, 
         // soundPlayer.stop(note);
     }
 
+    async function loadSoundPlayer() {
+        await soundPlayer.load
+        console.log('🎧 Sound player loaded...');
+        setSoundPlayerLoaded(true);
+        
+    }
+
 
 
     // Sound Init    
-    const soundPlayer = new Soundfont(new AudioContext(), { instrument: 'marimba' });
+    
     // const soundPlayer = new SplendidGrandPiano(new AudioContext());
 
     // Piano Init
@@ -95,7 +108,7 @@ export default function SightReaderPage({ answerNotes, gameTimer, setUserInput, 
                         keyboardShortcuts={keyboardShortcuts}
                         playNote={(note: any) => (onPianoPlay(note))}
                         stopNote={(note: any) => (onPianoRelease({ midiNote: note }))}
-                        disabled={betweenRounds}
+                        disabled={betweenRounds || !soundPlayerLoaded}
                         
                     // width={pianoContainer.current ? pianoContainer.current.clientWidth : 1000}
 

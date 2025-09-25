@@ -156,7 +156,7 @@ export default function GameSessionPage() {
 
                     <div id="final-accuracy" className="hover:scale-150 transition-all">
                         <span>Accuracy: </span>
-                        <span className="text-amber-400">{(gameSession.content.length / gameSession.content[0].length) * 100}%</span>
+                        <span className="text-amber-400">{( correctInputCount / (gameSession.content.length * gameSession.content[0].length)) * 100}%</span>
                     </div>
 
                     <div id="final-score" className="hover:scale-150 transition-all">

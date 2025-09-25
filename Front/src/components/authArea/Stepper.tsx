@@ -323,7 +323,7 @@ interface StepConnectorProps {
 function StepConnector({ isComplete }: StepConnectorProps) {
     const lineVariants: Variants = {
         incomplete: { width: 0, backgroundColor: "#52525b" },
-        complete: { width: "100%", backgroundColor: "var(--nav-text)" },
+        complete: { width: "100%", backgroundColor: "#52525b" },
     };
 
     return (

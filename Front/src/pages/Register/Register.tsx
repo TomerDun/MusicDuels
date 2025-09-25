@@ -1,5 +1,5 @@
 import { Loader, Select, Text, TextInput } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import Stepper, { Step } from '../../components/authArea/Stepper';
 import classes from "./Register.module.css";
@@ -15,6 +15,10 @@ export function Register() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const form = useRegisterForm();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (localStorage.getItem('token')) navigate('/leaderboard');
+    }, [])
 
     function handleStepChange(step: number) {
         setCurrentStep(step); // Keep state in sync

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import StatusCode from "../utils/status-code";
 import { GameSession, Notification, User } from "../db/models";
-import { CustomError, ResourceNotFoundError } from "../utils/client-errors";
+import { CustomError, ResourceNotFoundError, UnauthorizedError } from "../utils/client-errors";
 import { NotificationStatus } from "../db/models/notification";
 import { notificationValidationSchema } from "../utils/validationSchemas/notificationSchema";
 import { generateGameContent } from "../utils/gameContentGenerator";
@@ -125,4 +125,23 @@ export async function finishGameSession(req: Request, res: Response) {
         }
     }
 }
+
+export async function declineGameSession(req:Request, res:Response) {
+    // Validation
+    const gameSession = await GameSession.findByPk(req.params.gameSessionId);
+    if (!gameSession) throw new ResourceNotFoundError(req.params.id);
+    if (gameSession.player2Id != req.user.id) throw new UnauthorizedError('User is not authorized to decline this game session');
+
+
+
+    gameSession.player1Score = null;    
+    console.log('🎶 Updated game session');
+
+    Notification.update({status: NotificationStatus.DECLINED}, {where: {gameSessionId: gameSession.id}});
+    console.log('🔔 Updated notification');
+
+    res.status(StatusCode.OK).json({message: 'Declined'})        
+}
+
+
 

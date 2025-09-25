@@ -50,50 +50,60 @@ export async function getGameSession(req: Request, res: Response) {
 }
 
 // Call this after player 2 accepts the game invitation
-export async function acceptGameSession(req: Request, res: Response) {    
+export async function acceptGameSession(req: Request, res: Response) {
     const gameSession = await GameSession.findByPk(req.params.gameSessionId);
 
-    // Verify
+    // Verification
     if (!gameSession) throw new ResourceNotFoundError(req.params.id);
     if (gameSession.player2Id != req.user.id) throw new CustomError(400, 'player2 ID does not match the user ID');
 
-    const notification = await Notification.findOne({where: {gameSessionId: req.params.gameSessionId}});
+    const notification = await Notification.findOne({ where: { gameSessionId: req.params.gameSessionId } });
     notification.status = NotificationStatus.ACCEPTED;
+    notification.content = null;
     await notification.save()
     res.status(StatusCode.Created).send('Notification status updated');
 }
 
 // Call this when player 2 finishes his game
-export async function finishGameSession(req:Request, res:Response) { 
+export async function finishGameSession(req: Request, res: Response) {
     const gameSession = await GameSession.findByPk(req.params.gameSessionId);
+    
+    if (!gameSession) throw new ResourceNotFoundError(req.params.id);
+    
+    let playerNumber = -1; // player 1 or 2 (-1 means no player found)
+    if (gameSession.player1Id == req.user.id) { playerNumber = 1; }
+    else if (gameSession.player2Id == req.user.id) { playerNumber = 2 };
 
     // Verify
-    if (!gameSession) throw new ResourceNotFoundError(req.params.id);
-    if (gameSession.player2Id != req.user.id && gameSession.player1Id != req.user.id) throw new CustomError(400, 'player2 ID does not match the user ID')
+    if (playerNumber === -1) throw new CustomError(400, 'player ID not found in the game session does not match the user ID');
 
-        // Update the score and winner
-        gameSession.player2Score = req.body.score;
-        const winnerIsPlayer1 = gameSession.player1Score > gameSession.player2Score;
-        gameSession.winnerId = winnerIsPlayer1 ? gameSession.player1Id : gameSession.player2Id;
-        gameSession.finishedAt = new Date();
-        // TODO: Decide what to do if there is a draw
-        await gameSession.save();
+    if (playerNumber === 1) {
+        gameSession.player1Score = req.body.score;
+    }
 
-        // Remove old notification and create a new one
-        await Notification.destroy({where: {gameSessionId: gameSession.id}});
-        try {
-            const newNotification = await Notification.create({
-                senderId: gameSession.player2Id,
-                receiverId: gameSession.player1Id,
-                gameSessionId: gameSession.id,
-                status: NotificationStatus.COMPLETED                
-            })
-        }
-        catch (err) {
-            throw err;
-        }
+    // Update the score and winner
+    gameSession.player2Score = req.body.score;
+    const winnerIsPlayer1 = gameSession.player1Score > gameSession.player2Score;
+    gameSession.winnerId = winnerIsPlayer1 ? gameSession.player1Id : gameSession.player2Id;
+    gameSession.finishedAt = new Date();
+    // TODO: Decide what to do if there is a draw
+    await gameSession.save();
 
-        console.log('🔔 Replaced notification');
-        res.status(StatusCode.Created).send('Updated game session to finished')    
+    // Remove old notification and create a new one
+    await Notification.destroy({ where: { gameSessionId: gameSession.id } });
+    try {
+        const newNotification = await Notification.create({
+            senderId: gameSession.player2Id,
+            receiverId: gameSession.player1Id,
+            gameSessionId: gameSession.id,
+            status: NotificationStatus.COMPLETED
+        })
+    }
+    catch (err) {
+        throw err;
+    }
+
+    console.log('🔔 Replaced notification');
+    res.status(StatusCode.Created).send('Updated game session to finished')
 }
 

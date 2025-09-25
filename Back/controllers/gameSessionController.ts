@@ -126,6 +126,7 @@ export async function finishGameSession(req: Request, res: Response) {
     }
 }
 
+
 export async function declineGameSession(req:Request, res:Response) {
     // Validation
     const gameSession = await GameSession.findByPk(req.params.gameSessionId);
@@ -143,5 +144,20 @@ export async function declineGameSession(req:Request, res:Response) {
     res.status(StatusCode.OK).json({message: 'Declined'})        
 }
 
+// Call this when dismissing a notificaiton over a declined game
+export async function deleteGameSession(req:Request, res:Response) {
+    // Validation
+    const gameSession = await GameSession.findByPk(req.params.gameSessionId);
+    if (!gameSession) throw new ResourceNotFoundError(req.params.id);
+    if (gameSession.player2Id != req.user.id && gameSession.player1Id != req.user.id) throw new UnauthorizedError('User is not authorized to dismiss this game session');
+
+    await Notification.destroy({where: {gameSessionId: gameSession.id} });
+    console.log('🔔 Removed notification');
+
+    await gameSession.destroy();
+    console.log('🎶 Deleted game session');
+
+    res.status(StatusCode.NoContent).send();    
+}
 
 

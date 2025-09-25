@@ -10,19 +10,12 @@ import { callApi } from "../utils/serverUtils";
 import { useNavigate } from "react-router";
 import { Loader } from "@mantine/core";
 import type { Notification } from "../types/NotificationTypes";
-import { getActiveUserNotifications, getSessionResults } from "../services/NotificationService";
+import { getActiveUserNotifications } from "../services/NotificationService";
 import NotificationBox from "../components/NotificationsArea/NotificationBox";
-
-type SessionResults = {
-    recieverScore:number|null,
-    senderScore:number|null
-}
 
 function DashboardPage({ }) {
 
     const [modalOpen, setModalOpen] = useState(false);
-    const [resultModalOpen, setResultModalOpen] = useState(false);
-    const [sessionResults, setSessionResults] = useState<SessionResults|undefined>({recieverScore:null,senderScore:null});
     const [challengeGame, setChallengeGame] = useState<null | string>(null) // which game type the player has chosen as a challenge
     const [challengePlayer, setChallengePlayer] = useState<null | string>(null) // playerId of the opponent
     const [leaderboardItems, setLeaderboardItems] = useState<LeaderboardItemType[]>([]);
@@ -55,17 +48,11 @@ function DashboardPage({ }) {
         setNotifications(res);
     }
 
-    function dismissNotification() {}
+    function dismissNotification() { }
 
-    function acceptInvite() {}
+    function acceptInvite() { }
 
-    function declineInvite() {}
-
-    async function showResults(notification:Notification) {
-        const results = await getSessionResults(notification);
-        setSessionResults(results);
-        setResultModalOpen(true);
-    }
+    function declineInvite() { }
 
     async function startGame() {
         const body = {
@@ -80,9 +67,6 @@ function DashboardPage({ }) {
 
     return (
         <div className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 min-h-screen text-white pt-24" id="dashboard-page">
-            <Modal isOpen={resultModalOpen} setIsOpen={setResultModalOpen}>
-                {sessionResults ? <div>{sessionResults.recieverScore}</div> : null}
-            </Modal>
             <Modal isOpen={modalOpen} setIsOpen={setModalOpen}>
                 {challengeGame ? <Leaderboard onClickItem={setChallengePlayer} items={leaderboardItems} /> :
                     <GameSelector onPickGame={setChallengeGame} />
@@ -154,13 +138,14 @@ function DashboardPage({ }) {
                 </div>
                 <div className="glass-container flex flex-wrap gap-2 mt-4" id="notifications-container">
                     {
-                        notifications.map((n:Notification,i) => <NotificationBox
-                            key={i} 
-                            notification={n} 
-                            handleDismiss={dismissNotification} 
-                            handleGameAccept={acceptInvite} 
-                            handleGameDecline={declineInvite} 
-                            handleShowResults={()=>showResults(n)}/>)
+                        notifications.map((n: Notification, i) => <NotificationBox
+                            key={i}
+                            notification={n}
+                            handleDismiss={dismissNotification}
+                            handleGameAccept={acceptInvite}
+                            handleGameDecline={declineInvite}
+                        />
+                        )
                     }
                 </div>
             </div>

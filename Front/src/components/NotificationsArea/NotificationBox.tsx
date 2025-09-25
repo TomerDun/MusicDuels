@@ -4,13 +4,11 @@ import type { Notification } from "../../types/NotificationTypes";
 
 interface NotificationBoxProps{
     notification:Notification,
-    handleDismiss:(event: React.MouseEvent<HTMLButtonElement>) => void,
-    handleShowResults:(event: React.MouseEvent<HTMLButtonElement>) => void,
-    handleGameAccept:(event: React.MouseEvent<HTMLButtonElement>) => void,
+    handleDismiss:(event: React.MouseEvent<HTMLButtonElement>) => void,    handleGameAccept:(event: React.MouseEvent<HTMLButtonElement>) => void,
     handleGameDecline:(event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-function NotificationBox({notification,handleDismiss,handleShowResults,handleGameAccept,handleGameDecline} :NotificationBoxProps) {
+function NotificationBox({notification,handleDismiss,handleGameAccept,handleGameDecline} :NotificationBoxProps) {
 
     const activeUserId = userStore?.activeUser?.id;
     const statusColors = {
@@ -49,23 +47,7 @@ function NotificationBox({notification,handleDismiss,handleShowResults,handleGam
                             </div>
                         </>
                     )
-                }
-                case 'completed': {
-                    return(
-                        <>
-                            <div>
-                                your challange with {notification.recieverUsername} has reached its conclusion!
-                            </div>
-                            <div id="button-section">
-                                <button 
-                                onClick={handleShowResults}
-                                className="accept-invite-button action-button interactive max-h-10 mt-4 w-full">
-                                    Show Game Results
-                                </button>
-                            </div>
-                        </>
-                    )
-                }
+                }                
             }
         }
         else{
@@ -95,22 +77,7 @@ function NotificationBox({notification,handleDismiss,handleShowResults,handleGam
                         <div>
                             Challange accepted!
                         </div>
-                    )
-                case 'completed':
-                    return(
-                        <>
-                            <div>
-                                your challange with {notification.senderUsername} has reached its conclusion!
-                            </div>
-                            <div id="button-section">
-                                <button 
-                                onClick={handleShowResults}
-                                className="accept-invite-button action-button interactive max-h-10 mt-4 w-full">
-                                    Show Game Results
-                                </button>
-                            </div>
-                        </>
-                    )
+                    )                
             }
         }
     }

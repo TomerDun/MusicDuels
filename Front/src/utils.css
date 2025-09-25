@@ -8,12 +8,40 @@
     @apply bg-black/20 backdrop-blur-lg rounded-2xl px-6 py-4 border border-white/10 flex-1
 }
 
+.accept-invite-button{
+    @apply from-indigo-500 to-indigo-600 rounded-lg px-6 py-4 border border-white/10 flex-1 flex items-center justify-center
+}
+
+.decline-invite-button{
+    @apply bg-black/20 backdrop-blur-lg rounded-lg px-6 py-4 border border-white/10 flex-1 flex items-center justify-center cursor-pointer
+}
+
 .interactive {
     @apply transition-all hover:scale-105
 }
 
 .page-content-container {
     @apply w-[90%] mx-auto
+}
+
+.page-outside-container {
+    @apply min-h-svh pt-24 bg-gradient-to-br
+}
+
+.inner-container {
+    @apply w-[90%] mx-auto pt-24
+}
+
+.background-gradient {
+    @apply bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900
+}
+
+.game-select-button {
+    @apply rounded-md border bg-gradient-to-br flex items-center flex-col gap-7 p-6 cursor-pointer
+}
+
+.icon-box {
+    @apply text-white flex items-center justify-center w-16 h-16 rounded-sm
 }
 
 /* Music */

@@ -6,10 +6,10 @@ export const notificationValidationSchema = [
     .trim()
     .exists({checkFalsy:true}).withMessage('Sender id is required')
     .isString().withMessage('Sender id must be a string'),
-    body('recieverId')
+    body('receiverId')
     .trim()
-    .exists({checkFalsy:true}).withMessage('Reciever id is required')
-    .isString().withMessage('Reciever id must be a string'),
+    .exists({checkFalsy:true}).withMessage('Receiver id is required')
+    .isString().withMessage('Receiver id must be a string'),
     body('gameSessionId')
     .trim()
     .exists({checkFalsy:true}).withMessage('Game session id is required')

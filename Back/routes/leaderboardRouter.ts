@@ -1,8 +1,8 @@
 import express from "express";
-import { getLeaderboard } from "../controllers/leaderboardController";
+import { getGlobalLeaderboard } from "../controllers/leaderboardController";
 
 const router = express.Router();
 
-router.get('/', getLeaderboard); //gameType in query
+router.get('/', getGlobalLeaderboard); //limit and offset in query
 
 export default router;

@@ -28,7 +28,7 @@
 
 .link:hover {
   cursor: pointer;
- color: white;
+  color: white;
   transition: color 150ms ease-in-out;
 }
 
@@ -44,5 +44,8 @@
 
 .image {
   height: 50px;
+  width: 50px;
+  object-fit: cover;
   border-radius: 50%;
+  border: 3px solid green;
 }

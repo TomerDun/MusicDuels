@@ -11,8 +11,7 @@ type props = {
 
 export default function Modal({ isOpen, setIsOpen, blur = true, children }: props) {
 
-    function handlecontainerClick(e: React.MouseEvent) {
-        // e.stopPropagation();
+    function handlecontainerClick() {
         setIsOpen(false);
     }
 

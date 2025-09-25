@@ -14,12 +14,6 @@ export enum NotificationStatus {
     tableName: 'notifications',
     timestamps: false, // Only createdAt, no updatedAt
     createdAt: true,
-    validate: {
-        cannotSendToSelf() {
-            if (this.senderId === this.receiverId)
-                throw new ValidationError('Cannot send notification to yourself');
-        }
-    }
 })
 export class Notification extends Model {
     @PrimaryKey

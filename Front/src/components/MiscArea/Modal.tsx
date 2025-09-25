@@ -4,7 +4,7 @@ type props = {
     isOpen: boolean,
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
     blur?: boolean,
-    children: React.ReactNode
+    children?: React.ReactNode
 
 }
 

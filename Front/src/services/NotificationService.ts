@@ -18,27 +18,20 @@ export async function dismissDeclinedNotification(notification:Notification){
     }
 }
 
-export async function dismissCompletedNotification(notification:Notification){
+export async function acceptInviteNotification(notification:Notification){  
+
+     
     try{
-        await callApi(`/notifications/${notification.id}`, 'DELETE');
+        await callApi(`/games/session/${notification.gameSessionId}/accept`,'PATCH')
     } catch (err) {
         console.error(err);
     }
 }
 
-export async function acceptInviteNotification(notification:Notification){
-    const body = {status:'accepted'};
-    try{
-        await callApi(`games/session/${notification.gameSessionId}/accept`,'PATCH', body)
-    } catch (err) {
-        console.error(err);
-    }
-}
-
-export async function declineNotification(notification:Notification){
+export async function declineInviteNotification(notification:Notification){
     const body = {status:'declined'};
     try{
-        await callApi(`/games/session/${notification.gameSessionId}/accept`,'PATCH', body);
+        await callApi(`/games/session/${notification.gameSessionId}/decline`,'PATCH', body);
     } catch (err) {
         console.error(err);
     }

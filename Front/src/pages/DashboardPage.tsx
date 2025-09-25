@@ -10,7 +10,7 @@ import { callApi } from "../utils/serverUtils";
 import { useNavigate } from "react-router";
 import { Loader } from "@mantine/core";
 import type { Notification } from "../types/NotificationTypes";
-import { getActiveUserNotifications } from "../services/NotificationService";
+import { acceptInviteNotification, declineInviteNotification, dismissDeclinedNotification, getActiveUserNotifications } from "../services/NotificationService";
 import NotificationBox from "../components/NotificationsArea/NotificationBox";
 
 function DashboardPage({ }) {
@@ -48,11 +48,20 @@ function DashboardPage({ }) {
         setNotifications(res);
     }
 
-    function dismissNotification() { }
+    async function dismissNotification(notification: Notification) {
+        await dismissDeclinedNotification(notification);
+        await updateNotifications();
+    }
 
-    function acceptInvite() { }
+    async function acceptInvite(notification: Notification) {
+        await acceptInviteNotification(notification)
+        navigate('/games/' + notification.gameSessionId);
+    }
 
-    function declineInvite() { }
+    async function declineInvite(notification: Notification) {
+        await declineInviteNotification(notification);
+        await updateNotifications();
+    }
 
     async function startGame() {
         const body = {
@@ -138,13 +147,16 @@ function DashboardPage({ }) {
                 </div>
                 <div className="glass-container flex flex-wrap gap-2 mt-4" id="notifications-container">
                     {
-                        notifications.map((n: Notification, i) => <NotificationBox
-                            key={i}
-                            notification={n}
-                            handleDismiss={dismissNotification}
-                            handleGameAccept={acceptInvite}
-                            handleGameDecline={declineInvite}
-                        />
+                        notifications.map((n: Notification, i) =>
+                            (n.status === 'declined' && n.recieverId === activeUser?.id) ? null
+                                :
+                                <NotificationBox
+                                    key={i}
+                                    notification={n}
+                                    handleDismiss={() => dismissNotification(n)}
+                                    handleGameAccept={() => acceptInvite(n)}
+                                    handleGameDecline={() => declineInvite(n)}
+                                />
                         )
                     }
                 </div>

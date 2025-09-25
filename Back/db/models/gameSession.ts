@@ -13,11 +13,11 @@ import { GameTypes } from '../../types/gameContentTypes';
                 throw new ValidationError('Player 1 and Player 2 must be different users');
             }
         },
-        scoreValidation() {
-            if (this.finishedAt && (!this.player1Score || !this.player2Score)) {
-                throw new ValidationError('Finished games must have scores for both players');
-            }
-        }
+        // scoreValidation() {
+        //     if (this.finishedAt && (!this.player1Score || !this.player2Score)) {
+        //         throw new ValidationError('Finished games must have scores for both players');
+        //     }
+        // }
     }
 })
 export class GameSession extends Model {

@@ -1,6 +1,8 @@
 // TODO: put connection variables on a global
 
+import { userStore } from "../stores/UserStore";
 import type { RegisterRequest } from "../types/AuthTypes";
+import type { User } from "../types/UserTypes";
 import { API_URL } from "./serverUtils";
 
 export async function onLogin(email: string, password: string) {
@@ -12,10 +14,11 @@ export async function onLogin(email: string, password: string) {
             throw new Error(err.message);
         }
         const data = await res.json();
-
+        const user = data.user as User;
 
         localStorage.setItem('token', data.token);
-        localStorage.setItem('userId', data.user.id);
+        localStorage.setItem('userId', user.id);
+        userStore.setActiveUser(user);
 
         return data;
     }
@@ -42,6 +45,7 @@ export async function onRegister(body: RegisterRequest) {
             method: 'POST',
         });
         const data = await res.json();
+        const user = data.user as User;
 
         if (!res.ok) {
             // handle existing email or username
@@ -55,7 +59,8 @@ export async function onRegister(body: RegisterRequest) {
         }
 
         localStorage.setItem('token', data.token);
-        localStorage.setItem('userId', data.user.id);
+        localStorage.setItem('userId', user.id);
+        userStore.setActiveUser(user);
 
         return data;
     }
@@ -63,4 +68,10 @@ export async function onRegister(body: RegisterRequest) {
         console.error('error fetching register: ', err)
         throw err;
     }
+}
+
+export function onLogout() {
+    userStore.logoutUser();
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
 }

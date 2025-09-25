@@ -1,14 +1,12 @@
 import { Request, Response } from "express";
 import StatusCode from "../utils/status-code";
+const { User } = require('../db/models/user');
+const { getUserDuels, getUserWinStreak } = require('../utils/statsUtils');
 
 export async function getGlobalLeaderboard(req:Request, res:Response){
     // Get limit and offset from query, default to limit=10, offset=0
     const limit = req.query.limit ? parseInt(req.query.limit as string, 10) : 10;
     const offset = req.query.offset ? parseInt(req.query.offset as string, 10) : 0;
-
-    // Import User model and getUserDuels util
-    const { User } = require('../db/models/user');
-    const { getUserDuels, getUserWinStreak } = require('../utils/statsUtils');
 
     // Get paginated users by totalScore
     const users = await User.findAll({
@@ -29,6 +27,7 @@ export async function getGlobalLeaderboard(req:Request, res:Response){
             id: user.id,
             username: user.username,
             totalScore: user.totalScore,
+            profileImageUrl: user.profileImageUrl,
             completedDuels,
             winRate,
             streak

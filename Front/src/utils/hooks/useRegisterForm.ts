@@ -9,19 +9,9 @@ export function useRegisterForm() {
             email: 'itai@gmail.com',
             password: '1234',
             username: 'itai',
-            //TODO: check accepts arrays
             instruments: 'aaaa',
             skillLevel: 'pro' as SkillLevel,
-            //TODO: file validation
             profileImageFile: null as null|File
-            // email: '',
-            // password: '',
-            // username: '',
-            // //TODO: check accepts arrays
-            // instruments: '',
-            // skillLevel: '' as SkillLevel,
-            // //TODO: file validation
-            // profileImageFile: null as null|File
         },
 
         validate: {

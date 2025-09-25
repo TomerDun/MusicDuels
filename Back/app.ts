@@ -38,13 +38,14 @@ app.use(logger);
 //Routes
 app.use('/auth', authRouter);
 app.use('/users', usersRouter);
-app.use('/games/:gameType', gamesRouter);
+app.use('/games', gamesRouter);
 app.use('/leaderboard',leaderboardRouter);
 app.use('/notifications', notificationsRouter);
 
 // enable logs save
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
-app.use(morgan('combined', { stream: accessLogStream }));
+// app.use(morgan('combined', { stream: accessLogStream }));
+app.use(morgan('combined'));
 
 
 app.get('/', (req:Request, res:Response) => {

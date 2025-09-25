@@ -1,21 +1,24 @@
 import { Button, Container, Paper, PasswordInput, Text, TextInput, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import classes from './Login.module.css';
-// import { profileStore } from '../../../stores/ProfileStore';
-// import { observer } from 'mobx-react-lite';
-// import { loginUser } from '../../../utils/apiUtils/authApiUtils';
-import { validateEmail, validatePassword } from '../../utils/formUtils';
 import { onLogin } from '../../utils/authUtils';
+import { validateEmail, validatePassword } from '../../utils/formUtils';
+import classes from './Login.module.css';
 
 function Login() {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if (localStorage.getItem('token')) navigate('/leaderboard');
+    }, [])
+
     const form = useForm({
         mode: 'uncontrolled',
-        initialValues: { email: '', password: '' },
+        // initialValues: { email: '', password: '' },
+        initialValues: { email: 'itai@gmail.com', password: '1234' },
         validate: {
             email: (value) => validateEmail(value),
             password: (value) => validatePassword(value)
@@ -23,19 +26,15 @@ function Login() {
     });
 
     async function handleSubmit(values: { email: string; password: string }) {
-        console.log('handle submit');
         try {
             form.clearErrors();
             if (form.validate().hasErrors) return;
 
-        //     setIsLoading(true);
+            setIsLoading(true);
 
             // Auth logic
-            const data = await onLogin(values.email, values.password);
-            console.log('handleSubmit data',data);
-            // await profileStore.getActiveProfile(data.user.id)
+            await onLogin(values.email, values.password);
             navigate('/');
-
         } catch (error: any) {
             form.setErrors({ form: error.message });
             console.error('Error logging in: ', error);
@@ -45,7 +44,7 @@ function Login() {
     }
 
     return (
-        <div className="Login pt-24">
+        <div className="Login background-gradient min-h-screen pt-24 text-white">
             <Container size={420} my={40}>
                 <Title ta="center" className={classes.title}>
                     Welcome back!
@@ -54,7 +53,7 @@ function Login() {
                     Do not have an account yet? <Link to={'/register'}>Create account</Link>
                 </Text>
                 <form onSubmit={form.onSubmit(handleSubmit)}>
-                    <Paper withBorder shadow="sm" p={22} mt={30} radius="md">
+                    <Paper className='glass-container' withBorder shadow="sm" p={22} mt={30} radius="md" >
                         <TextInput
                             label="Email"
                             type='email'
@@ -87,17 +86,16 @@ function Login() {
                             fullWidth
                             mt="xl"
                             radius="md"
-                            className={classes.loginButton}
+                            className={`${classes.loginButton} interactive`}
                             onClick={() => form.clearErrors()}
                         >
-                            Log in
+                            Log In
                         </Button>
                     </Paper>
                 </form>
             </Container>
-        </div>
+        </div >
     );
 }
 
-export default Login
-// export default observer(Login)
+export default observer(Login)

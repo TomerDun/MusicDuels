@@ -7,6 +7,7 @@ import { notificationValidationSchema } from "../utils/validationSchemas/notific
 import { generateGameContent } from "../utils/gameContentGenerator";
 import { GameTypes } from "../types/gameContentTypes";
 import { updateUserTotalScore } from "../utils/UserUtils";
+import { Op } from "sequelize";
 
 // Const variables
 const WINNING_MODIFIER = 100;
@@ -54,6 +55,28 @@ export async function getGameSession(req: Request, res: Response) {
     res.status(StatusCode.OK).json(gameSession);
 }
 
+export async function getActiveUserCompletedGameSessions(req: Request, res: Response) {    
+    const gameSessions = await GameSession.findAll({
+        where: {
+            [Op.and]: [
+                {
+                    [Op.or]: [
+                        { player1Id: req.user.id },
+                        { player2Id: req.user.id }
+                    ]
+                },
+                {
+                    winnerId: {
+                        [Op.not]: null
+                    }
+                }
+            ]
+        }
+    });
+    
+    res.status(StatusCode.OK).json(gameSessions);
+}
+
 // Call this after player 2 accepts the game invitation
 export async function acceptGameSession(req: Request, res: Response) {
     const gameSession = await GameSession.findByPk(req.params.gameSessionId);
@@ -70,6 +93,7 @@ export async function acceptGameSession(req: Request, res: Response) {
 }
 
 // Call this when player 2 finishes his game
+// TODO: Make all the changes as one DB transaction to prevent data leaks..
 export async function finishGameSession(req: Request, res: Response) {
     const gameSession = await GameSession.findByPk(req.params.gameSessionId);
     
@@ -93,7 +117,7 @@ export async function finishGameSession(req: Request, res: Response) {
         gameSession.player2Score = req.body.score;
         // -- Finish the game--
         if (gameSession.player1Score !== null && gameSession.player2Score !== null) {
-            // TODO: Add specific logic for a draw
+            // TODO: Add specific logic for a draw            
             let loserId = ''
             let winnerId = ''
             if (gameSession.player1Score > gameSession.player2Score) {
@@ -107,16 +131,20 @@ export async function finishGameSession(req: Request, res: Response) {
 
             gameSession.winnerId = winnerId;
 
+
+
             await updateUserTotalScore(winnerId, WINNING_MODIFIER);
             await updateUserTotalScore(loserId, LOSING_MODIFIER);
+
+            gameSession.finishedAt = new Date();
 
             await gameSession.save();
             console.log('🎵 Finished game session ' + gameSession.id);
             
 
             // Update notification
-            await Notification.update({status: NotificationStatus.COMPLETED}, {where: {gameSessionId: gameSession.id}});
-            console.log('🔔 Updated notification');
+            await Notification.destroy({where: {gameSessionId: gameSession.id}});
+            console.log('🔔 Deleted Notification');
 
             res.status(StatusCode.OK).json({message: 'game finished'});                        
         }        

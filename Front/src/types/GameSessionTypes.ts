@@ -28,3 +28,12 @@ export enum GameTypes {
     PERFECT_EAR = 'perfect-ear',
     RYTHM_MASTER = 'rythm-master'
 }
+
+export type GameHistoryItemType = {
+    gameType:string,
+    date:string,
+    userScore:number,
+    opponentScore:number,
+    opponentName:string,
+    winnerId:string
+}

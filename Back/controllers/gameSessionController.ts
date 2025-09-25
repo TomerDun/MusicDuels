@@ -45,7 +45,7 @@ export async function getGameSession(req: Request, res: Response) {
     res.status(StatusCode.OK).json(gameSession);
 }
 
-export async function getActiveUserCompletedGameSessions(req: Request, res: Response) {
+export async function getActiveUserCompletedGameHistory(req: Request, res: Response) {
     const gameSessions = await GameSession.findAll({
         where: {
             [Op.and]: [
@@ -61,10 +61,35 @@ export async function getActiveUserCompletedGameSessions(req: Request, res: Resp
                     }
                 }
             ]
-        }
+        },
+        include: [
+            {
+                model: User,
+                as: 'player1',
+                attributes: ['id', 'username']
+            },
+            {
+                model: User,
+                as: 'player2',
+                attributes: ['id', 'username']
+            }
+        ]
     });
 
-    res.status(StatusCode.OK).json(gameSessions);
+    // Map to new GameHistoryItemType
+    const userId = req.user.id;
+    const history = gameSessions.map((gs: any) => {
+        const isUserPlayer1 = gs.player1Id === userId;
+        return {
+            gameType: gs.gameType,
+            date: gs.finishedAt ? gs.finishedAt.toISOString() : '',
+            userScore: isUserPlayer1 ? gs.player1Score : gs.player2Score,
+            opponentScore: isUserPlayer1 ? gs.player2Score : gs.player1Score,
+            opponentName: isUserPlayer1 ? gs.player2?.username : gs.player1?.username,
+            winnerId: gs.winnerId
+        };
+    });
+    res.status(StatusCode.OK).json(history);
 }
 
 // Call this after player 2 accepts the game invitation

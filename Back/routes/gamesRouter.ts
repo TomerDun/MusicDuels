@@ -7,7 +7,7 @@ import { protectedRoute } from "../middlewares/authMiddleware";
 const router = express.Router({mergeParams:true});
 
 router.get("/session/:gameSessionId", protectedRoute, getGameSession);
-router.post("/session/:gameSessionId/accept", protectedRoute, acceptGameSession);
+router.patch("/session/:gameSessionId/accept", protectedRoute, acceptGameSession);
 router.patch("/session/:gameSessionId/decline", protectedRoute, declineGameSession);
 router.patch('/session/:gameSessionId/finish', protectedRoute, finishGameSession);
 router.delete('/session/:gameSessionId/:gameSessionId', protectedRoute, deleteGameSession);

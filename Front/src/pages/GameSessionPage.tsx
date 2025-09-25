@@ -86,7 +86,7 @@ export default function GameSessionPage() {
     
             console.log('GAME IS FINISHED!');
             calculateScore();
-            await callApi(`/games/session/${gameSession.id}/finish`, 'POST', {score: finalScore});
+            await callApi(`/games/session/${gameSession.id}/finish`, 'PATCH', {score: finalScore});
             
             setModalOpen(true);
         }
@@ -104,6 +104,7 @@ export default function GameSessionPage() {
             let multiplier = correctInputCount / answerCount;
 
             score *= multiplier;
+            score = Math.floor(score);
 
             setFinalScore(score);
         }

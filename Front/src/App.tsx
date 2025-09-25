@@ -8,20 +8,18 @@ import { useEffect } from 'react';
 
 
 function App() {
-
-    async function loadUserData(){
-        const token = localStorage.getItem('token');
-        if(token){
+    async function loadUserData() {
+        if (localStorage.getItem('token')) {
             userStore.loadActiveUser();
             userStore.loadActiveUserStats();
-        }
+        } else
+            userStore.logoutUser();
     }
 
     useEffect(() => {
-        if(!userStore.activeUser){
+        if (!userStore.activeUser)
             loadUserData()
-        }
-    },[]) 
+    }, [])
 
     return (
         <>

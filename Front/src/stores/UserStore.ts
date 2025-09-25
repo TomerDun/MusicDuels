@@ -18,7 +18,7 @@ class UserStore {
 
     async loadActiveUser() {
         const user = await fetchActiveUser()
-
+        console.log('this.loadActiveUser user', user);
         runInAction(() => {
             this.activeUser = user;
         })
@@ -31,13 +31,12 @@ class UserStore {
         runInAction(() => {
             this.activeUserStats = userStats;
         })
-        
+
     }
 
     logoutUser() {
         this.activeUser = null;
     }
-
 }
 
 export const userStore = new UserStore()

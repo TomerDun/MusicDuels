@@ -17,7 +17,7 @@ function NotificationBox({notification,handleDismiss,handleShowResults,handleGam
         'pending': 'bg-yellow-400',
         'accepted':'bg-blue-400',
         'declined':'bg-red-400',
-        'finished':'bg-green-400'
+        'completed':'bg-green-400'
     }
     function notificationContent() {
         if(activeUserId === notification.senderId){
@@ -50,14 +50,16 @@ function NotificationBox({notification,handleDismiss,handleShowResults,handleGam
                         </>
                     )
                 }
-                case 'finished': {
+                case 'completed': {
                     return(
                         <>
                             <div>
                                 your challange with {notification.recieverUsername} has reached its conclusion!
                             </div>
-                            <div id="button-section" className="glass-container">
-                                <button onClick={handleShowResults}>
+                            <div id="button-section">
+                                <button 
+                                onClick={handleShowResults}
+                                className="accept-invite-button action-button interactive max-h-10 mt-4 w-full">
                                     Show Game Results
                                 </button>
                             </div>
@@ -94,16 +96,16 @@ function NotificationBox({notification,handleDismiss,handleShowResults,handleGam
                             Challange accepted!
                         </div>
                     )
-                case 'finished':
+                case 'completed':
                     return(
                         <>
                             <div>
                                 your challange with {notification.senderUsername} has reached its conclusion!
                             </div>
-                            <div id="button-section" className="glass-container">
+                            <div id="button-section">
                                 <button 
                                 onClick={handleShowResults}
-                                className="accept-invite-button action-button interactive">
+                                className="accept-invite-button action-button interactive max-h-10 mt-4 w-full">
                                     Show Game Results
                                 </button>
                             </div>

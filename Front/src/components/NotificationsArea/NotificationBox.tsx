@@ -13,7 +13,12 @@ interface NotificationBoxProps{
 function NotificationBox({notification,handleDismiss,handleShowResults,handleGameAccept,handleGameDecline} :NotificationBoxProps) {
 
     const activeUserId = userStore?.activeUser?.id;
-
+    const statusColors = {
+        'pending': 'bg-yellow-400',
+        'accepted':'bg-blue-400',
+        'declined':'bg-red-400',
+        'finished':'bg-green-400'
+    }
     function notificationContent() {
         if(activeUserId === notification.senderId){
             switch(notification.status) {
@@ -37,7 +42,7 @@ function NotificationBox({notification,handleDismiss,handleShowResults,handleGam
                             <div>
                                 {notification.recieverUsername} has declined the challange.
                             </div>
-                            <div id="button-section">
+                            <div id="button-section" className="glass-container">
                                 <button onClick={handleDismiss}>
                                     Dismiss
                                 </button>
@@ -51,7 +56,7 @@ function NotificationBox({notification,handleDismiss,handleShowResults,handleGam
                             <div>
                                 your challange with {notification.recieverUsername} has reached its conclusion!
                             </div>
-                            <div id="button-section">
+                            <div id="button-section" className="glass-container">
                                 <button onClick={handleShowResults}>
                                     Show Game Results
                                 </button>
@@ -69,11 +74,15 @@ function NotificationBox({notification,handleDismiss,handleShowResults,handleGam
                             <div>
                                 {notification.senderUsername} challanged you to a game of {notification.gameType}!
                             </div>
-                            <div id="button-section">
-                                <button onClick={handleGameAccept}>
-                                    ACCEPT
+                            <div id="button-section" className="flex justify-between gap-2 max-h-10 mt-4">
+                                <button 
+                                    onClick={handleGameAccept} 
+                                    className="accept-invite-button action-button interactive">
+                                    Accept
                                 </button>
-                                <button onClick={handleGameDecline}>
+                                <button
+                                    onClick={handleGameDecline}
+                                    className="decline-invite-button">
                                     Decline
                                 </button>
                             </div>
@@ -91,8 +100,10 @@ function NotificationBox({notification,handleDismiss,handleShowResults,handleGam
                             <div>
                                 your challange with {notification.senderUsername} has reached its conclusion!
                             </div>
-                            <div id="button-section">
-                                <button onClick={handleShowResults}>
+                            <div id="button-section" className="glass-container">
+                                <button 
+                                onClick={handleShowResults}
+                                className="accept-invite-button action-button interactive">
                                     Show Game Results
                                 </button>
                             </div>
@@ -104,12 +115,15 @@ function NotificationBox({notification,handleDismiss,handleShowResults,handleGam
 
     return (
         <div className="glass-container border flex flex-col !flex-[45%] w-[50%]">
-            <div id="top-section" className="flex justify-between">
+            <div id="top-section" className="flex justify-between mb-4">
                 <div id="game-type-container">
                     {notification.gameType}
                 </div>
-                <div id="status-container">
-                    {notification.status}
+                <div id="status-container" className="flex items-center gap-2">
+                    <div className={`w-4 h-4 rounded-full ${statusColors[notification.status as keyof typeof statusColors]}`}></div>
+                    <div>
+                        {notification.status.charAt(0).toUpperCase() + notification.status.slice(1)}
+                    </div>
                 </div>
             </div>
             <div id="content-container">

@@ -138,9 +138,10 @@ function DashboardPage({ }) {
                         </div>
                     </div>
                 </div>
-                <div className="glass-container flex flex-wrap gap-2" id="notifications-container">
+                <div className="glass-container flex flex-wrap gap-2 mt-4" id="notifications-container">
                     {
-                        notifications.map(n => <NotificationBox 
+                        notifications.map((n,i) => <NotificationBox
+                            key={i} 
                             notification={n} 
                             handleDismiss={dismissNotification} 
                             handleGameAccept={acceptInvite} 

@@ -4,7 +4,7 @@ export type GameSessionType = {
     player2Id: string,
     player1Score?: string | null,
     player2Score?: string | null,
-    content: GameContent,
+    content: GameContentType[],
     difficulty?: GameDifficulty,
     gameType: GameTypes
     winnerId?: string,
@@ -15,7 +15,7 @@ export type GameSessionType = {
     updatedAt?: string| Date | null,
 }
 
-type GameContent = string[][]
+export type GameContentType = string[] | boolean [][]
 
 export enum GameDifficulty {
     EASY = 'easy',

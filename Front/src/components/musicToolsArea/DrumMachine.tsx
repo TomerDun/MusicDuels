@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { BpmToMs } from "../../utils/musicUtils";
 import { DrumMachine as Drums } from "smplr";
 import { IconPlayerPause, IconPlayerPlay } from "@tabler/icons-react";
+import type { GameContentType } from "../../types/GameSessionTypes";
 
 const SOUNDS = [
     'kick',
@@ -28,9 +29,19 @@ const soundPlayer = new Drums(new AudioContext(), { instrument: 'TR-808' })
 
 type PlayType = '' | 'player' | 'answer'
 
-export default function DrumMachine({ }) {
+type props = {
+    answerRows: GameContentType
+    gameTimer: number,
+    userInput: GameContentType,
+    setUserInput: Function,
+    gameStarted: boolean,
+    setGameStarted: Function
+
+}
+// TODO: REMOVE TEMP ANSWER_ROWS
+export default function DrumMachine({answerRows=ANSWER_ROWS, userInput, setUserInput, gameStarted, setGameStarted}: props) { 
     const [userInputRows, setUserInputRows] = useState<boolean[][]>(INIT_ROWS); // rows of drum input by the user
-    const [answerRows, setAnswerRows] = useState(ANSWER_ROWS);
+    // const [answerRows, setAnswerRows] = useState(ANSWER_ROWS);
     const [currBeat, setCurrBeat] = useState(0);
     const [bpm, setBpm] = useState(100);
     const [beatType, setBeatType] = useState<PlayType>('') // whether to play the answer sequence or the player input sequence - ''

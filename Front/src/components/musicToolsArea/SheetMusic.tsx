@@ -2,11 +2,12 @@ import { useEffect, useRef } from 'react';
 import { Factory as FactoryType } from 'vexflow/core';
 // @ts-ignore
 import { Factory } from 'vexflow'
+import type { GameContentType } from '../../types/GameSessionTypes';
 
 
 type props = {
-  notesArr: string[],
-  answersArr?: string[] | null
+  notesArr: GameContentType,
+  answersArr?: GameContentType | null,
   showAnswers?: boolean
   containerId: string
 }

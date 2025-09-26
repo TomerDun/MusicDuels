@@ -43,3 +43,17 @@
 .icon-box {
     @apply text-white flex items-center justify-center w-16 h-16 rounded-sm
 }
+
+/* Music */
+
+.drum-tile {
+    @apply w-12 h-12 bg-sky-300 rounded-md border-2 border-white flex justify-center items-center cursor-pointer !transition-normal
+}
+
+.drum-tile.active {
+    @apply bg-amber-300
+}
+
+.drum-tile.on-beat {
+    @apply !border-4
+}

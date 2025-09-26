@@ -1,0 +1,170 @@
+import { useEffect, useState } from "react";
+import { BpmToMs } from "../../utils/musicUtils";
+import { DrumMachine as Drums } from "smplr";
+import { IconPlayerPause, IconPlayerPlay } from "@tabler/icons-react";
+import type { GameContentType } from "../../types/GameSessionTypes";
+
+const SOUNDS = [
+    'kick',
+    'snare',
+    'hihat-close',
+    'hihat-open'
+]
+
+const INIT_ROWS = [
+    [false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false, false],
+]
+
+const ANSWER_ROWS = [ // MOCK
+    [true, false, false, true, true, false, false, false],
+    [false, false, true, false, false, false, true, false],
+    [true, false, true, false, true, false, true, true],
+]
+
+console.log('...one time loading...');
+
+const soundPlayer = new Drums(new AudioContext(), { instrument: 'TR-808' })
+
+type PlayType = '' | 'player' | 'answer'
+
+type props = {
+    answerRows: GameContentType
+    gameTimer: number,
+    userInput: GameContentType,
+    setUserInput: Function,
+    gameStarted: boolean,
+    setGameStarted: Function
+
+}
+// TODO: REMOVE TEMP ANSWER_ROWS
+export default function DrumMachine({answerRows=ANSWER_ROWS, userInput, setUserInput, gameStarted, setGameStarted}: props) { 
+    const [userInputRows, setUserInputRows] = useState<boolean[][]>(INIT_ROWS); // rows of drum input by the user
+    // const [answerRows, setAnswerRows] = useState(ANSWER_ROWS);
+    const [currBeat, setCurrBeat] = useState(0);
+    const [bpm, setBpm] = useState(100);
+    const [beatType, setBeatType] = useState<PlayType>('') // whether to play the answer sequence or the player input sequence - ''
+    const [drumInterval, setDrumInterval] = useState(0) // the interval for playing a beat
+
+
+
+    // Load soundplayer on mount
+    useEffect(() => {
+        soundPlayer.load.then(() => {
+            console.log('🎧 Sound player ready...');
+            // console.log(soundPlayer.getGroupNames());            
+        })
+
+        return () => {
+            clearInterval(drumInterval);
+            console.log('❌ (unmount) Clearing drum interval...');
+        }
+    }, [])
+
+
+    // Start or stop the beat playing interval
+    useEffect(() => {
+        clearInterval(drumInterval);
+        console.log('❌ Clearing drum interval...');
+
+        if (beatType) {
+            playBeat();
+            let interval: number = setInterval(() => setCurrBeat(prev => prev >= 7 ? 0 : prev + 1), BpmToMs(bpm) / 2);
+            setDrumInterval(interval);
+            console.log('🥁 Starting beat interval');
+        }
+        else { //beat stopped
+            setCurrBeat(0);
+        }
+
+    }, [beatType])
+
+    // play a beat eveytime the current beat switches
+    useEffect(() => {
+        if (beatType) playBeat();
+    }, [currBeat])
+
+    function playBeat() {
+        let output = 'Playing '
+        const drumRows = (beatType === 'answer') ? answerRows : userInputRows;
+
+        drumRows.forEach((row, index) => {
+            if (row[currBeat]) {
+                output += SOUNDS[index];
+                soundPlayer.start({ note: SOUNDS[index] })
+            }
+        })
+
+        console.log(`Beat ${currBeat}: `, output);
+    }
+
+    function updateSequence(row: number, tile: number) {
+        const newRows = userInputRows.map((drumRow, rowIndex) => {
+            const newRow = [...drumRow];
+            if (rowIndex === row) {
+                newRow[tile] = !newRow[tile];
+            }
+            return newRow;
+        })
+
+        setUserInputRows(newRows);
+    }
+
+    function toggleDrumMachinePlay(playType: PlayType) {
+        if (beatType === '') { setBeatType(playType); }
+        else setBeatType('');
+    }
+
+
+
+
+    return (
+        <div className="page-outside-container from-yellow-500 to-yellow-600">
+            <div className="page-content-container flex flex-col items-center">
+
+                <div id="header-row" className="mb-4">
+                    <div className="bg-white/30 p-4 border-2 border-white rounded-md">Rythm Master</div>
+                </div>
+
+                <div id="buttons-row" className="flex justify-evenly w-[30%]">
+                    <div onClick={() => toggleDrumMachinePlay('answer')} id="answer-player" className="bg-white/30 p-4 border-2 border-white rounded-md mb-12 flex gap-2 text-white cursor-pointer interactive">
+                        Play Sequence
+                        {
+                            beatType === 'answer'
+                                ? <IconPlayerPause color="white" />
+                                : <IconPlayerPlay color="white" />
+                        }
+                    </div>
+
+                    <div onClick={() => toggleDrumMachinePlay('answer')} id="answer-player" className="bg-white/30 p-4 border-2 border-white rounded-md mb-12 flex gap-2 text-white cursor-pointer interactive">
+                        Submit
+                    </div>
+                </div>
+
+
+                {/* <div id="drum-machine" className="border-2 rounded-lg p-12 bg-gray"> */}
+                <div id="drum-machine" className="border-2 rounded-lg p-12 bg-gray bg-gradient-to-br from-gray-500 via-gray-400 to-gray-600 border-gray-200/50 shadow-md">
+                    <div id="drum-machine-button-row" className="mb-16 justify-evenly flex">
+                        <div className="drum-tile">{currBeat + 1}</div>
+                        <div onClick={() => toggleDrumMachinePlay('player')} className="border-2 border-white bg-amber-500 rounded-md interactive cursor-pointer p-2 flex items-center justify-center">
+                            {
+                                beatType === 'player'
+                                    ? <IconPlayerPause color="white" />
+                                    : <IconPlayerPlay color="white" />
+                            }
+                        </div>
+                    </div>
+                    {userInputRows.map((row, rowIndex) => {
+                        return (
+                            <div key={rowIndex} className="flex gap-4 mb-7">
+                                {row.map((tileValue, tileIndex) => <div key={tileIndex} onClick={() => updateSequence(rowIndex, tileIndex)} className={`drum-tile interactive ${tileValue && 'active'} ${(currBeat == tileIndex && beatType === 'player') && 'on-beat'}`}>{SOUNDS[rowIndex][0]}</div>)}
+                            </div>
+                        )
+                    })}
+
+                </div>
+            </div>
+        </div>
+    )
+}

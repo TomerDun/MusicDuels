@@ -4,16 +4,15 @@ import { KeyboardShortcuts, Piano, MidiNumbers } from 'react-piano';
 import 'react-piano/dist/styles.css'
 import { Soundfont } from 'smplr';
 import SheetMusic from '../components/musicToolsArea/SheetMusic'
-import type { GameContentType } from '../types/GameSessionTypes';
 // import { useMIDI, type NoteEvent } from '../utils/midiUtils'
 
 type props = {
-    answerNotes: GameContentType
+    answerNotes: string[],
     gameTimer: number,
     setUserInput: Function,
     paused: boolean,
     setPaused: Function,
-    userInput: GameContentType // Actually string[]
+    userInput: string[],
     betweenRounds: boolean,
 }
 

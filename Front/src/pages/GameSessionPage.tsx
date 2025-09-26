@@ -3,18 +3,19 @@ import { useNavigate, useParams } from "react-router";
 import { callApi } from "../utils/serverUtils";
 import { Loader } from "@mantine/core";
 import SightReaderPage from "./SightReaderPage";
-import type { GameSessionType } from "../types/GameSessionTypes";
+import type { GameContentType, GameSessionType } from "../types/GameSessionTypes";
 import Modal from "../components/MiscArea/Modal";
+import DrumMachine from "../components/musicToolsArea/DrumMachine";
 
 export default function GameSessionPage() {
 
     const [gameSession, setGameSession] = useState<GameSessionType | null>(null);
     const [currentRound, setCurrentRound] = useState<number>(0);
     const [gameRounds, setGameRounds] = useState<number | null>(null);
-    const [paused, setPaused] = useState(true);
+    const [gameStarted, setGameStarted] = useState(true);
     const [gameTimer, setGameTimer] = useState(0);
     const [timerInterval, setTimerInverval] = useState(0);
-    const [userInput, setUserInput] = useState<string[]>([]); // the user input FOR THE CURRENT ROUND
+    const [userInput, setUserInput] = useState<GameContentType>([]); // the user input FOR THE CURRENT ROUND
     const [correctInputCount, setCorrectInputCount] = useState(0); // the amount of inputs from the user that are correct (updated after every round)
     const [betweenRounds, setBetweenRounds] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
@@ -33,7 +34,7 @@ export default function GameSessionPage() {
 
     // Start | Stop Timer
     useEffect(() => {
-        if (paused === false) {
+        if (gameStarted === false) {
             console.log('Staring game');
 
             const intervalId = setInterval(() => setGameTimer(prev => prev + 1), 1000);
@@ -42,7 +43,7 @@ export default function GameSessionPage() {
         else {
             clearInterval(timerInterval);
         }
-    }, [paused])
+    }, [gameStarted])
 
     useEffect(() => {
         if (gameSession) {
@@ -123,7 +124,8 @@ export default function GameSessionPage() {
     function renderGamePage() {
         if (gameSession) {
             switch (gameSession.gameType) {
-                case 'sight-read': return <SightReaderPage betweenRounds={betweenRounds} answerNotes={gameSession.content[currentRound]} gameTimer={gameTimer} userInput={userInput} setUserInput={setUserInput} paused={paused} setPaused={setPaused} />
+                case 'sight-read': return <SightReaderPage betweenRounds={betweenRounds} answerNotes={gameSession.content[currentRound]} gameTimer={gameTimer} userInput={userInput} setUserInput={setUserInput} paused={gameStarted} setPaused={setGameStarted} />
+                case 'rythm-master': return <DrumMachine answerRows={gameSession.content[currentRound]} gameTimer={gameTimer} userInput={userInput} setUserInput={setUserInput} gameStarted={gameStarted} setGameStarted={setGameStarted} />
             }
         }
     }

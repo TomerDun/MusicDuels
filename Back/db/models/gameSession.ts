@@ -76,6 +76,13 @@ export class GameSession extends Model {
     @Column(DataType.TEXT)
     imageUrl?: string;
 
+    @AllowNull(true)
+    @Validate({
+        len: [1, 30]
+    })
+    @Column(DataType.TEXT)
+    inspiration?: string;
+
     @CreatedAt
     createdAt!: Date;
 

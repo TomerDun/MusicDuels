@@ -36,5 +36,11 @@ export const gameSessionValidationSchema = [
     .isString().withMessage('winnerId must be a string'),
     body('content')
     .optional() //may not be optional
-    .isString().withMessage('content must be string') //might be JSON
+    .trim()
+    .isString().withMessage('content must be string'), //might be JSON
+    body('inspiration')
+    .optional()
+    .trim()
+    .isString().withMessage('inspiration must be string')
+    .isLength({ min: 1, max: 30 }).withMessage('inspiration must be between 1 and 30 characters')
 ]

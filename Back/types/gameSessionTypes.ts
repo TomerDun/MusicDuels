@@ -6,5 +6,6 @@ export type newGameSession = {
     player1Id: string,
     player2Id: string,
     gameType: GameTypes,
-    player1Score: number
+    player1Score: number,
+    inspiration?:string
 }

@@ -40,8 +40,8 @@ function NotificationBox({notification,handleDismiss,handleGameAccept,handleGame
                             <div>
                                 {notification.recieverUsername} has declined the challange.
                             </div>
-                            <div id="button-section" className="glass-container">
-                                <button onClick={handleDismiss}>
+                            <div id="button-section" className="flex max-h-10 mt-4">
+                                <button onClick={handleDismiss} className="decline-invite-button interactive w-full">
                                     Dismiss
                                 </button>
                             </div>

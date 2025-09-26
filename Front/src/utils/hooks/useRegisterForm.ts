@@ -5,13 +5,21 @@ export function useRegisterForm() {
 
     const form = useForm({
         mode: 'uncontrolled',
+        // initialValues: {
+        //     email: 'itai@gmail.com',
+        //     password: '1234',
+        //     username: 'itai',
+        //     instruments: 'aaaa',
+        //     skillLevel: 'pro' as SkillLevel,
+        //     profileImageFile: null as null|File
+        // },
         initialValues: {
-            email: 'itai@gmail.com',
-            password: '1234',
-            username: 'itai',
-            instruments: 'aaaa',
-            skillLevel: 'pro' as SkillLevel,
-            profileImageFile: null as null|File
+            email: '',
+            password: '',
+            username: '',
+            instruments: '',
+            skillLevel: '' as SkillLevel,
+            profileImageFile: null as null | File
         },
 
         validate: {

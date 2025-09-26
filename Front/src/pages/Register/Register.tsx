@@ -1,14 +1,16 @@
 import { Loader, Select, Text, TextInput } from "@mantine/core";
+import { Dropzone } from '@mantine/dropzone';
+import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import Stepper, { Step } from '../../components/authArea/Stepper';
-import classes from "./Register.module.css";
-import { Dropzone } from '@mantine/dropzone';
+import { userStore } from "../../stores/UserStore";
+import { onRegister } from "../../utils/authUtils";
 import { SkillLevel, validateRegisterFormByStep } from "../../utils/formUtils";
 import { useRegisterForm } from "../../utils/hooks/useRegisterForm";
-import { onRegister } from "../../utils/authUtils";
+import classes from "./Register.module.css";
 
-export function Register() {
+function Register() {
 
     const [currentStep, setCurrentStep] = useState(1); // control displayed step
     const [image, setImage] = useState<File | null>(null); // control displayed step
@@ -17,7 +19,7 @@ export function Register() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (localStorage.getItem('token')) navigate('/leaderboard');
+        if (userStore.activeUser) navigate('/');
     }, [])
 
     function handleStepChange(step: number) {
@@ -159,3 +161,5 @@ export function Register() {
         </div>
     );
 }
+
+export default observer(Register)

@@ -1,10 +1,9 @@
 import { Burger, Container, Group, Image, Menu } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconCoins, IconHome, IconLogin2, IconLogout2, IconPiano, IconUsers } from '@tabler/icons-react';
+import { IconCoins, IconHome, IconLogin2, IconLogout2, IconUsers } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
-import { NavLink, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import finTalkLogo from '../../../assets/fin-talk-logo.png';
-import avatar from '../../../assets/avatar.png';
 import { CustomNavLink } from './CustomNavLink';
 import classes from './Navbar.module.css';
 import { userStore } from '../../../stores/UserStore';
@@ -16,14 +15,11 @@ export type Item = {
     icon: any
 }
 
-const links: Item[] = [
-    { link: '/leaderboard', label: 'Leaderboard', icon: <IconUsers size={20} /> },
-    { link: '/', label: 'Dashboard', icon: <IconHome size={20} /> },
-    { link: '/games/sight-reader', label: 'Sight Read', icon: <IconPiano size={20} /> },
-];
-
-const loginItem = { link: '/login', label: 'Login', icon: <IconLogin2 size={20} /> }
-const logoutItem = { link: '/leaderboard', label: 'Logout', icon: <IconLogout2 size={20} /> }
+const leaderboardItem: Item = { link: '/', label: 'Leaderboard', icon: <IconUsers size={20} /> };
+const dashboardItem: Item = { link: '/dashboard', label: 'Dashboard', icon: <IconHome size={20} /> };
+const loginItem: Item = { link: '/login', label: 'Login', icon: <IconLogin2 size={20} /> };
+const logoutItem: Item = { link: '/', label: 'Logout', icon: <IconLogout2 size={20} /> };
+const defaultProfileImageURL = 'https://media.istockphoto.com/id/1827161900/vector/black-man-with-headphones-guy-profile-avatar-african-man-listen-to-music-on-headphones.jpg?s=612x612&w=0&k=20&c=_t2-yhOSi4yt6IrFo1SYriRjiBqjYkk_YyYpZogmW50='
 
 function Navbar() {
 
@@ -37,12 +33,6 @@ function Navbar() {
         navigate(link);
     }
 
-    // TODO: change redirect from login page to feed page
-    async function handleLogout() {
-        onLogout();
-        userStore.logoutUser();
-    }
-
     return (
         <header className={`${classes.header} bg-black/20 backdrop-blur-lg`}>
             <Container fluid className={classes.inner}>
@@ -53,16 +43,20 @@ function Navbar() {
                 />
                 {/* full size menu */}
                 <Group gap={5} visibleFrom="xs">
-                    {links.map((link) => (
-                        <CustomNavLink
-                            key={link.label}
-                            item={link}
-                            opened={opened} toggle={toggle} />
-                    ))}
+                    <CustomNavLink
+                        key={leaderboardItem.label}
+                        item={leaderboardItem}
+                        opened={opened} toggle={toggle} />
                     {userStore.activeUser
-                        ? <div onClick={async () => await handleLogout()}>
-                            <CustomNavLink item={logoutItem} opened={opened} toggle={toggle} />
-                        </div>
+                        ? <>
+                            <CustomNavLink
+                                key={dashboardItem.label}
+                                item={dashboardItem}
+                                opened={opened} toggle={toggle} />
+                            <div onClick={() => onLogout()}>
+                                <CustomNavLink item={logoutItem} opened={opened} toggle={toggle} />
+                            </div>
+                        </>
                         :
                         <CustomNavLink item={loginItem} opened={opened} toggle={toggle} />
                     }
@@ -70,17 +64,15 @@ function Navbar() {
 
                 <Group gap={15}>
                     {activeUser &&
-                        <Group gap={5}>{activeUser.totalScore} <IconCoins /></Group>
+                        <Group gap={5}>{activeUser.totalScore} <IconCoins color={'yellow'} /></Group>
                     }
-                    <NavLink to={'/profile'} title='profile'>
-                        <Image
-                            src={activeUser?.profileImageUrl
-                                ? activeUser.profileImageUrl
-                                : avatar}
-                            alt="Avatar Logo"
-                            className={classes.image}
-                        />
-                    </NavLink>
+                    <Image
+                        src={activeUser?.profileImageUrl
+                            ? activeUser.profileImageUrl
+                            : defaultProfileImageURL}
+                        alt="Avatar Logo"
+                        className={classes.image}
+                    />
                 </Group>
 
                 {/* burger menu */}
@@ -94,25 +86,33 @@ function Navbar() {
                         <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" title='navigate' />
                     </Menu.Target>
                     <Menu.Dropdown>
-                        {links.map(link => (
-                            <Menu.Item
-                                key={link.label}
-                                leftSection={link.icon}
-                                onClick={() => handleClick(link.link)}
-                            >
-                                {link.label}
-                            </Menu.Item>))}
+                        <Menu.Item
+                            key={leaderboardItem.label}
+                            leftSection={leaderboardItem.icon}
+                            onClick={() => handleClick(leaderboardItem.link)}
+                        >
+                            {leaderboardItem.label}
+                        </Menu.Item>
                         {userStore.activeUser
-                            ? <Menu.Item
-                                key={logoutItem.label}
-                                leftSection={logoutItem.icon}
-                                onClick={async () => {
-                                    handleClick(logoutItem.link);
-                                    await handleLogout();
-                                }}
-                            >
-                                {logoutItem.label}
-                            </Menu.Item>
+                            ? <>
+                                <Menu.Item
+                                    key={dashboardItem.label}
+                                    leftSection={dashboardItem.icon}
+                                    onClick={() => handleClick(dashboardItem.link)}
+                                >
+                                    {dashboardItem.label}
+                                </Menu.Item>
+                                <Menu.Item
+                                    key={logoutItem.label}
+                                    leftSection={logoutItem.icon}
+                                    onClick={() => {
+                                        handleClick(logoutItem.link);
+                                        onLogout();
+                                    }}
+                                >
+                                    {logoutItem.label}
+                                </Menu.Item>
+                            </>
                             :
                             <Menu.Item
                                 key={loginItem.label}

@@ -6,13 +6,14 @@ import { Link, useNavigate } from 'react-router';
 import { onLogin } from '../../utils/authUtils';
 import { validateEmail, validatePassword } from '../../utils/formUtils';
 import classes from './Login.module.css';
+import { userStore } from '../../stores/UserStore';
 
 function Login() {
     const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (localStorage.getItem('token')) navigate('/leaderboard');
+        if (userStore.activeUser) navigate('/dashboard');
     }, [])
 
     const form = useForm({

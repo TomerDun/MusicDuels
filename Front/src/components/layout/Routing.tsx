@@ -1,29 +1,34 @@
 import { Route, Routes } from "react-router";
 import DashboardPage from "../../pages/DashboardPage";
-import LeaderboardPage from "../../pages/LeaderboardPage";
-import SightReaderPage from "../../pages/SightReaderPage";
-import Login from "../../pages/Login/Login";
-import { Register } from "../../pages/Register/Register";
 import GameSessionPage from "../../pages/GameSessionPage";
-import ProtectedRoute from "../authArea/ProtectedRoute";
+import LeaderboardPage from "../../pages/LeaderboardPage";
+import Login from "../../pages/Login/Login";
 import { PageNotFound } from "../../pages/PageNotFound/PageNotFound";
+import Register from "../../pages/Register/Register";
+import SightReaderPage from "../../pages/SightReaderPage";
+import ProtectedRoute from "../authArea/ProtectedRoute";
 import DrumMachine from "../musicToolsArea/DrumMachine.js";
 
 
 export function Routing() {
     return (
         <Routes>
-            <Route path="/" element={
+            <Route path="/dashboard" element={
                 <ProtectedRoute>
                     <DashboardPage />
                 </ProtectedRoute>
-            }
-            />
+            } />
 
-            {/* @ts-expect-error - Missing props will be added later */}
-            <Route path="/games/sight-reader" element={<SightReaderPage />} />
-            <Route path="/games/:gameSessionId" element={<GameSessionPage />} />
-            <Route path="/leaderboard" element={<LeaderboardPage />} />
+            <Route path="/games/sight-reader" element={
+                <ProtectedRoute>
+                    {/* @ts-expect-error - Missing props will be added later */}
+                    <SightReaderPage />
+                </ProtectedRoute>} />
+            <Route path="/games/:gameSessionId" element={
+                <ProtectedRoute>
+                    <GameSessionPage />
+                </ProtectedRoute>} />
+            <Route path="/" element={<LeaderboardPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<PageNotFound />} />

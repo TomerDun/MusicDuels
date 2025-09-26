@@ -17,21 +17,30 @@ class UserStore {
     }
 
     async loadActiveUser() {
-        const user = await fetchActiveUser()
-        console.log('this.loadActiveUser user', user);
-        runInAction(() => {
-            this.activeUser = user;
-        })
+        try {
+            const user = await fetchActiveUser()
+            console.log('this.loadActiveUser user', user);
+            runInAction(() => {
+                this.activeUser = user;
+            })
+        }
+        catch (err) {
+            console.log('tried to load user into activeUserStore but failed');
+            throw err
+        }
     }
 
     async loadActiveUserStats() {
-        const userId = localStorage.getItem('userId') as string;
-        const userStats = await fetchUserStats(userId);
+        if (this.activeUser) {
+            const userStats = await fetchUserStats(this.activeUser.id);
 
-        runInAction(() => {
-            this.activeUserStats = userStats;
-        })
-
+            runInAction(() => {
+                this.activeUserStats = userStats;
+            })
+        }
+        else {
+                throw new Error('tried to load active user stats but no active user loaded');
+            }        
     }
 
     logoutUser() {

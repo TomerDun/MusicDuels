@@ -10,28 +10,17 @@ export async function fetchUser(userId: string) {
 }
 
 export async function fetchActiveUser() {
-    try {
-        return await callApi('/users/active');
-    } catch (err) {
-        console.log(err);
-    }
+    return await callApi('/users/active');
+
 }
 
 // TODO: change to patch totalScore
 export async function updateUser(userId: string, userData: any) {
-    const response = await callApi(`/users/profiles/${userId}`, 'PUT', userData);
-    if (!response.ok)
-        throw new Error('error updating user');
-    const updatedUser = await response.json();
+    const updatedUser = await callApi(`/users/profiles/${userId}`, 'PUT', userData);
     return updatedUser;
 }
 
 export async function fetchUserStats(userId: string) {
-    const response = await callApi(`/users/stats/${userId}`);
-    if (!response.ok) {
-        throw new Error('error fetching user stats');
-    }
-    const stats = await response.json()
-    console.log("fetching user stats: ", stats)
+    const stats = await callApi(`/users/stats/${userId}`);
     return stats;
 }

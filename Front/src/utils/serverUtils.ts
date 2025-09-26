@@ -14,7 +14,6 @@ export function authHeaders() {
     return { 'Authorization': tokenHeader };
 }
 
-
 type callApiOptions = {
     addAuthHeader?: boolean
     contentType?: string
@@ -40,18 +39,14 @@ export async function callApi(endpoint: string, method: string = 'GET', body?: o
 
     // Add auth headers
     if (token === null) {
-        token = localStorage.getItem('token');
-        if (!token) throw new Error('Could not add auth headers - token not available in localStorage')
+        token = localStorage.getItem('token');        
     }
     if (token !== false) headers['Authorization'] = 'Bearer ' + token;
 
     const res = await fetch(url, { method: method, headers: headers, body: requestBody })
     const data = await res.json();
 
-    if (!res.ok) {
-        throw data;
-        // throw new Error(data);
-    }
+    if (!res.ok) throw data;
 
     return data;
 }

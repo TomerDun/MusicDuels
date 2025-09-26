@@ -37,12 +37,6 @@ function Navbar() {
         navigate(link);
     }
 
-    // TODO: change redirect from login page to feed page
-    async function handleLogout() {
-        onLogout();
-        userStore.logoutUser();
-    }
-
     return (
         <header className={`${classes.header} bg-black/20 backdrop-blur-lg`}>
             <Container fluid className={classes.inner}>
@@ -60,7 +54,7 @@ function Navbar() {
                             opened={opened} toggle={toggle} />
                     ))}
                     {userStore.activeUser
-                        ? <div onClick={async () => await handleLogout()}>
+                        ? <div onClick={() => onLogout()}>
                             <CustomNavLink item={logoutItem} opened={opened} toggle={toggle} />
                         </div>
                         :
@@ -106,9 +100,9 @@ function Navbar() {
                             ? <Menu.Item
                                 key={logoutItem.label}
                                 leftSection={logoutItem.icon}
-                                onClick={async () => {
+                                onClick={() => {
                                     handleClick(logoutItem.link);
-                                    await handleLogout();
+                                    onLogout();
                                 }}
                             >
                                 {logoutItem.label}

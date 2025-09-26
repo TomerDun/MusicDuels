@@ -17,8 +17,8 @@ function Login() {
 
     const form = useForm({
         mode: 'uncontrolled',
-        // initialValues: { email: '', password: '' },
-        initialValues: { email: 'itai@gmail.com', password: '1234' },
+        initialValues: { email: '', password: '' },
+        // initialValues: { email: 'itai@gmail.com', password: '1234' },
         validate: {
             email: (value) => validateEmail(value),
             password: (value) => validatePassword(value)

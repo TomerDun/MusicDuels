@@ -12,20 +12,25 @@ import { Loader } from "@mantine/core";
 import type { Notification } from "../types/NotificationTypes";
 import { acceptInviteNotification, declineInviteNotification, dismissDeclinedNotification, getActiveUserNotifications } from "../services/NotificationService";
 import NotificationBox from "../components/NotificationsArea/NotificationBox";
+import { getActiveUserCompletedGameHistory } from "../services/gameSessionService";
+import GameHistoryItem from "../components/gameHistoryItem";
+import type { GameHistoryItemType } from "../types/GameSessionTypes";
 
-function DashboardPage({ }) {
+function DashboardPage({}) {
 
     const [modalOpen, setModalOpen] = useState(false);
     const [challengeGame, setChallengeGame] = useState<null | string>(null) // which game type the player has chosen as a challenge
     const [challengePlayer, setChallengePlayer] = useState<null | string>(null) // playerId of the opponent
     const [leaderboardItems, setLeaderboardItems] = useState<LeaderboardItemType[]>([]);
     const [notifications, setNotifications] = useState<Notification[]>([]);
+    const [gameHistory, setGameHistory] = useState<GameHistoryItemType[]>([]);
     const activeUser = userStore.activeUser;
     const navigate = useNavigate();
 
     useEffect(() => {
-        updateLeaderboard();
-        updateNotifications();
+        loadLeaderboard();
+        loadNotifications();
+        loadGameHistory();
     }, [])
 
     // After selecing an opponent, create a new game
@@ -38,19 +43,24 @@ function DashboardPage({ }) {
 
     // -- Handler Functions --
 
-    async function updateLeaderboard() {
+    async function loadLeaderboard() {
         const res = await getGlobalLeaderboard();
         setLeaderboardItems(res);
     }
 
-    async function updateNotifications() {
+    async function loadNotifications() {
         const res = await getActiveUserNotifications();
         setNotifications(res);
     }
 
+    async function loadGameHistory(){
+        const res = await getActiveUserCompletedGameHistory();
+        setGameHistory(res);
+    }
+
     async function dismissNotification(notification: Notification) {
         await dismissDeclinedNotification(notification);
-        await updateNotifications();
+        await loadNotifications();
     }
 
     async function acceptInvite(notification: Notification) {
@@ -60,7 +70,7 @@ function DashboardPage({ }) {
 
     async function declineInvite(notification: Notification) {
         await declineInviteNotification(notification);
-        await updateNotifications();
+        await loadNotifications();
     }
 
     async function startGame() {
@@ -159,6 +169,9 @@ function DashboardPage({ }) {
                                 />
                         )
                     }
+                </div>
+                <div className="glass-container">
+                    {gameHistory.map((h:GameHistoryItemType,i) => <GameHistoryItem key={i} item={h} activeUserId={activeUser?.id}/>)}
                 </div>
             </div>
         </div>

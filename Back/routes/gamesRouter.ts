@@ -1,12 +1,12 @@
 import express from "express";
-import { startPractice, startGameSession, getGameSession, acceptGameSession, finishGameSession, declineGameSession, deleteGameSession, getActiveUserCompletedGameSessions } from "../controllers/gameSessionController";
+import { startPractice, startGameSession, getGameSession, acceptGameSession, finishGameSession, declineGameSession, deleteGameSession, getActiveUserCompletedGameHistory } from "../controllers/gameSessionController";
 import { gameSessionValidationSchema } from "../utils/validationSchemas/gameSessionSchema";
 import { validationHandler } from "../middlewares/validationHandler";
 import { protectedRoute } from "../middlewares/authMiddleware";
 
 const router = express.Router({mergeParams:true});
 
-router.get("/session/active", protectedRoute, getActiveUserCompletedGameSessions);
+router.get("/session/active", protectedRoute, getActiveUserCompletedGameHistory);
 router.get("/session/:gameSessionId", protectedRoute, getGameSession);
 router.patch("/session/:gameSessionId/accept", protectedRoute, acceptGameSession);
 router.patch("/session/:gameSessionId/decline", protectedRoute, declineGameSession);

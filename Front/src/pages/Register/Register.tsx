@@ -32,8 +32,7 @@ export function Register() {
             // const { email, password, username, profileImageFile, instruments, skillLevel } = form.getValues();
 
             // create new user in DB and update storage
-            const newUser = await onRegister({ username, email, password, profileImageFile });
-            console.log("handle complete register new user", newUser);
+            await onRegister({ username, email, password, profileImageFile });
 
             navigate('/');
         } catch (error: any) {
@@ -109,7 +108,6 @@ export function Register() {
                         {...form.getInputProps('skillLevel')}
                     />
                     <TextInput
-                        withAsterisk
                         type="string"
                         label="instruments"
                         placeholder="Insert the instruments you play on"

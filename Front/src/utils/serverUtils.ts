@@ -40,8 +40,7 @@ export async function callApi(endpoint: string, method: string = 'GET', body?: o
 
     // Add auth headers
     if (token === null) {
-        token = localStorage.getItem('token');
-        if (!token) throw new Error('Could not add auth headers - token not available in localStorage')
+        token = localStorage.getItem('token');        
     }
     if (token !== false) headers['Authorization'] = 'Bearer ' + token;
 

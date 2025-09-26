@@ -10,11 +10,8 @@ export async function fetchUser(userId: string) {
 }
 
 export async function fetchActiveUser() {
-    try {
-        return await callApi('/users/active');
-    } catch (err) {
-        console.log(err);
-    }
+    return await callApi('/users/active');
+
 }
 
 // TODO: change to patch totalScore

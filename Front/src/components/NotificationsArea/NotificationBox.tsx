@@ -66,7 +66,7 @@ function NotificationBox({notification,handleDismiss,handleGameAccept,handleGame
                                 </button>
                                 <button
                                     onClick={handleGameDecline}
-                                    className="decline-invite-button">
+                                    className="decline-invite-button interactive">
                                     Decline
                                 </button>
                             </div>

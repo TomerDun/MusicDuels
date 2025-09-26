@@ -28,7 +28,7 @@ export function Routing() {
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<PageNotFound />} />
             {/* 404 */}
-                <Route path="/games/beat-copy" element={<DrumMachine />}/>               
+                <Route path="/games/rythm-master" element={<DrumMachine />}/>               
         </Routes >
     );
 }

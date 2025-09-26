@@ -3,17 +3,12 @@
 import { userStore } from "../stores/UserStore";
 import type { RegisterRequest } from "../types/AuthTypes";
 import type { User } from "../types/UserTypes";
-import { API_URL } from "./serverUtils";
+import { callApi, callApiFormData } from "./serverUtils";
 
 export async function onLogin(email: string, password: string) {
-    const body = JSON.stringify({ email, password })
+    const body = { email, password }
     try {
-        const res = await fetch(API_URL + '/auth/login', { body: body, method: 'POST', headers: { 'Content-Type': 'application/json' } });
-        if (!res.ok) {
-            const err = await res.json();
-            throw new Error(err.message);
-        }
-        const data = await res.json();
+        const data = await callApi('/auth/login', 'POST', body, { addAuthHeader: false });
         const user = data.user as User;
 
         localStorage.setItem('token', data.token);
@@ -22,7 +17,7 @@ export async function onLogin(email: string, password: string) {
 
         return data;
     }
-    catch (err) {
+    catch (err:any) {
         console.error('error fetching login: ', err)
         throw err;
     }
@@ -40,23 +35,9 @@ export async function onRegister(body: RegisterRequest) {
         if (body.profileImageFile)
             formData.append('profileImageFile', body.profileImageFile);
 
-        const res = await fetch(API_URL + '/auth/register', {
-            body: formData,
-            method: 'POST',
-        });
-        const data = await res.json();
-        const user = data.user as User;
+        const data = await callApiFormData('/auth/register', 'POST', formData);
 
-        if (!res.ok) {
-            // handle existing email or username
-            if (data.message.errors[0].type.includes('unique'))
-                throw new Error(
-                    data.message.errors[0].path === 'username'
-                        ? 'Username already exists!'
-                        : 'Email already exists!'
-                )
-            throw new Error(data.message);
-        }
+        const user = data.user as User;
 
         localStorage.setItem('token', data.token);
         localStorage.setItem('userId', user.id);
@@ -64,9 +45,16 @@ export async function onRegister(body: RegisterRequest) {
 
         return data;
     }
-    catch (err) {
+    catch (err: any) {
         console.error('error fetching register: ', err)
-        throw err;
+        if (err.message.errors[0].type.includes('unique')) {
+            throw new Error(
+                err.message.errors[0].path === 'username'
+                    ? 'Username already exists!'
+                    : 'Email already exists!'
+            )
+        }
+        throw new Error(err.message);
     }
 }
 

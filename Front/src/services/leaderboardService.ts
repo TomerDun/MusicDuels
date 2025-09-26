@@ -1,10 +1,11 @@
-import { API_URL } from "../utils/serverUtils";
+import { callApi } from "../utils/serverUtils";
 
-export async function getGlobalLeaderboard(){
-    const res = await fetch(`${API_URL}/leaderboard`);
-    if(!res.ok){
-        throw new Error('error fetching leaderboard');
+export async function getGlobalLeaderboard() {
+    try {
+        const items = await callApi(`/leaderboard`);
+        return items;
+    } catch (error) {
+        console.log('error fetching leaderboard');
+        throw error;
     }
-    const items = res.json();
-    return items;
 }

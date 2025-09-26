@@ -19,7 +19,7 @@ function Register() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (userStore.activeUser) navigate('/leaderboard');
+        if (userStore.activeUser) navigate('/');
     }, [])
 
     function handleStepChange(step: number) {

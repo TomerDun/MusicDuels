@@ -15,7 +15,7 @@ export function PageNotFound() {
                         page has been moved to another URL. If you think this is an error contact support.
                     </Text>
                     <Group justify="center">
-                        <Button color='dark' size="md"><Link to={'/leaderboard'}>Take me back to Leaderboard page</Link></Button>
+                        <Button color='dark' size="md"><Link to={'/'}>Take me back to Leaderboard page</Link></Button>
                     </Group>
                 </div>
             </div>

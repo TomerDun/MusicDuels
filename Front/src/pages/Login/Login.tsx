@@ -13,8 +13,7 @@ function Login() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (userStore.activeUser) navigate('/leaderboard');
-        // if (localStorage.getItem('token')) navigate('/leaderboard');
+        if (userStore.activeUser) navigate('/dashboard');
     }, [])
 
     const form = useForm({

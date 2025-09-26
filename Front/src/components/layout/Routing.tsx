@@ -12,17 +12,22 @@ import ProtectedRoute from "../authArea/ProtectedRoute";
 export function Routing() {
     return (
         <Routes>
-            <Route path="/" element={
+            <Route path="/dashboard" element={
                 <ProtectedRoute>
                     <DashboardPage />
                 </ProtectedRoute>
-            }
-            />
+            } />
 
-            {/* @ts-expect-error - Missing props will be added later */}
-            <Route path="/games/sight-reader" element={<SightReaderPage />} />
-            <Route path="/games/:gameSessionId" element={<GameSessionPage />} />
-            <Route path="/leaderboard" element={<LeaderboardPage />} />
+            <Route path="/games/sight-reader" element={
+                <ProtectedRoute>
+                    {/* @ts-expect-error - Missing props will be added later */}
+                    <SightReaderPage />
+                </ProtectedRoute>} />
+            <Route path="/games/:gameSessionId" element={
+                <ProtectedRoute>
+                    <GameSessionPage />
+                </ProtectedRoute>} />
+            <Route path="/" element={<LeaderboardPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<PageNotFound />} />

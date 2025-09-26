@@ -13,44 +13,60 @@ const INIT_ROWS = [
     [false, false, false, false, false, false, false, false],
     [false, false, false, false, false, false, false, false],
     [false, false, false, false, false, false, false, false],
-    [false, false, false, false, false, false, false, false],
+]
+
+const ANSWER_ROWS = [ // MOCK
+    [true, false, false, true, true, false, false, false],
+    [false, false, true, false, false, false, true, false],
+    [true, false, true, false, true, false, true, true],
 ]
 
 console.log('...one time loading...');
 
 const soundPlayer = new Drums(new AudioContext(), { instrument: 'TR-808' })
 
-export default function DrumMachine() {
-    const [drumRows, setDrumRows] = useState<boolean[][]>(INIT_ROWS);
+export default function DrumMachine({ }) {
+    const [userInputRows, setUserInputRows] = useState<boolean[][]>(INIT_ROWS); // rows of drum input by the user
+    const [answerRows, setAnswerRows] = useState(ANSWER_ROWS);
     const [currBeat, setCurrBeat] = useState(0);
     const [bpm, setBpm] = useState(100);
+    const [beatType, setBeatType] = useState<'' | 'player' | 'answer'>('') // whether to play the answer sequence or the player input sequence - ''
+    const [drumInterval, setDrumInterval] = useState(0) // the interval for playing a beat
 
 
 
+    // Load soundplayer on mount
     useEffect(() => {
-        console.log('Starting interval...');
-
-        let drumInterval: number;
         soundPlayer.load.then(() => {
-            console.log('🥁 Sound player ready...');
-            drumInterval = setInterval(() => setCurrBeat(prev => prev >= 7 ? 0 : prev + 1), BpmToMs(bpm) / 2);
-
-            console.log(soundPlayer.getGroupNames());
+            console.log('🎧 Sound player ready...');
+            // console.log(soundPlayer.getGroupNames());            
         })
 
         return () => {
             clearInterval(drumInterval);
-            console.log('Clearing drum interval...');
+            console.log('❌ (unmount) Clearing drum interval...');
         }
-    }, [bpm])
-
-    useEffect(playBeat, [currBeat]);
+    }, [])
 
 
+    // Start or stop the beat playing interval
+    useEffect(() => {
+        clearInterval(drumInterval);
+        console.log('❌ Clearing drum interval...');
 
+        if (beatType) {
+            let interval: number = setInterval(() => setCurrBeat(prev => prev >= 7 ? 0 : prev + 1), BpmToMs(bpm) / 2);
+            setDrumInterval(interval);
+            console.log('🥁 Starting beat interval');
+        }
+
+    }, [beatType])
+
+    useEffect(playBeat, [currBeat]); // play beat everytime currBeat changes (based on time interval)
 
     function playBeat() {
         let output = 'Playing '
+        const drumRows = (beatType === 'answer') ? answerRows : userInputRows;
 
         drumRows.forEach((row, index) => {
             if (row[currBeat]) {
@@ -86,8 +102,8 @@ export default function DrumMachine() {
                     </div>
                 )
             })}
-            
-            <div className="drum-tile">{currBeat+1}</div>
+
+            <div className="drum-tile">{currBeat + 1}</div>
         </div>
     )
 }

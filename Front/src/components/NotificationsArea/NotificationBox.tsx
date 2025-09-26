@@ -85,7 +85,7 @@ function NotificationBox({notification,handleDismiss,handleGameAccept,handleGame
     return (
         <div className="glass-container border flex flex-col !flex-[45%] w-[50%]">
             <div id="top-section" className="flex justify-between mb-4">
-                <div id="game-type-container">
+                <div id="game-type-container" className="font-bold">
                     {notification.gameType}
                 </div>
                 <div id="status-container" className="flex items-center gap-2">

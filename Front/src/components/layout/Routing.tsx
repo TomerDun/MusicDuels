@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router";
 import DashboardPage from "../../pages/DashboardPage";
-import LeaderboardPage from "../../pages/LeaderboardPage";
-import SightReaderPage from "../../pages/SightReaderPage";
-import Login from "../../pages/Login/Login";
-import { Register } from "../../pages/Register/Register";
 import GameSessionPage from "../../pages/GameSessionPage";
-import ProtectedRoute from "../authArea/ProtectedRoute";
+import LeaderboardPage from "../../pages/LeaderboardPage";
+import Login from "../../pages/Login/Login";
 import { PageNotFound } from "../../pages/PageNotFound/PageNotFound";
+import Register from "../../pages/Register/Register";
+import SightReaderPage from "../../pages/SightReaderPage";
+import ProtectedRoute from "../authArea/ProtectedRoute";
 
 
 export function Routing() {

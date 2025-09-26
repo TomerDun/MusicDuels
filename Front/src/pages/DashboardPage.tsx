@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react"
-import Modal from "../components/MiscArea/Modal";
+import { Loader } from "@mantine/core";
+import { observer } from "mobx-react-lite";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import GameHistoryItem from "../components/GameHistoryItem";
 import GameSelector from "../components/GamesArea/GameSelector";
 import Leaderboard from "../components/leaderboardArea/Leaderboard";
-import type { LeaderboardItemType } from "../types/LeaderboardTypes";
-import { getGlobalLeaderboard } from "../services/leaderboardService";
-import { observer } from "mobx-react-lite";
-import { userStore } from "../stores/UserStore";
-import { callApi } from "../utils/serverUtils";
-import { useNavigate } from "react-router";
-import { Loader } from "@mantine/core";
-import type { Notification } from "../types/NotificationTypes";
-import { acceptInviteNotification, declineInviteNotification, dismissDeclinedNotification, getActiveUserNotifications } from "../services/NotificationService";
+import Modal from "../components/MiscArea/Modal";
 import NotificationBox from "../components/NotificationsArea/NotificationBox";
 import { getActiveUserCompletedGameHistory } from "../services/gameSessionService";
-import GameHistoryItem from "../components/gameHistoryItem";
+import { getGlobalLeaderboard } from "../services/leaderboardService";
+import { acceptInviteNotification, declineInviteNotification, dismissDeclinedNotification, getActiveUserNotifications } from "../services/NotificationService";
+import { userStore } from "../stores/UserStore";
 import type { GameHistoryItemType } from "../types/GameSessionTypes";
+import type { LeaderboardItemType } from "../types/LeaderboardTypes";
+import type { Notification } from "../types/NotificationTypes";
+import { callApi } from "../utils/serverUtils";
 
 function DashboardPage({}) {
 

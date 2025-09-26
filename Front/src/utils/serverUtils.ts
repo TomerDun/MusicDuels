@@ -14,7 +14,6 @@ export function authHeaders() {
     return { 'Authorization': tokenHeader };
 }
 
-
 type callApiOptions = {
     addAuthHeader?: boolean
     contentType?: string
@@ -47,10 +46,7 @@ export async function callApi(endpoint: string, method: string = 'GET', body?: o
     const res = await fetch(url, { method: method, headers: headers, body: requestBody })
     const data = await res.json();
 
-    if (!res.ok) {
-        throw data;
-        // throw new Error(data);
-    }
+    if (!res.ok) throw data;
 
     return data;
 }

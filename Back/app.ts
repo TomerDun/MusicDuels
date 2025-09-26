@@ -14,6 +14,7 @@ import usersRouter from './routes/usersRouter';
 import gamesRouter from './routes/gamesRouter';
 import leaderboardRouter from './routes/leaderboardRouter';
 import notificationsRouter from './routes/notificationsRouter';
+import aiRouter from './routes/aiRouter';
 import './utils/types';
 import { Sequelize } from "sequelize";
 
@@ -41,6 +42,7 @@ app.use('/users', usersRouter);
 app.use('/games', gamesRouter);
 app.use('/leaderboard',leaderboardRouter);
 app.use('/notifications', notificationsRouter);
+app.use('/ai', aiRouter);
 
 // enable logs save
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })

@@ -14,6 +14,7 @@ export async function onLogin(email: string, password: string) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('userId', user.id);
         userStore.setActiveUser(user);
+        userStore.loadActiveUserStats();
 
         return data;
     }

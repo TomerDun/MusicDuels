@@ -109,24 +109,31 @@ export default function DrumMachine({ }) {
 
 
     return (
-        <div className="page-outside-container bg-green-400">
+        <div className="page-outside-container from-yellow-500 to-yellow-600">
             <div className="page-content-container flex flex-col items-center">
 
                 <div id="header-row" className="mb-4">
                     <div className="bg-white/30 p-4 border-2 border-white rounded-md">Rythm Master</div>
                 </div>
 
-                <div onClick={() => toggleDrumMachinePlay('answer')} id="answer-player" className="bg-white/30 p-4 border-2 border-white rounded-md mb-12 flex gap-2 text-white cursor-pointer interactive">
-                    Answer
-                    {
-                        beatType === 'answer'
-                            ? <IconPlayerPause color="white" />
-                            : <IconPlayerPlay color="white" />
-                    }
+                <div id="buttons-row" className="flex justify-evenly w-[30%]">
+                    <div onClick={() => toggleDrumMachinePlay('answer')} id="answer-player" className="bg-white/30 p-4 border-2 border-white rounded-md mb-12 flex gap-2 text-white cursor-pointer interactive">
+                        Play Sequence
+                        {
+                            beatType === 'answer'
+                                ? <IconPlayerPause color="white" />
+                                : <IconPlayerPlay color="white" />
+                        }
+                    </div>
+
+                    <div onClick={() => toggleDrumMachinePlay('answer')} id="answer-player" className="bg-white/30 p-4 border-2 border-white rounded-md mb-12 flex gap-2 text-white cursor-pointer interactive">
+                        Submit
+                    </div>
                 </div>
 
 
-                <div id="drum-machine" className="border-2 rounded-lg p-12 bg-amber-300/50">
+                {/* <div id="drum-machine" className="border-2 rounded-lg p-12 bg-gray"> */}
+                <div id="drum-machine" className="border-2 rounded-lg p-12 bg-gray bg-gradient-to-br from-gray-500 via-gray-400 to-gray-600 border-gray-200/50 shadow-md">
                     <div id="drum-machine-button-row" className="mb-16 justify-evenly flex">
                         <div className="drum-tile">{currBeat + 1}</div>
                         <div onClick={() => toggleDrumMachinePlay('player')} className="border-2 border-white bg-amber-500 rounded-md interactive cursor-pointer p-2 flex items-center justify-center">
@@ -140,7 +147,7 @@ export default function DrumMachine({ }) {
                     {userInputRows.map((row, rowIndex) => {
                         return (
                             <div key={rowIndex} className="flex gap-4 mb-7">
-                                {row.map((tileValue, tileIndex) => <div key={tileIndex} onClick={() => updateSequence(rowIndex, tileIndex)} className={`drum-tile interactive ${tileValue && 'active'} ${currBeat == tileIndex && 'on-beat'}`}>{SOUNDS[rowIndex][0]}</div>)}
+                                {row.map((tileValue, tileIndex) => <div key={tileIndex} onClick={() => updateSequence(rowIndex, tileIndex)} className={`drum-tile interactive ${tileValue && 'active'} ${(currBeat == tileIndex && beatType === 'player') && 'on-beat'}`}>{SOUNDS[rowIndex][0]}</div>)}
                             </div>
                         )
                     })}

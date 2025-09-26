@@ -15,6 +15,8 @@ import type { GameHistoryItemType } from "../types/GameSessionTypes";
 import type { LeaderboardItemType } from "../types/LeaderboardTypes";
 import type { Notification } from "../types/NotificationTypes";
 import { callApi } from "../utils/serverUtils";
+import AnimatedList from "../components/MiscArea/AnimatedList";
+import { IconChartArcs, IconFlame, IconSwords, IconTrophyFilled } from "@tabler/icons-react";
 
 function DashboardPage({}) {
 
@@ -25,6 +27,7 @@ function DashboardPage({}) {
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [gameHistory, setGameHistory] = useState<GameHistoryItemType[]>([]);
     const activeUser = userStore.activeUser;
+    const activeUserStats = userStore.activeUserStats;
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -122,8 +125,35 @@ function DashboardPage({}) {
                     <div className="glass-container">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-white/60 text-sm">Streak</p>
-                                <h3 className="text-3xl font-bold text-accent">12</h3>
+                                <p className="text-white/60 text-sm">Global Rank</p>
+                                <h3 className="text-[#FF6B35] text-3xl font-bold text-accent">#{activeUserStats?.rank}</h3>
+                            </div>
+                            <div id="icon-container" className="p-2 bg-[#FF6B35]/30 rounded-md">
+                                <IconTrophyFilled color="#FF6B35"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="glass-container">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-white/60 text-sm">Win Rate</p>
+                                <h3 className="text-[#31D14C] text-3xl font-bold text-accent">{activeUserStats?.winRate}%</h3>
+                            </div>
+                            <div id="icon-container" className="p-2 bg-[#31D14C]/30 rounded-md">
+                                <IconChartArcs color="#31D14C"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="glass-container">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-white/60 text-sm" >Duels</p>
+                                <h3 className="text-[#7B68EE] text-3xl font-bold text-accent" >{activeUserStats?.completedDuels}</h3>
+                            </div>
+                            <div id="icon-container" className="p-2 bg-[#2D3988] rounded-md">
+                                <IconSwords color="#7B68EE"/>
                             </div>
                         </div>
                     </div>
@@ -132,46 +162,39 @@ function DashboardPage({}) {
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-white/60 text-sm">Streak</p>
-                                <h3 className="text-3xl font-bold text-accent">12</h3>
+                                <h3 className="text-[#FFD700] text-3xl font-bold text-accent">{activeUserStats?.streak}</h3>
                             </div>
-                        </div>
-                    </div>
-
-                    <div className="glass-container">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-white/60 text-sm" >Streak</p>
-                                <h3 className="text-3xl font-bold text-accent" >12</h3>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="glass-container">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <p className="text-white/60 text-sm">Streak</p>
-                                <h3 className="text-3xl font-bold text-accent">12</h3>
+                            <div id="icon-container" className="p-2 bg-[#FFD700]/30 rounded-md">
+                                <IconFlame color="#FFD700"/>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="glass-container flex flex-wrap gap-2 mt-4" id="notifications-container">
-                    {
-                        notifications.map((n: Notification, i) =>
-                            (n.status === 'declined' && n.recieverId === activeUser?.id) ? null
-                                :
-                                <NotificationBox
-                                    key={i}
-                                    notification={n}
-                                    handleDismiss={() => dismissNotification(n)}
-                                    handleGameAccept={() => acceptInvite(n)}
-                                    handleGameDecline={() => declineInvite(n)}
-                                />
-                        )
-                    }
+                <div className="glass-container mt-4" id="notifications-container">
+                    <h1 className="text-2xl p-4">
+                        Game Invites
+                    </h1>
+                    <div className="flex flex-wrap gap-2">
+                        {
+                            notifications.map((n: Notification, i) =>
+                                (n.status === 'declined' && n.recieverId === activeUser?.id) ? null
+                                    :
+                                    <NotificationBox
+                                        key={i}
+                                        notification={n}
+                                        handleDismiss={() => dismissNotification(n)}
+                                        handleGameAccept={() => acceptInvite(n)}
+                                        handleGameDecline={() => declineInvite(n)}
+                                    />
+                            )
+                        }
+                    </div>
                 </div>
-                <div className="glass-container">
-                    {gameHistory.map((h:GameHistoryItemType,i) => <GameHistoryItem key={i} item={h} activeUserId={activeUser?.id}/>)}
+                <div className="glass-container mt-8">
+                    <h1 className="text-2xl p-4">
+                        Game History
+                    </h1>
+                    {<AnimatedList displayScrollbar={true} showGradients={false} items={gameHistory.map((h:GameHistoryItemType,i) => <GameHistoryItem key={i} item={h} activeUserId={activeUser?.id}/>)}/>}
                 </div>
             </div>
         </div>

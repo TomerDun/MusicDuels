@@ -27,7 +27,7 @@ export default function GameHistoryItem({item,activeUserId}:GameHistoryItemProps
     }
     
     return(
-        <div className={isWinner ? "glass-container !bg-gradient-to-l from-green-800/10 to-black/20" :"glass-container !bg-gradient-to-l from-red-800/10 to-black/20"}>
+        <div className={isWinner ? "glass-container !bg-gradient-to-l from-green-800/10 to-black/20 mb-3" :"glass-container !bg-gradient-to-l from-red-800/10 to-black/20 mb-3"}>
             <div id="top-section" className="flex justify-between">
                 <div className="p-2 border border-teal-400 rounded-md text-teal-400">
                     {item.gameType}
@@ -36,7 +36,7 @@ export default function GameHistoryItem({item,activeUserId}:GameHistoryItemProps
                     {new Date(item.date).toLocaleDateString()}
                 </div>
             </div>
-            <div id="score-section" className="w-[60%] flex m-auto justify-between">
+            <div id="score-section" className="w-[60%] flex m-auto justify-between -my-6">
                 <div className="w-[45%] flex flex-col items-center">
                     <div className=" mt-2 bg-gradient-to-r from-blue-400/30 to-blue-400/50 rounded-md p-2 flex flex-col items-center min-w-52">
                         <div className="text-white/70">

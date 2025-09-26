@@ -10,6 +10,11 @@ export default function GameHistoryItem({item,activeUserId}:GameHistoryItemProps
 
     const isWinner = activeUserId === item.winnerId;
 
+    const gameTagColors:Record<string, string> = {
+        'sight-read': 'border-teal-400 text-teal-400',
+        'rythm-master': 'border-yellow-500 text-yellow-400'
+    }
+
     const displayWinner = () => {
         if(isWinner){
             return(
@@ -27,9 +32,9 @@ export default function GameHistoryItem({item,activeUserId}:GameHistoryItemProps
     }
     
     return(
-        <div className={isWinner ? "glass-container !bg-gradient-to-l from-green-800/10 to-black/20 mb-3" :"glass-container !bg-gradient-to-l from-red-800/10 to-black/20 mb-3"}>
+        <div className={isWinner ? "glass-container !bg-gradient-to-l from-green-800/10 to-black/20 mb-3 !cursor-auto" :"glass-container !bg-gradient-to-l from-red-800/10 to-black/20 mb-3 !cursor-auto"}>
             <div id="top-section" className="flex justify-between">
-                <div className="p-2 border border-teal-400 rounded-md text-teal-400">
+                <div className={`p-2 border rounded-md ${gameTagColors[item.gameType]}`}>
                     {item.gameType}
                 </div>
                 <div className="text-white/70">

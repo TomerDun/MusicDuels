@@ -88,7 +88,7 @@ function DashboardPage({}) {
     }
 
     return (
-        <div className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 min-h-screen text-white pt-24" id="dashboard-page">
+        <div className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 min-h-screen text-white pt-30" id="dashboard-page">
             <Modal isOpen={modalOpen} setIsOpen={setModalOpen}>
                 {challengeGame ? <Leaderboard onClickItem={setChallengePlayer} items={leaderboardItems} /> :
                     <GameSelector onPickGame={setChallengeGame} />

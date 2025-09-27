@@ -74,7 +74,7 @@ export default function SightReaderPage({ answerNotes, gameTimer, setUserInput, 
     });
 
     return (
-        <div id="sight-reader" className='h-full min-h-svh bg-gradient-to-r from-emerald-500 to-emerald-600 pt-24'>
+        <div id="sight-reader" className='h-full min-h-svh bg-gradient-to-r from-emerald-500 to-emerald-600 pt-30'>
             <div className="page-content-container">
 
                 <div id="header-area" className='flex justify-center'>

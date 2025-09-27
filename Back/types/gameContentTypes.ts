@@ -1,5 +1,5 @@
 export enum GameTypes {
     SIGHT_READ = 'sight-read',
-    BEAT_COPY = 'beat-copy',
+    RYTHM_MASTER = 'rythm-master',
     PERFECT_EAR = 'perfect-ear'
 }

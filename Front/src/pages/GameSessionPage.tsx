@@ -19,7 +19,7 @@ export default function GameSessionPage() {
     const [correctInputCount, setCorrectInputCount] = useState(0); // the amount of inputs from the user that are correct (updated after every round)
     const [betweenRounds, setBetweenRounds] = useState(false);
     const [modalOpen, setModalOpen] = useState(false);
-    const [finalScore, setFinalScore] = useState(0);
+    const [finalScore, setFinalScore] = useState<number | null>(null);
 
     const navigate = useNavigate();
 
@@ -62,9 +62,15 @@ export default function GameSessionPage() {
 
     useEffect(() => {
         if (gameRounds !== null) {
-            if (currentRound >= gameRounds) finishGame()
+            if (currentRound >= gameRounds) calculateScore()
         }
     }, [currentRound])
+
+    useEffect(() => {
+        if (finalScore !== null) {
+            finishGame()
+        }
+    }, [finalScore])
 
     function advanceRound() {
         setBetweenRounds(true);
@@ -72,7 +78,7 @@ export default function GameSessionPage() {
         setTimeout(() => {
             setBetweenRounds(false);
             if (gameRounds && currentRound >= gameRounds - 1) {
-                finishGame()
+                calculateScore()
             }
             else {
                 setCurrentRound(prev => prev + 1);
@@ -86,7 +92,9 @@ export default function GameSessionPage() {
             clearInterval(timerInterval);
     
             console.log('GAME IS FINISHED!');
-            calculateScore();
+            // calculateScore();
+            console.log('final score before sending to server: ', finalScore);
+            
             await callApi(`/games/session/${gameSession.id}/finish`, 'PATCH', {score: finalScore});
             
             setModalOpen(true);
@@ -104,6 +112,12 @@ export default function GameSessionPage() {
             let answerCount = gameSession.content.length * gameSession.content[0].length;
             let multiplier = correctInputCount / answerCount;
 
+            console.log('score before mult: ', score);
+            console.log('multiplier: ', multiplier);
+            console.log(`correct input count: ${correctInputCount} / answerCount= ${answerCount}`);
+            
+            
+            
             score *= multiplier;
             score = Math.floor(score);
 
@@ -157,7 +171,7 @@ export default function GameSessionPage() {
 
                     <div id="final-accuracy" className="hover:scale-150 transition-all">
                         <span>Accuracy: </span>
-                        <span className="text-amber-400">{Math.floor( correctInputCount / (gameSession.content.length * gameSession.content[0].length)) * 100}%</span>
+                        <span className="text-amber-400">{Math.floor( correctInputCount / (gameSession.content.length * gameSession.content[0].length) * 100) }%</span>
                     </div>
 
                     <div id="final-score" className="hover:scale-150 transition-all">
@@ -166,7 +180,7 @@ export default function GameSessionPage() {
                     </div>
 
                     <div id="buttons-row" className="mt-7">
-                        <button onClick={() => navigate('/')} className="action-button from-teal-500 to-teal-800 border border-white/70 interactive">Continue</button>
+                        <button onClick={() => navigate('/dashboard')} className="action-button from-teal-500 to-teal-800 border border-white/70 interactive">Continue</button>
                     </div>
 
                 </div>

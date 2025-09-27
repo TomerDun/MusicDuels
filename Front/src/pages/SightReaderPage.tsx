@@ -124,7 +124,7 @@ export default function SightReaderPage({ answerNotes, gameTimer, setUserInput, 
                         keyboardShortcuts={keyboardShortcuts}
                         playNote={(note: any) => (onPianoPlay(note))}
                         stopNote={(note: any) => (onPianoRelease({ midiNote: note }))}
-                        disabled={betweenRounds || !soundPlayerLoaded}
+                        disabled={betweenRounds || !soundPlayerLoaded || paused}
                         activeNotes={activePianoNotes}
                         
                         

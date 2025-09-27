@@ -19,7 +19,7 @@ export const gameSessionValidationSchema = [
     // .exists({checkFalsy:true})
     // .trim()
     // .isString().withMessage('game type must be a string')
-    // .isIn(['sight-read', 'beat-copy', 'perfect-ear']).withMessage('game type must be one of the expected game types'), //create enum for gameType when more then one
+    // .isIn(['sight-read', 'rythm-master', 'perfect-ear']).withMessage('game type must be one of the expected game types'), //create enum for gameType when more then one
     body('finishedAt')
     .optional()
     .isISO8601().withMessage('finish time must be a valid ISO 8601 format'), //may not work properly for stamps with timezone

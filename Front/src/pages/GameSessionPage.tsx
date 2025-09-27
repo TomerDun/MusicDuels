@@ -12,7 +12,7 @@ export default function GameSessionPage() {
     const [gameSession, setGameSession] = useState<GameSessionType | null>(null);
     const [currentRound, setCurrentRound] = useState<number>(0);
     const [gameRounds, setGameRounds] = useState<number | null>(null);
-    const [gameStarted, setGameStarted] = useState(true);
+    const [gameNotStarted, setGameNotStarted] = useState(true); // TODO: change this to getStarted.
     const [gameTimer, setGameTimer] = useState(0);
     const [timerInterval, setTimerInverval] = useState(0);
     const [userInput, setUserInput] = useState<GameContentType>([]); // the user input FOR THE CURRENT ROUND
@@ -34,7 +34,7 @@ export default function GameSessionPage() {
 
     // Start | Stop Timer
     useEffect(() => {
-        if (gameStarted === false) {
+        if (gameNotStarted === false) {
             console.log('Staring game');
 
             const intervalId = setInterval(() => setGameTimer(prev => prev + 1), 1000);
@@ -43,7 +43,7 @@ export default function GameSessionPage() {
         else {
             clearInterval(timerInterval);
         }
-    }, [gameStarted])
+    }, [gameNotStarted])
 
     useEffect(() => {
         if (gameSession) {
@@ -124,8 +124,8 @@ export default function GameSessionPage() {
     function renderGamePage() {
         if (gameSession) {
             switch (gameSession.gameType) {
-                case 'sight-read': return <SightReaderPage betweenRounds={betweenRounds} answerNotes={gameSession.content[currentRound]} gameTimer={gameTimer} userInput={userInput} setUserInput={setUserInput} paused={gameStarted} setPaused={setGameStarted} />
-                case 'rythm-master': return <DrumMachine answerRows={gameSession.content[currentRound]} gameTimer={gameTimer} userInput={userInput} setUserInput={setUserInput} gameStarted={gameStarted} setGameStarted={setGameStarted} />
+                case 'sight-read': return <SightReaderPage betweenRounds={betweenRounds} answerNotes={gameSession.content[currentRound]} gameTimer={gameTimer} userInput={userInput} setUserInput={setUserInput} paused={gameNotStarted} setPaused={setGameNotStarted} />
+                case 'rythm-master': return <DrumMachine showAnswers={false} betweenRounds={betweenRounds} answerRows={gameSession.content[currentRound]} gameTimer={gameTimer} userInput={userInput} setUserInput={setUserInput} gameNotStarted={gameNotStarted} setGameNotStarted={setGameNotStarted} />
             }
         }
     }
@@ -135,7 +135,6 @@ export default function GameSessionPage() {
             <div className="page-outside-container from-blue-300 to-blue-400">
                 <div className="page-content-container flex justify-center">
                     <Loader color="indigo" size='xl' type="dots" />
-
                 </div>
             </div>
         )

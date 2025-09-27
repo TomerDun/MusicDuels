@@ -40,6 +40,10 @@ export default function SightReaderPage({ answerNotes, gameTimer, setUserInput, 
         }
     }, [])
 
+    useEffect(() => {
+        setActivePianoNotes([]);
+    }, [betweenRounds])
+
     function onMidiEnter(note:NoteEvent) {
         console.log('midi enter note ', note.midiNote);
         setActivePianoNotes(prev => [...prev, note.midiNote])

@@ -17,12 +17,14 @@ import type { Notification } from "../types/NotificationTypes";
 import { callApi } from "../utils/serverUtils";
 import AnimatedList from "../components/MiscArea/AnimatedList";
 import { IconChartArcs, IconFlame, IconSwords, IconTrophyFilled } from "@tabler/icons-react";
+import InspirationSelector from "../components/GamesArea/InspirationSelector";
 
-function DashboardPage({}) {
+function DashboardPage({ }) {
 
     const [modalOpen, setModalOpen] = useState(false);
     const [challengeGame, setChallengeGame] = useState<null | string>(null) // which game type the player has chosen as a challenge
     const [challengePlayer, setChallengePlayer] = useState<null | string>(null) // playerId of the opponent
+    const [challengeInspiration, setChallengeInspiration] = useState<null| string>(null);
     const [leaderboardItems, setLeaderboardItems] = useState<LeaderboardItemType[]>([]);
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [gameHistory, setGameHistory] = useState<GameHistoryItemType[]>([]);
@@ -38,11 +40,11 @@ function DashboardPage({}) {
 
     // After selecing an opponent, create a new game
     useEffect(() => {
-        if (challengePlayer && activeUser) {
+        if (challengeInspiration && activeUser) {
             startGame();
         }
 
-    }, [challengePlayer])
+    }, [challengeInspiration])
 
     // -- Handler Functions --
 
@@ -56,7 +58,7 @@ function DashboardPage({}) {
         setNotifications(res);
     }
 
-    async function loadGameHistory(){
+    async function loadGameHistory() {
         const res = await getActiveUserCompletedGameHistory();
         setGameHistory(res);
     }
@@ -90,8 +92,9 @@ function DashboardPage({}) {
     return (
         <div className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 min-h-screen text-white pt-24" id="dashboard-page">
             <Modal isOpen={modalOpen} setIsOpen={setModalOpen}>
-                {challengeGame ? <Leaderboard onClickItem={setChallengePlayer} items={leaderboardItems} /> :
-                    <GameSelector onPickGame={setChallengeGame} />
+                {challengeGame
+                    ? challengePlayer ? <InspirationSelector onPick={setChallengeInspiration}/> : <Leaderboard onClickItem={setChallengePlayer} items={leaderboardItems} />                    
+                    : <GameSelector onPickGame={setChallengeGame} />
                 }
             </Modal>
             <div className="w-[90%] m-auto" id="inner-container">
@@ -129,7 +132,7 @@ function DashboardPage({}) {
                                 <h3 className="text-[#FF6B35] text-3xl font-bold text-accent">#{activeUserStats?.rank}</h3>
                             </div>
                             <div id="icon-container" className="p-2 bg-[#FF6B35]/30 rounded-md">
-                                <IconTrophyFilled color="#FF6B35"/>
+                                <IconTrophyFilled color="#FF6B35" />
                             </div>
                         </div>
                     </div>
@@ -141,7 +144,7 @@ function DashboardPage({}) {
                                 <h3 className="text-[#31D14C] text-3xl font-bold text-accent">{activeUserStats?.winRate}%</h3>
                             </div>
                             <div id="icon-container" className="p-2 bg-[#31D14C]/30 rounded-md">
-                                <IconChartArcs color="#31D14C"/>
+                                <IconChartArcs color="#31D14C" />
                             </div>
                         </div>
                     </div>
@@ -153,7 +156,7 @@ function DashboardPage({}) {
                                 <h3 className="text-[#7B68EE] text-3xl font-bold text-accent" >{activeUserStats?.completedDuels}</h3>
                             </div>
                             <div id="icon-container" className="p-2 bg-[#2D3988] rounded-md">
-                                <IconSwords color="#7B68EE"/>
+                                <IconSwords color="#7B68EE" />
                             </div>
                         </div>
                     </div>
@@ -165,7 +168,7 @@ function DashboardPage({}) {
                                 <h3 className="text-[#FFD700] text-3xl font-bold text-accent">{activeUserStats?.streak}</h3>
                             </div>
                             <div id="icon-container" className="p-2 bg-[#FFD700]/30 rounded-md">
-                                <IconFlame color="#FFD700"/>
+                                <IconFlame color="#FFD700" />
                             </div>
                         </div>
                     </div>
@@ -194,7 +197,7 @@ function DashboardPage({}) {
                     <h1 className="text-2xl p-4">
                         Game History
                     </h1>
-                    {<AnimatedList displayScrollbar={true} showGradients={false} items={gameHistory.map((h:GameHistoryItemType,i) => <GameHistoryItem key={i} item={h} activeUserId={activeUser?.id}/>)}/>}
+                    {<AnimatedList displayScrollbar={true} showGradients={false} items={gameHistory.map((h: GameHistoryItemType, i) => <GameHistoryItem key={i} item={h} activeUserId={activeUser?.id} />)} />}
                 </div>
             </div>
         </div>

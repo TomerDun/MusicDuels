@@ -108,7 +108,7 @@ function DashboardPage({ }) {
     }
 
     return (
-        <div className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 min-h-screen text-white pt-30" id="dashboard-page">
+        <div className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 min-h-screen text-white pt-30 pb-8" id="dashboard-page">
             <Modal isOpen={modalOpen} setIsOpen={setModalOpen}>
                 {challengeGame
                     ? challengePlayer ? (challengeGame === GameTypes.SIGHT_READ && <InspirationSelector onPick={setChallengeInspiration}/>) : <Leaderboard onClickItem={setChallengePlayer} items={leaderboardItems} />                    

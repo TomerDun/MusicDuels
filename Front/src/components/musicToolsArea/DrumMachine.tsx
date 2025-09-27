@@ -3,6 +3,7 @@ import { BpmToMs } from "../../utils/musicUtils";
 import { DrumMachine as Drums } from "smplr";
 import { IconPlayerPause, IconPlayerPlay } from "@tabler/icons-react";
 import type { GameContentType } from "../../types/GameSessionTypes";
+import DrumMachineTile from "./DrumMachineTile";
 
 const SOUNDS = [
     'kick',
@@ -35,7 +36,9 @@ type props = {
     userInput: GameContentType,
     setUserInput: Function,
     gameStarted: boolean,
-    setGameStarted: Function
+    setGameStarted: Function,
+    showAnswers: boolean,
+    betweenRounds: boolean,
 
 }
 // TODO: REMOVE TEMP ANSWER_ROWS
@@ -158,7 +161,8 @@ export default function DrumMachine({answerRows=ANSWER_ROWS, userInput, setUserI
                     {userInputRows.map((row, rowIndex) => {
                         return (
                             <div key={rowIndex} className="flex gap-4 mb-7">
-                                {row.map((tileValue, tileIndex) => <div key={tileIndex} onClick={() => updateSequence(rowIndex, tileIndex)} className={`drum-tile interactive ${tileValue && 'active'} ${(currBeat == tileIndex && beatType === 'player') && 'on-beat'}`}>{SOUNDS[rowIndex][0]}</div>)}
+                                {/* {row.map((tileValue, tileIndex) => <div key={tileIndex} onClick={() => updateSequence(rowIndex, tileIndex)} className={`drum-tile interactive ${tileValue && 'active'} ${(currBeat == tileIndex && beatType === 'player') && 'on-beat'}`}>{SOUNDS[rowIndex][0]}</div>)} */}
+                                {row.map((tileValue, tileIndex) => <DrumMachineTile key={tileIndex} text={SOUNDS[rowIndex][0]} onClick={() => updateSequence(rowIndex, tileIndex)} playing={beatType === 'player' && currBeat == tileIndex} showAnswer={false} disabled={false} value={tileValue} answerValue={answerRows[rowIndex][tileIndex]}></DrumMachineTile>)}
                             </div>
                         )
                     })}

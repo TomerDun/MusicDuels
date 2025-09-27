@@ -125,7 +125,7 @@ export default function GameSessionPage() {
         if (gameSession) {
             switch (gameSession.gameType) {
                 case 'sight-read': return <SightReaderPage betweenRounds={betweenRounds} answerNotes={gameSession.content[currentRound]} gameTimer={gameTimer} userInput={userInput} setUserInput={setUserInput} paused={gameStarted} setPaused={setGameStarted} />
-                case 'rythm-master': return <DrumMachine answerRows={gameSession.content[currentRound]} gameTimer={gameTimer} userInput={userInput} setUserInput={setUserInput} gameStarted={gameStarted} setGameStarted={setGameStarted} />
+                case 'rythm-master': return <DrumMachine betweenRounds={betweenRounds} answerRows={gameSession.content[currentRound]} gameTimer={gameTimer} userInput={userInput} setUserInput={setUserInput} gameStarted={gameStarted} setGameStarted={setGameStarted} />
             }
         }
     }

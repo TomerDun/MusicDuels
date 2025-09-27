@@ -5,14 +5,6 @@ export function useRegisterForm() {
 
     const form = useForm({
         mode: 'uncontrolled',
-        // initialValues: {
-        //     email: 'itai@gmail.com',
-        //     password: '1234',
-        //     username: 'itai',
-        //     instruments: 'aaaa',
-        //     skillLevel: 'pro' as SkillLevel,
-        //     profileImageFile: null as null|File
-        // },
         initialValues: {
             email: '',
             password: '',
@@ -45,7 +37,7 @@ export function useRegisterForm() {
             },
             // TODO:  check array
             instruments: (value) => {
-                if (!value || value === undefined) return []; // or null?
+                if (!value || value === undefined) return null;
                 //validate array's items
                 return null;
             },

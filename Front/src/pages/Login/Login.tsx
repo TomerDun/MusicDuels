@@ -35,7 +35,7 @@ function Login() {
 
             // Auth logic
             await onLogin(values.email, values.password);
-            navigate('/');
+            navigate('/dashboard');
         } catch (error: any) {
             form.setErrors({ form: error.message });
             console.error('Error logging in: ', error);

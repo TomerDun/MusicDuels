@@ -11,7 +11,7 @@ import { Op } from "sequelize";
 
 // Const variables
 const WINNING_MODIFIER = 100;
-const LOSING_MODIFIER = 50;
+const LOSING_MODIFIER = -50;
 
 export function startPractice(req: Request, res: Response) {
     const gameType = req.params.gameType;
@@ -73,7 +73,8 @@ export async function getActiveUserCompletedGameHistory(req: Request, res: Respo
                 as: 'player2',
                 attributes: ['id', 'username']
             }
-        ]
+        ],
+        order: [['finishedAt', 'DESC']]        
     });
 
     // Map to new GameHistoryItemType

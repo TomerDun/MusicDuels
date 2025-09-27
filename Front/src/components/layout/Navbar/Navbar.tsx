@@ -3,7 +3,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconCoins, IconHome, IconLogin2, IconLogout2, IconUsers } from '@tabler/icons-react';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router';
-import finTalkLogo from '../../../assets/fin-talk-logo.png';
+import maestroLogo from '../../../assets/maestro-logo.png';
 import { CustomNavLink } from './CustomNavLink';
 import classes from './Navbar.module.css';
 import { userStore } from '../../../stores/UserStore';
@@ -36,11 +36,12 @@ function Navbar() {
     return (
         <header className={`${classes.header} bg-black/20 backdrop-blur-lg`}>
             <Container fluid className={classes.inner}>
-                <Image
-                    src={finTalkLogo}
-                    alt="FinTalk Logo"
-                    className={classes.image}
-                />
+                <div className={classes.imageContainerLogo}>
+                    <Image
+                        src={maestroLogo}
+                        className={classes.image}
+                    />
+                </div>
                 {/* full size menu */}
                 <Group gap={5} visibleFrom="xs">
                     <CustomNavLink
@@ -66,13 +67,15 @@ function Navbar() {
                     {activeUser &&
                         <Group gap={5}>{activeUser.totalScore} <IconCoins color={'yellow'} /></Group>
                     }
-                    <Image
-                        src={activeUser?.profileImageUrl
-                            ? activeUser.profileImageUrl
-                            : defaultProfileImageURL}
-                        alt="Avatar Logo"
-                        className={classes.image}
-                    />
+                    <div className={classes.imageContainerAvatar}>
+                    {/* <div className='w-20 h-20'> */}
+                        <Image
+                            src={activeUser?.profileImageUrl
+                                ? activeUser.profileImageUrl
+                                : defaultProfileImageURL}
+                            className={classes.image}
+                        />
+                    </div>
                 </Group>
 
                 {/* burger menu */}
@@ -83,7 +86,7 @@ function Navbar() {
                     onClose={() => opened && toggle()}
                 >
                     <Menu.Target>
-                        <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" title='navigate' />
+                        <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" title='navigate' color='white' />
                     </Menu.Target>
                     <Menu.Dropdown>
                         <Menu.Item

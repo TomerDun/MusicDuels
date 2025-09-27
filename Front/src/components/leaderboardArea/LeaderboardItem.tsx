@@ -28,7 +28,7 @@ export default function LeaderboardItem({item, onClick, disabled=false}: props) 
             <div id="stats-container" className="flex  justify-around gap-12 w-[50%] text-white/70">
                     <div className="font-bold text-white w-6">{item.totalScore}</div>
                     <div className="font-bold text-emerald-700 w-6">{item.winRate}%</div>
-                    <div className="font-bold text-white w-6">{item.completedDuels}</div>
+                    <div className="font-bold text-[#7B68EE] w-6">{item.completedDuels}</div>
                     <div className="font-bold text-yellow-300 w-6">{item.streak}</div>
             </div>
 

@@ -36,9 +36,8 @@ function Register() {
             // create new user in DB and update storage
             await onRegister({ username, email, password, profileImageFile });
 
-            navigate('/');
+            navigate('/dashboard');
         } catch (error: any) {
-            console.error(error);
             setCurrentStep(2); // reject back to step 2 on error
             form.setErrors({ user: error.message });
         } finally {
@@ -47,7 +46,7 @@ function Register() {
     }
 
     return (
-        <div className="Register background-gradient min-h-screen pt-24">
+        <div className="Register background-gradient min-h-screen pt-30">
             <Stepper
                 currentStep={currentStep} // controlled step
                 onStepChange={(step) => setCurrentStep(step)}
@@ -62,7 +61,7 @@ function Register() {
                 }}
             >
                 <Step >
-                    <h2>Welcome to Music Duels!</h2>
+                    <h2>Welcome to Maestro!</h2>
                     <p>Let's get it started!</p>
                 </Step>
                 <Step>

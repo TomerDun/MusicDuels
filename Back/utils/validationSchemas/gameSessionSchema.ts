@@ -19,7 +19,7 @@ export const gameSessionValidationSchema = [
     // .exists({checkFalsy:true})
     // .trim()
     // .isString().withMessage('game type must be a string')
-    // .isIn(['sight-read', 'beat-copy', 'perfect-ear']).withMessage('game type must be one of the expected game types'), //create enum for gameType when more then one
+    // .isIn(['sight-read', 'rythm-master', 'perfect-ear']).withMessage('game type must be one of the expected game types'), //create enum for gameType when more then one
     body('finishedAt')
     .optional()
     .isISO8601().withMessage('finish time must be a valid ISO 8601 format'), //may not work properly for stamps with timezone
@@ -36,5 +36,11 @@ export const gameSessionValidationSchema = [
     .isString().withMessage('winnerId must be a string'),
     body('content')
     .optional() //may not be optional
-    .isString().withMessage('content must be string') //might be JSON
+    .trim()
+    .isString().withMessage('content must be string'), //might be JSON
+    body('inspiration')
+    .optional()
+    .trim()
+    .isString().withMessage('inspiration must be string')
+    .isLength({ min: 1, max: 30 }).withMessage('inspiration must be between 1 and 30 characters')
 ]

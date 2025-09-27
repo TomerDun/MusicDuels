@@ -7,7 +7,6 @@ import { PageNotFound } from "../../pages/PageNotFound/PageNotFound";
 import Register from "../../pages/Register/Register";
 import SightReaderPage from "../../pages/SightReaderPage";
 import ProtectedRoute from "../authArea/ProtectedRoute";
-import DrumMachine from "../musicToolsArea/DrumMachine.js";
 
 
 export function Routing() {
@@ -32,8 +31,7 @@ export function Routing() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<PageNotFound />} />
-            {/* 404 */}
-                <Route path="/games/rythm-master" element={<DrumMachine />}/>               
+            {/* 404 */}                
         </Routes >
     );
 }

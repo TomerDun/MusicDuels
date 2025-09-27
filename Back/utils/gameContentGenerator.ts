@@ -2,8 +2,8 @@ import OpenAI from "openai";
 import { GameTypes } from "../types/gameContentTypes";
 
 // --Contant configurations for game content--
-export const GAME_ROUDNS = 3;
-const NOTES_PER_ROUND = 8;
+export const GAME_ROUDNS = 2;
+const NOTES_PER_ROUND = 14;
 let LOWEST_NOTE = 'A3';
 let HIGHEST_NOTE = 'B5'
 
@@ -105,6 +105,7 @@ export async function generateAIGameContent(gameType: GameTypes, roundsLength: n
         model: 'gpt-5',
         instructions: promptInstructions[gameType],
         input: promptContent[gameType],
+        store: true,
     })
 
     console.log('complete OpenAI response: ', aiRes);

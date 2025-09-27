@@ -112,11 +112,11 @@ function DashboardPage({ }) {
             <Modal isOpen={modalOpen} setIsOpen={setModalOpen}>
                 {
                     challengeInspiration ?
-                        <div>
-                            <div className="mb-6">
-                                <span className="text-xl text-white">Generating an exercise based on </span>
-                                <span className="text-xl text-teal-500">{challengeInspiration}</span>
-                                <span className="text-xl text-white"> Using AI magic...</span>
+                        <div className="flex flex-col items-center gap-12">
+                            <div className="font-bold">
+                                <span className="text-xl font-bold text-white">Generating an exercise based on </span>
+                                <span className="text-xl font-bold text-teal-500">{challengeInspiration}</span>
+                                <span className="text-xl font-bold text-white"> Using AI magic...</span>
 
                             </div>
                             <Loader size={"xl"} color="indigo" type="oval" />

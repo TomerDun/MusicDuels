@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 // @ts-ignore
 import { KeyboardShortcuts, Piano, MidiNumbers } from 'react-piano';
 import 'react-piano/dist/styles.css'
-import { Soundfont } from 'smplr';
+import { Soundfont, getSoundfontNames } from 'smplr';
 import SheetMusic from '../components/musicToolsArea/SheetMusic'
 import type { GameContentType } from '../types/GameSessionTypes';
 import { useMIDI, type NoteEvent } from '../utils/midiUtils'
@@ -21,12 +21,15 @@ type props = {
 //TODO: Make sheet music width fill the outside container
 
 const soundPlayer = new Soundfont(new AudioContext(), { instrument: 'marimba' })
+console.log('instruments: ', getSoundfontNames());
+
 
 export default function SightReaderPage({ answerNotes, gameTimer, setUserInput, userInput, paused, setPaused, betweenRounds }: props) {    
 
 
     const [soundPlayerLoaded, setSoundPlayerLoaded] = useState(false);
     const [activePianoNotes, setActivePianoNotes] = useState<number[]>([]);
+    // const [soundPlayer, setSoundPlayer] = useState();
 
     useMIDI(onMidiEnter, onMidiRelease);
     
@@ -35,9 +38,9 @@ export default function SightReaderPage({ answerNotes, gameTimer, setUserInput, 
     
     useEffect(() => {
         loadSoundPlayer()
-        return () => {
-            soundPlayer.disconnect();
-        }
+        // return () => {
+        //     soundPlayer.disconnect();
+        // }
     }, [])
 
     useEffect(() => {

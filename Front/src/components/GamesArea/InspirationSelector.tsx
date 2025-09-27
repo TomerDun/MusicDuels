@@ -22,13 +22,13 @@ export default function InspirationSelector({onPick}: {onPick: Function})  {
                     <h3 className="text-white font-bold text-lg" id="inspiration-title">Wolfgang Amadeus Mozart</h3>
                     <p className="text-white/70 text-center">Elegant, balanced, and melodically expressive</p>
                 </div>
-                <div onClick={() => onPick('bach')} className="game-select-button !gap-2 interactive w-[30%]  from-orange-400/20 to-yellow-100/10">
+                <div onClick={() => onPick('j.s.bach')} className="game-select-button !gap-2 interactive w-[30%]  from-orange-400/20 to-yellow-100/10">
                     {/* <div id="icon-box" className="icon-box bg-amber-300/60"><IconMetronome /></div> */}
                     <img src={BachImage} alt="bach" className="max-h-70"/>
                     <h3 className="text-white font-bold text-lg" id="inspiration-title">Johann Sebastian Bach</h3>
                     <p className="text-white/70 text-center">Intricate, structured, and harmonically rich</p>
                 </div>
-                <div onClick={() => onPick('deBussy')} className="game-select-button !gap-2 interactive w-[30%]  from-orange-400/20 to-yellow-100/10">
+                <div onClick={() => onPick('claude-deBussy')} className="game-select-button !gap-2 interactive w-[30%]  from-orange-400/20 to-yellow-100/10">
                     {/* <div id="icon-box" className="icon-box bg-teal-400/50"><IconEar /></div> */}
                     <img src={DebussyImage} alt="debussy" className="max-h-70"/>
                     <h3 className="text-white font-bold text-lg" id="inspiration-title">Claude DeBussy</h3>
@@ -40,7 +40,7 @@ export default function InspirationSelector({onPick}: {onPick: Function})  {
                     <h3 className="text-white font-bold text-lg" id="inspiration-title">Charlie Parker</h3>
                     <p className="text-white/70 text-center">Bold, virtuosic, and harmonically adventurous</p>
                 </div>
-                <div onClick={() => onPick('beatles')} className="game-select-button !gap-2 interactive w-[30%]  from-orange-400/20 to-yellow-100/10">
+                <div onClick={() => onPick('the-beatles')} className="game-select-button !gap-2 interactive w-[30%]  from-orange-400/20 to-yellow-100/10">
                     {/* <div id="icon-box" className="icon-box bg-teal-400/50"><IconEar /></div> */}
                     <img src={BeatlesImage} alt="the-beatles" className="max-h-70"/>
                     <h3 className="text-white font-bold text-lg" id="inspiration-title">The Beatles</h3>

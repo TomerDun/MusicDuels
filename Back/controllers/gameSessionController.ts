@@ -27,10 +27,11 @@ export async function startGameSession(req: Request, res: Response) {
 
     // Extract data from the request
     const player2Id = req.body.player2Id;
-    const gameType = req.params.gameType;
+    const gameType = req.params.gameType as GameTypes;
     const player1Id = req.user.id;
+    const inspiration = req.body.inspiration;
 
-    const content = generateGameContent(GameTypes.SIGHT_READ);
+    const content = await generateGameContent(gameType, inspiration );
 
     const newGameSesssion = await GameSession.create({ player1Id, player2Id, gameType, content });
 

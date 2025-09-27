@@ -18,7 +18,7 @@ export async function onLogin(email: string, password: string) {
 
         return data;
     }
-    catch (err:any) {
+    catch (err: any) {
         console.error('error fetching login: ', err)
         throw err;
     }
@@ -47,8 +47,7 @@ export async function onRegister(body: RegisterRequest) {
         return data;
     }
     catch (err: any) {
-        console.error('error fetching register: ', err)
-        if (err.message.errors[0].type.includes('unique')) {
+        if (err.message.errors && err.message.errors[0].type.includes('unique')) {
             throw new Error(
                 err.message.errors[0].path === 'username'
                     ? 'Username already exists!'

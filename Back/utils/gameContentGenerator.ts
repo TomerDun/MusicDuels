@@ -1,7 +1,11 @@
 import OpenAI from "openai";
 import { GameTypes } from "../types/gameContentTypes";
 
+// --Contant configurations for game content--
 export const GAME_ROUDNS = 3;
+const NOTES_PER_ROUND = 8;
+let LOWEST_NOTE = 'A3';
+let HIGHEST_NOTE = 'B5'
 
 type gameContentOptions = {
     rounds?: number,
@@ -41,18 +45,37 @@ export function generateNoteSeries(lowestNote: string, highestNote: string, leng
     return series;
 }
 
-export function generateGameContent(gameType: GameTypes, options?: gameContentOptions) {
+function generateRandomGameContent() {
+    let content = [];
+    console.log('🦕 Generating boring random content...');
+
+    for (let i = 0; i < GAME_ROUDNS; i++) {
+        content.push(generateNoteSeries(LOWEST_NOTE, HIGHEST_NOTE, NOTES_PER_ROUND));
+    }
+    return content;
+}
+
+export async function generateGameContent(gameType: GameTypes, inspiration: string | null) {
     let content: string[][] = [];
-    let rounds = GAME_ROUDNS;
-    let notesPerRound = 8;
-    let lowestNote = 'G3';
-    let highestNote = 'B5'
 
 
     if (gameType === GameTypes.SIGHT_READ) {
-        for (let i = 0; i < rounds; i++) {
-            content.push(generateNoteSeries(lowestNote, highestNote, notesPerRound));
+
+        if (inspiration === 'random' || !inspiration) {
+            content = generateRandomGameContent();
         }
+        else {
+            try {
+                const aiContent = await generateAIGameContent(gameType, GAME_ROUDNS, NOTES_PER_ROUND, inspiration) // should return a string containing 2d array of strings
+                content = JSON.parse(aiContent);
+                console.log('AI content parse success - ', content);
+            }
+            catch {
+                console.log('❌ error generating valid AI content, moving to random');
+                content = generateRandomGameContent()                
+            }
+        }
+
     }
 
     return content;
@@ -60,29 +83,32 @@ export function generateGameContent(gameType: GameTypes, options?: gameContentOp
 
 //  -- AI --
 
-export async function generateAIGameContent(gameType: GameTypes, roundsLength: number, seriesLength: number, composer: string) {
+export async function generateAIGameContent(gameType: GameTypes, roundsLength: number, seriesLength: number, inspiration: string) {
+
+    console.log('🧠 Generating AI game content based on ', inspiration);
+
     const promptInstructions = {
-        'sight-read': 'Format your reponse as a 2D array of string. output just this array and NOTHING else.'
+        'sight-read': 'Format your reponse as a 2D array of string (use double quotes for strings). output just this array and NOTHING else. make sure your response is a valid JSON array'
     }
 
     const promptContent = {
-        'sight-read': `there are ${roundsLength} rounds. for each round, generate an array containing ${seriesLength} music notes. the notes are represented as 'G3', 'Ab4' and so on. only use flats and not sharps. try to make a complete and interesting musical phrase. take very heavy inspiration from ${composer}`
+        'sight-read': `there are ${roundsLength} rounds. for each round, generate an array containing ${seriesLength} music notes. the notes are represented as 'G3', 'Ab4' and so on. only use flats and not sharps. only use notes between ${LOWEST_NOTE} and ${HIGHEST_NOTE}.
+         make a melodic musical phrase. try to replicate a line from a composition by ${inspiration} and even copy it directly`
     }
-
-    const fullPropt = promptInstructions[gameType] + promptContent[gameType];
 
     const openai = new OpenAI({
         apiKey: process.env.OPENAI_API_KEY,
     });
 
     const aiRes = await openai.responses.create({
-        reasoning: {effort: "high"},        
-        model: 'gpt-5-nano',
+        reasoning: { effort: "medium" },
+        model: 'gpt-5',
         instructions: promptInstructions[gameType],
-        input: promptContent[gameType],                        
+        input: promptContent[gameType],
     })
 
-    console.log('complete AI text: ', aiRes);
+    console.log('complete OpenAI response: ', aiRes);
+
     return aiRes.output_text;
 }
 

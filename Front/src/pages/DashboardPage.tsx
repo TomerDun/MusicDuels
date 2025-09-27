@@ -24,7 +24,7 @@ function DashboardPage({ }) {
     const [modalOpen, setModalOpen] = useState(false);
     const [challengeGame, setChallengeGame] = useState<null | string>(null) // which game type the player has chosen as a challenge
     const [challengePlayer, setChallengePlayer] = useState<null | string>(null) // playerId of the opponent
-    const [challengeInspiration, setChallengeInspiration] = useState<null| string>(null);
+    const [challengeInspiration, setChallengeInspiration] = useState<null | string>(null);
     const [leaderboardItems, setLeaderboardItems] = useState<LeaderboardItemType[]>([]);
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [gameHistory, setGameHistory] = useState<GameHistoryItemType[]>([]);
@@ -41,12 +41,12 @@ function DashboardPage({ }) {
     }, [])
 
     useEffect(() => {
-        if(!modalOpen){
+        if (!modalOpen) {
             setChallengeGame(null);
             setChallengePlayer(null);
             setChallengeInspiration(null);
         }
-    },[modalOpen])
+    }, [modalOpen])
 
     // After selecing an opponent, create a new game
     useEffect(() => {
@@ -57,11 +57,11 @@ function DashboardPage({ }) {
     }, [challengeInspiration])
 
     useEffect(() => {
-        if(challengePlayer && challengeGame !== GameTypes.SIGHT_READ){
+        if (challengePlayer && challengeGame !== GameTypes.SIGHT_READ) {
             setModalOpen(false);
             setChallengeInspiration('random');
         }
-    },[challengePlayer])
+    }, [challengePlayer])
 
     // -- Handler Functions --
 
@@ -110,9 +110,21 @@ function DashboardPage({ }) {
     return (
         <div className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 min-h-screen text-white pt-30" id="dashboard-page">
             <Modal isOpen={modalOpen} setIsOpen={setModalOpen}>
-                {challengeGame
-                    ? challengePlayer ? (challengeGame === GameTypes.SIGHT_READ && <InspirationSelector onPick={setChallengeInspiration}/>) : <Leaderboard onClickItem={setChallengePlayer} items={leaderboardItems} />                    
-                    : <GameSelector onPickGame={setChallengeGame} />
+                {
+                    challengeInspiration ?
+                        <div>
+                            <div className="mb-6">
+                                <span className="text-xl text-white">Generating an exercise based on </span>
+                                <span className="text-xl text-teal-500">{challengeInspiration}</span>
+                                <span className="text-xl text-white"> Using AI magic...</span>
+
+                            </div>
+                            <Loader size={"xl"} color="indigo" type="oval" />
+                        </div>
+                        :
+                        challengeGame
+                            ? challengePlayer ? (challengeGame === GameTypes.SIGHT_READ && <InspirationSelector onPick={setChallengeInspiration} />) : <Leaderboard onClickItem={setChallengePlayer} items={leaderboardItems} />
+                            : <GameSelector onPickGame={setChallengeGame} />
                 }
             </Modal>
             <div className="w-[90%] m-auto" id="inner-container">

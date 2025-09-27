@@ -2,7 +2,7 @@
   position: absolute;
   width: 100%;
   padding: 0;
-  height: 70px;
+  height: 100px;
   color: white;
 }
 
@@ -42,9 +42,18 @@
   color: white;
 }
 
+.imageContainerLogo {
+  width: 90px;
+  height: 90px;
+}
+
+.imageContainerAvatar {
+  width: 70px;
+  height: 70px;
+}
+
 .image {
-  height: 50px;
-  width: 50px;
-  object-fit: cover;
+  height: 100%;
   border-radius: 50%;
+  object-fit: cover;
 }

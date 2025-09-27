@@ -3,6 +3,8 @@ import express, { Request, Response } from "express";
 import OpenAI from "openai";
 import StatusCode from "../utils/status-code";
 import dotenv from 'dotenv';
+import { generateAIGameContent } from "../utils/gameContentGenerator";
+import { GameTypes } from "../types/gameContentTypes";
 dotenv.config();
 
 const openai = new OpenAI({
@@ -36,6 +38,11 @@ router.get('/', (async (req: Request, res: Response) => {
     console.log(result);
     res.status(StatusCode.OK).send(result.output_text);
 }))
+
+router.get('/game', async (req, res) => {
+    const text = await generateAIGameContent(GameTypes.SIGHT_READ, 2, 8, 'bach');
+    res.status(200).send(text);
+})
 
 
 

@@ -11,7 +11,7 @@ import { getActiveUserCompletedGameHistory } from "../services/gameSessionServic
 import { getGlobalLeaderboard } from "../services/leaderboardService";
 import { acceptInviteNotification, declineInviteNotification, dismissDeclinedNotification, getActiveUserNotifications } from "../services/NotificationService";
 import { userStore } from "../stores/UserStore";
-import type { GameHistoryItemType } from "../types/GameSessionTypes";
+import { GameTypes, type GameHistoryItemType } from "../types/GameSessionTypes";
 import type { LeaderboardItemType } from "../types/LeaderboardTypes";
 import type { Notification } from "../types/NotificationTypes";
 import { callApi } from "../utils/serverUtils";
@@ -36,7 +36,17 @@ function DashboardPage({ }) {
         loadLeaderboard();
         loadNotifications();
         loadGameHistory();
+        userStore.loadActiveUser();
+        userStore.loadActiveUserStats();
     }, [])
+
+    useEffect(() => {
+        if(!modalOpen){
+            setChallengeGame(null);
+            setChallengePlayer(null);
+            setChallengeInspiration(null);
+        }
+    },[modalOpen])
 
     // After selecing an opponent, create a new game
     useEffect(() => {
@@ -45,6 +55,13 @@ function DashboardPage({ }) {
         }
 
     }, [challengeInspiration])
+
+    useEffect(() => {
+        if(challengePlayer && challengeGame !== GameTypes.SIGHT_READ){
+            setModalOpen(false);
+            setChallengeInspiration('random');
+        }
+    },[challengePlayer])
 
     // -- Handler Functions --
 
@@ -81,7 +98,8 @@ function DashboardPage({ }) {
     async function startGame() {
         const body = {
             player2Id: challengePlayer,
-            player1Score: 0 // TODO: Change this to null after changing the backend flow to allow null values for player1Score
+            player1Score: 0, // TODO: Change this to null after changing the backend flow to allow null values for player1Score
+            inspiration: challengeInspiration
         }
         const newGame = await callApi(`/games/${challengeGame}`, 'POST', body)
         const newGAmeId = newGame.id;
@@ -93,7 +111,7 @@ function DashboardPage({ }) {
         <div className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 min-h-screen text-white pt-30" id="dashboard-page">
             <Modal isOpen={modalOpen} setIsOpen={setModalOpen}>
                 {challengeGame
-                    ? challengePlayer ? <InspirationSelector onPick={setChallengeInspiration}/> : <Leaderboard onClickItem={setChallengePlayer} items={leaderboardItems} />                    
+                    ? challengePlayer ? (challengeGame === GameTypes.SIGHT_READ && <InspirationSelector onPick={setChallengeInspiration}/>) : <Leaderboard onClickItem={setChallengePlayer} items={leaderboardItems} />                    
                     : <GameSelector onPickGame={setChallengeGame} />
                 }
             </Modal>

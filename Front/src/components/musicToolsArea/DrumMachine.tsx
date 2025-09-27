@@ -42,10 +42,12 @@ type props = {
 
 }
 // TODO: REMOVE TEMP ANSWER_ROWS
+// @ts-ignore
 export default function DrumMachine({answerRows=ANSWER_ROWS, userInput, setUserInput, gameNotStarted, setGameNotStarted, gameTimer}: props) { 
     const [userInputRows, setUserInputRows] = useState<boolean[][]>(INIT_ROWS); // rows of drum input by the user
     // const [answerRows, setAnswerRows] = useState(ANSWER_ROWS);
     const [currBeat, setCurrBeat] = useState(0);
+    // @ts-ignore
     const [bpm, setBpm] = useState(100);
     const [beatType, setBeatType] = useState<PlayType>('') // whether to play the answer sequence or the player input sequence - ''
     const [drumInterval, setDrumInterval] = useState(0) // the interval for playing a beat

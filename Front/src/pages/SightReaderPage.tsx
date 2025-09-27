@@ -5,7 +5,7 @@ import 'react-piano/dist/styles.css'
 import { Soundfont } from 'smplr';
 import SheetMusic from '../components/musicToolsArea/SheetMusic'
 import type { GameContentType } from '../types/GameSessionTypes';
-// import { useMIDI, type NoteEvent } from '../utils/midiUtils'
+import { useMIDI, type NoteEvent } from '../utils/midiUtils'
 
 type props = {
     answerNotes: GameContentType
@@ -26,16 +26,31 @@ export default function SightReaderPage({ answerNotes, gameTimer, setUserInput, 
 
 
     const [soundPlayerLoaded, setSoundPlayerLoaded] = useState(false);
+    const [activePianoNotes, setActivePianoNotes] = useState<number[]>([]);
 
+    useMIDI(onMidiEnter, onMidiRelease);
+    
     // const [playedNotes, setPlayedNotes] = useState<string[]>([]);
     const pianoContainer = useRef<HTMLDivElement>(null);
-
+    
     useEffect(() => {
         loadSoundPlayer()
         return () => {
             soundPlayer.disconnect();
         }
     }, [])
+
+    function onMidiEnter(note:NoteEvent) {
+        console.log('midi enter note ', note.midiNote);
+        setActivePianoNotes(prev => [...prev, note.midiNote])
+        
+    }
+
+    function onMidiRelease(note:NoteEvent) {
+        console.log('midi release note ', note.midiNote);
+        setActivePianoNotes(prev => prev.filter(n => n != note.midiNote))
+        
+    }
 
     function onPianoPlay(note: any) {
         const noteStr: string = MidiNumbers.getAttributes(note).note;
@@ -45,8 +60,7 @@ export default function SightReaderPage({ answerNotes, gameTimer, setUserInput, 
       }
 
     function onPianoRelease(note: any) {
-        console.log('stopping note ', note);
-        // soundPlayer.stop(note);
+        console.log('stopping note ', note);        
     }
 
     async function loadSoundPlayer() {
@@ -111,6 +125,8 @@ export default function SightReaderPage({ answerNotes, gameTimer, setUserInput, 
                         playNote={(note: any) => (onPianoPlay(note))}
                         stopNote={(note: any) => (onPianoRelease({ midiNote: note }))}
                         disabled={betweenRounds || !soundPlayerLoaded}
+                        activeNotes={activePianoNotes}
+                        
                         
                     // width={pianoContainer.current ? pianoContainer.current.clientWidth : 1000}
 

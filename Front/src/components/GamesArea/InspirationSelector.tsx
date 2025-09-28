@@ -11,7 +11,7 @@ export default function InspirationSelector({onPick}: {onPick: Function})  {
         <div id="game-selector-container" className="p-8 pb-16 bg-gradient-to-br from-gray-900 to-black bg-black/70 border-1 border-white/2- rounded-md">
             <div id="header-row" className="mb-4">
                 <span className="text-2xl text-white font-bold">Choose Your  </span>
-                <span className="text-2xl font-bold text-teal-400">Inspitation</span>
+                <span className="text-2xl font-bold text-teal-400">Inspiration</span>
             </div>
 
             <div id="inspiration-buttons-container" className="flex gap-6 flex-wrap justify-evenly">

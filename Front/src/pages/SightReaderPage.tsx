@@ -112,7 +112,7 @@ export default function SightReaderPage({ answerNotes, gameTimer, setUserInput, 
                     }
                 </div>
 
-                <div className='pt-6 mb-32' id="sheet-music-area">
+                <div className='pt-6 mb-12' id="sheet-music-area">
                     <div id="sheet-container" className='bg-gray-100 mb-12 rounded-md border-2 border-white/80 relative'>
                         {paused && <div id='curtain' className="absolute inset-0  backdrop-blur-lg text-2xl text-indigo-600 font-bold flex items-center justify-center">Start the game to see the notes..</div> }
                         <SheetMusic containerId='answer-sheet' notesArr={answerNotes} />
